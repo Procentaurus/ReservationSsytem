@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomControllerInterface;
+import procentaurus.projects.ReservationSystem.Exceptions.NonExistingConferenceRoomException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +36,17 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     @GetMapping("/")
     public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(Map<String, String> params) {
         List<ConferenceRoom> found = conferenceRoomService.findConferenceRooms(params);
+        return ResponseEntity.ok(found);
+    }
+
+    @Override
+    public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage) {
+        List<ConferenceRoom> found = null;
+        try {
+            found = conferenceRoomService.findAvailableConferenceRooms(startDate, numberOfDays, hasStage);
+        } catch (NonExistingConferenceRoomException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.ok(found);
     }
 

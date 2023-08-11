@@ -14,7 +14,7 @@ public interface ConferenceRoomServiceInterface {
 
     List<ConferenceRoom> findConferenceRooms(Map<String, String> params);
 
-    List<ConferenceRoom> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException;
+    List<ConferenceRoom> findAvailableConferenceRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException;
 
     boolean deleteConferenceRoom(int number);
 

@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceControllerInterface;
 
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +36,18 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     @GetMapping(path = "/")
     public ResponseEntity<List<ParkingPlace>> findParkingPlaces(Map<String, String> params) {
         List<ParkingPlace> found = parkingPlaceService.findParkingPlaces(params);
+        return ResponseEntity.ok(found);
+    }
+
+    @Override
+    public ResponseEntity<List<ParkingPlace>> findAvailableParkingPlaces(LocalDate startDate, int numberOfDays, ParkingPlace.VehicleType vehicleType) {
+
+        List<ParkingPlace> found;
+        try {
+            found = parkingPlaceService.findAvailableParkingPlaces(startDate, numberOfDays, vehicleType);
+        } catch (NonExistingParkingPlaceException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.ok(found);
     }
 

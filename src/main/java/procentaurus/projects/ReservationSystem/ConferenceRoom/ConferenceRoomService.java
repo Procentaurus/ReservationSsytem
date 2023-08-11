@@ -61,7 +61,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     }
 
     @Override
-    public List<ConferenceRoom> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException {
+    public List<ConferenceRoom> findAvailableConferenceRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException {
 
         ArrayList<ConferenceRoom> toReturn = new ArrayList<>();
         List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();

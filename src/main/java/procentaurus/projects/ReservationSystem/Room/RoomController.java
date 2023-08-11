@@ -3,8 +3,10 @@ package procentaurus.projects.ReservationSystem.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomControllerInterface;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,6 +30,17 @@ public class RoomController implements RoomControllerInterface {
     @Override
     public ResponseEntity<List<Room>> findRooms(Map<String, String> params) {
         List<Room> found = roomService.findRooms(params);
+        return ResponseEntity.ok(found);
+    }
+
+    @Override
+    public ResponseEntity<List<Room>> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople) {
+        List<Room> found = null;
+        try {
+            found = roomService.findAvailableRooms(startDate, numberOfDays, standard, viewForLake, forSmokingPeople);
+        } catch (NonExistingRoomException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
         return ResponseEntity.ok(found);
     }
 

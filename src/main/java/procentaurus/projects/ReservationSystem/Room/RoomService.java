@@ -59,7 +59,7 @@ public class RoomService implements RoomServiceInterface {
 
             if(params.containsKey("hasLakeView")) result = filterByHasLakeView(all, params.get("hasLakeView"));
 
-            if(params.containsKey("isSmokingAllowed")) result = filterByIsSmokingAlllowed(all, params.get("hasLakeView"));
+            if(params.containsKey("isSmokingAllowed")) result = filterByIsSmokingAllowed(all, params.get("hasLakeView"));
 
             if(params.containsKey("roomType"))
                 if(isFilteringByRoomTypePossible(params.get("roomType")))

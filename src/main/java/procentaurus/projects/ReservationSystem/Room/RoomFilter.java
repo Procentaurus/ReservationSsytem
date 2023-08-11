@@ -4,7 +4,7 @@ import java.util.List;
 
 public class RoomFilter {
 
-    public static List<Room> filterByIsSmokingAlllowed(List<Room> data, String valueOfParam){
+    public static List<Room> filterByIsSmokingAllowed(List<Room> data, String valueOfParam){
 
         List<Room> result;
         if (Boolean.parseBoolean(valueOfParam)) result = data.stream().filter(Room::isSmokingAllowed).toList();

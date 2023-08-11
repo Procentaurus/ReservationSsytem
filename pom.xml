@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>procentaurus.projects</groupId>
-	<artifactId>hotelManager</artifactId>
+	<artifactId>ReservationSystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>hotelManager</name>
 	<description>Test project</description>

@@ -1,8 +1,5 @@
 package procentaurus.projects.hotelManager.ParkingPlace;
 
-import procentaurus.projects.hotelManager.ConferenceRoom.ConferenceRoom;
-
-import java.util.LinkedList;
 import java.util.List;
 
 public class ParkingPlaceFilter {

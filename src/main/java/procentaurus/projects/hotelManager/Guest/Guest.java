@@ -3,13 +3,10 @@ package procentaurus.projects.hotelManager.Guest;
 import jakarta.persistence.*;
 
 import lombok.*;
-import procentaurus.projects.hotelManager.Guest.Trouble.TroubleCausedByGuest;
 import procentaurus.projects.hotelManager.Reservation.Reservation;
 import procentaurus.projects.hotelManager.User.User;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

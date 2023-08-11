@@ -1,17 +1,12 @@
 package procentaurus.projects.hotelManager.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import procentaurus.projects.hotelManager.ConferenceRoom.ConferenceRoom;
-import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
 import procentaurus.projects.hotelManager.Space.Space;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static procentaurus.projects.hotelManager.ParkingPlace.ParkingPlaceFilter.filterByVehicleType;
 import static procentaurus.projects.hotelManager.Room.RoomFilter.*;
 import static procentaurus.projects.hotelManager.Space.SpaceFilter.*;
 import static procentaurus.projects.hotelManager.Space.SpaceFilter.isFilteringByPricePossible;

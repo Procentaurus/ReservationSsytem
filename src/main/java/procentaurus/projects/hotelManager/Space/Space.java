@@ -1,6 +1,5 @@
 package procentaurus.projects.hotelManager.Space;
 
-
 import lombok.*;
 
 import jakarta.persistence.*;

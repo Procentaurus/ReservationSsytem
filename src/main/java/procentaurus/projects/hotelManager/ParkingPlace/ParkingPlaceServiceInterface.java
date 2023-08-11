@@ -1,7 +1,5 @@
 package procentaurus.projects.hotelManager.ParkingPlace;
 
-import procentaurus.projects.hotelManager.ConferenceRoom.ConferenceRoom;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

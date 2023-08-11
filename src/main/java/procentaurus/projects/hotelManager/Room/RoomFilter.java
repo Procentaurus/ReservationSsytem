@@ -1,7 +1,5 @@
 package procentaurus.projects.hotelManager.Room;
 
-import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
-
 import java.util.List;
 
 public class RoomFilter {

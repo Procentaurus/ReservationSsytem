@@ -1,7 +1,5 @@
 package procentaurus.projects.hotelManager.Slot;
 
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

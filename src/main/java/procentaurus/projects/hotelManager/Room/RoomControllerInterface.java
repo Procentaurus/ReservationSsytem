@@ -1,7 +1,6 @@
 package procentaurus.projects.hotelManager.Room;
 
 import org.springframework.http.ResponseEntity;
-import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
 
 import java.util.List;
 import java.util.Map;

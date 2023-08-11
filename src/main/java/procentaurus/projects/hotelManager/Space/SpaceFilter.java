@@ -1,7 +1,6 @@
 package procentaurus.projects.hotelManager.Space;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SpaceFilter {

@@ -4,6 +4,11 @@ import procentaurus.projects.hotelManager.ConferenceRoom.ConferenceRoom;
 import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
 import procentaurus.projects.hotelManager.Room.Room;
 
+import procentaurus.projects.hotelManager.Exceptions.*;
+import procentaurus.projects.hotelManager.Space.Space;
+
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SpacesChooser {
@@ -35,31 +40,41 @@ public class SpacesChooser {
         this.parkingPlacesAvailable = parkingPlacesAvailable;
     }
 
-    public List<Room> chooseRooms(){
+    public List<Room> chooseRooms() throws LackOfSpaceException {
         AvailabilityChecker availabilityChecker = new AvailabilityChecker();
         if(availabilityChecker.areThereEnoughSpace){
             return null;
-        }else{
-            return null;
-        }
+        }else throw new LackOfSpaceException("No rooms of required capacity available.");
+
     }
 
-    public List<ConferenceRoom> chooseConferenceRooms(){
+    public ConferenceRoom chooseConferenceRooms() throws AvailabilityCheckingException, LackOfSpaceException {
         AvailabilityChecker availabilityChecker = new AvailabilityChecker();
         if(availabilityChecker.areThereEnoughSpace){
-            return null;
-        }else{
-            return null;
-        }
+
+            List<ConferenceRoom> sortedList = conferenceRoomsAvailable.stream().sorted(Comparator.comparingInt(Space::getCapacity)).toList();
+
+            for(ConferenceRoom conferenceRoom : sortedList){
+                if(conferenceRoom.getCapacity() >= numberOfGuests){
+                    return conferenceRoom;
+                }
+            }
+            throw new AvailabilityCheckingException("No conferenceRoom, while function stated there is.");
+
+        }else throw new LackOfSpaceException("No conferenceRoom of required size available.");
     }
 
-    public List<ParkingPlace> chooseParkingPlaces(){
+    public List<ParkingPlace> chooseParkingPlaces() throws LackOfSpaceException {
         AvailabilityChecker availabilityChecker = new AvailabilityChecker();
         if(availabilityChecker.areThereEnoughSpace){
-            return null;
-        }else{
-            return null;
-        }
+
+            List<ParkingPlace> toReturn = new LinkedList<>();
+
+            for(ParkingPlace parkingPlace : parkingPlacesAvailable){
+                
+            }
+        }else throw new LackOfSpaceException("No parkingPlaces of required capacity available.");
+
     }
 
     private class AvailabilityChecker{

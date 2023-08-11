@@ -1,8 +1,9 @@
-package procentaurus.projects.hotelManager.Slot;
+package procentaurus.projects.hotelManager.Space;
 
 
 import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
 import procentaurus.projects.hotelManager.Room.Room;
+import procentaurus.projects.hotelManager.Slot.Slot;
 
 import java.time.LocalDate;
 

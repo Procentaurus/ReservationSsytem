@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SpacesAvailabilityListCreator {
+public class AvailabilityListCreator {
 
     public static List<Integer> createSlotAvailabilityListForRooms(
             List<Slot> data, LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople){

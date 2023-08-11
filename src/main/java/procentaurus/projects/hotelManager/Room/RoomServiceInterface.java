@@ -1,5 +1,6 @@
 package procentaurus.projects.hotelManager.Room;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,6 +9,8 @@ public interface RoomServiceInterface {
     Optional<Room> findSingleRoom(int number);
 
     List<Room> findRooms(Map<String, String> params);
+
+    List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople);
 
     boolean deleteRoom(int number);
 

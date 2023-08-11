@@ -31,11 +31,8 @@ public class Reservation {
     private int numberOfParkingPlacesForCars;
 
     private boolean onlyRooms;
-
     private boolean onlyConferenceRoom;
-
     private boolean forSmokingPeople;
-
     private boolean viewForLake;
 
     @NotNull

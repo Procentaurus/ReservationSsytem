@@ -2,7 +2,6 @@ package procentaurus.projects.hotelManager.Space;
 
 
 import procentaurus.projects.hotelManager.ParkingPlace.ParkingPlace;
-import procentaurus.projects.hotelManager.Room.Room;
 import procentaurus.projects.hotelManager.Slot.Slot;
 
 import java.time.LocalDate;
@@ -13,35 +12,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AvailabilityListCreator {
-
-    public static List<Integer> createSlotAvailabilityListForRooms(
-            List<Slot> data, LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople){
-
-        ArrayList<Integer> toReturn = new ArrayList<>();
-        // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream()
-                .filter(slot -> slot.getRoom() != null)
-                .collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
-
-        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
-
-            List<Slot> slotsInChosenPeriod = entry.getValue().stream().
-                    filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
-
-            boolean success = true;
-            for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getRoom().isSmokingAllowed() != forSmokingPeople) success = false;
-                if(slot.getRoom().isHasLakeView() == viewForLake) success = false;
-                if(slot.getRoom().getRoomType().equals(standard)) success = false;
-                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
-                if(!success) break;
-            }
-
-            if(success) toReturn.add(entry.getKey());
-
-        }
-        return toReturn;
-    }
 
     public static List<Integer> createSlotAvailabilityListForConferenceRooms(
             List<Slot> data, LocalDate startDate, int numberOfDays, boolean hasStage){

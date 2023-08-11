@@ -3,9 +3,14 @@ package procentaurus.projects.hotelManager.ParkingPlace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import procentaurus.projects.hotelManager.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.hotelManager.Exceptions.NonExistingRoomException;
+import procentaurus.projects.hotelManager.Room.Room;
+import procentaurus.projects.hotelManager.Slot.Slot;
 import procentaurus.projects.hotelManager.Space.Space;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static procentaurus.projects.hotelManager.ParkingPlace.ParkingPlaceFilter.filterByVehicleType;
 import static procentaurus.projects.hotelManager.ParkingPlace.ParkingPlaceFilter.isFilteringByVehicleTypePossible;
@@ -46,6 +51,35 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface{
             }
         }
         return all;
+    }
+
+    @Override
+    public List<ParkingPlace> findAvailableParkingPlaces() throws NonExistingParkingPlaceException {
+
+        ArrayList<ParkingPlace> toReturn = new ArrayList<>();
+        List<Slot> data = slotRepository.findByRoomIsNotNull();
+
+        // Group slots by room ID
+        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
+
+        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
+
+            List<Slot> slotsInChosenPeriod = entry.getValue().stream().
+                    filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
+
+            boolean success = true;
+            for (Slot slot : slotsInChosenPeriod) {
+                if(slot.getParkingPlace().getVehicleType() != vehicleType) success = false;
+                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
+                if(!success) break;
+            }
+
+            Optional<ParkingPlace> toAdd = parkingPlaceRepository.findByNumber(entry.getKey());
+            if(toAdd.isPresent()) toReturn.add(toAdd.get());
+            else throw new NonExistingParkingPlaceException(entry.getKey());
+
+        }
+        return toReturn;
     }
 
     @Override

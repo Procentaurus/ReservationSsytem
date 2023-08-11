@@ -1,4 +1,4 @@
 package procentaurus.projects.hotelManager.Reservation;
 
-public class RoomFilter {
+public class ReservationFilter {
 }

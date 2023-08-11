@@ -1,6 +1,7 @@
 package procentaurus.projects.hotelManager.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import procentaurus.projects.hotelManager.Exceptions.NonExistingRoomException;
 import procentaurus.projects.hotelManager.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.hotelManager.Slot.Slot;
 import procentaurus.projects.hotelManager.Space.Space;
@@ -66,15 +67,14 @@ public class RoomService implements RoomServiceInterface{
     }
 
     @Override
-    public List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople) {
+    public List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople)
+            throws NonExistingRoomException {
 
-        ArrayList<Integer> toReturn = new ArrayList<>();
-        List<Slot> data = slotRepository.findAll();
+        ArrayList<Room> toReturn = new ArrayList<>();
+        List<Slot> data = slotRepository.findByRoomIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream()
-                .filter(slot -> slot.getRoom() != null)
-                .collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
+        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
 
         for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
 
@@ -90,7 +90,9 @@ public class RoomService implements RoomServiceInterface{
                 if(!success) break;
             }
 
-            if(success) toReturn.add(entry.getKey());
+            Optional<Room> toAdd = roomRepository.findByNumber(entry.getKey());
+            if(toAdd.isPresent()) toReturn.add(toAdd.get());
+            else throw new NonExistingRoomException(entry.getKey());
 
         }
         return toReturn;

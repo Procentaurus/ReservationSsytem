@@ -99,7 +99,7 @@ public class AvailabilityListCreator {
         return toReturn;
     }
 
-    private static boolean checkIfDateIsInPeriod(LocalDate startDate, LocalDate dateToCheck, int numberOfDays){
+    public static boolean checkIfDateIsInPeriod(LocalDate startDate, LocalDate dateToCheck, int numberOfDays){
         return ((dateToCheck.isEqual(startDate) || dateToCheck.isAfter(startDate)) &&
                 (dateToCheck.isEqual(startDate.plusDays(numberOfDays)) || dateToCheck.isBefore(startDate.plusDays(numberOfDays))));
     }

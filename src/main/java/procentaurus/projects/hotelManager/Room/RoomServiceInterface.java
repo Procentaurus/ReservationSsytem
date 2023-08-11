@@ -1,5 +1,7 @@
 package procentaurus.projects.hotelManager.Room;
 
+import procentaurus.projects.hotelManager.Exceptions.NonExistingRoomException;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,7 @@ public interface RoomServiceInterface {
 
     List<Room> findRooms(Map<String, String> params);
 
-    List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople);
+    List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople) throws NonExistingRoomException;
 
     boolean deleteRoom(int number);
 

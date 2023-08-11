@@ -3,6 +3,7 @@ package procentaurus.projects.hotelManager.ParkingPlace;
 import procentaurus.projects.hotelManager.Exceptions.NonExistingParkingPlaceException;
 import procentaurus.projects.hotelManager.Exceptions.NonExistingRoomException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +14,8 @@ public interface ParkingPlaceServiceInterface {
 
     List<ParkingPlace> findParkingPlaces(Map<String, String> params);
 
-    List<ParkingPlace> findAvailableParkingPlaces() throws NonExistingParkingPlaceException;
+    List<ParkingPlace> findAvailableParkingPlaces(LocalDate startDate, int numberOfDays, ParkingPlace.VehicleType vehicleType)
+            throws NonExistingParkingPlaceException;
 
     boolean deleteParkingPlace(int number);
 

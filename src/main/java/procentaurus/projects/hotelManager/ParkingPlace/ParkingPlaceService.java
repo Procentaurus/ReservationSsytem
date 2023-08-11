@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.hotelManager.Exceptions.NonExistingParkingPlaceException;
-import procentaurus.projects.hotelManager.Exceptions.NonExistingRoomException;
-import procentaurus.projects.hotelManager.Room.Room;
+import procentaurus.projects.hotelManager.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.hotelManager.Slot.Slot;
 import procentaurus.projects.hotelManager.Space.Space;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static procentaurus.projects.hotelManager.ParkingPlace.ParkingPlaceFilter.filterByVehicleType;
 import static procentaurus.projects.hotelManager.ParkingPlace.ParkingPlaceFilter.isFilteringByVehicleTypePossible;
+import static procentaurus.projects.hotelManager.Space.AvailabilityListCreator.checkIfDateIsInPeriod;
 import static procentaurus.projects.hotelManager.Space.SpaceFilter.filterByPrice;
 import static procentaurus.projects.hotelManager.Space.SpaceFilter.isFilteringByPricePossible;
 
@@ -22,10 +23,12 @@ import static procentaurus.projects.hotelManager.Space.SpaceFilter.isFilteringBy
 public class ParkingPlaceService implements ParkingPlaceServiceInterface{
 
     private final ParkingPlaceRepository parkingPlaceRepository;
+    private final SlotRepository slotRepository;
 
     @Autowired
-    public ParkingPlaceService(ParkingPlaceRepository parkingPlaceRepository) {
+    public ParkingPlaceService(ParkingPlaceRepository parkingPlaceRepository, SlotRepository slotRepository) {
         this.parkingPlaceRepository = parkingPlaceRepository;
+        this.slotRepository = slotRepository;
     }
 
     @Override
@@ -54,13 +57,14 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface{
     }
 
     @Override
-    public List<ParkingPlace> findAvailableParkingPlaces() throws NonExistingParkingPlaceException {
+    public List<ParkingPlace> findAvailableParkingPlaces(LocalDate startDate, int numberOfDays, ParkingPlace.VehicleType vehicleType)
+            throws NonExistingParkingPlaceException {
 
         ArrayList<ParkingPlace> toReturn = new ArrayList<>();
-        List<Slot> data = slotRepository.findByRoomIsNotNull();
+        List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
+        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
 
         for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
 
@@ -77,7 +81,6 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface{
             Optional<ParkingPlace> toAdd = parkingPlaceRepository.findByNumber(entry.getKey());
             if(toAdd.isPresent()) toReturn.add(toAdd.get());
             else throw new NonExistingParkingPlaceException(entry.getKey());
-
         }
         return toReturn;
     }

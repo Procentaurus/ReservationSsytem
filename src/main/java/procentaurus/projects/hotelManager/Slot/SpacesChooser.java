@@ -64,15 +64,40 @@ public class SpacesChooser {
         }else throw new LackOfSpaceException("No conferenceRoom of required size available.");
     }
 
-    public List<ParkingPlace> chooseParkingPlaces() throws LackOfSpaceException {
+    public List<ParkingPlace> chooseParkingPlaces() throws LackOfSpaceException, AvailabilityCheckingException {
         AvailabilityChecker availabilityChecker = new AvailabilityChecker();
         if(availabilityChecker.areThereEnoughSpace){
 
             List<ParkingPlace> toReturn = new LinkedList<>();
+            short assignedPlacesForCars = 0, assignedPlacesForMotorcycles = 0, assignedPlacesForAutocars = 0;
 
             for(ParkingPlace parkingPlace : parkingPlacesAvailable){
-                
+
+                if (parkingPlace.getVehicleType() == ParkingPlace.VehicleType.CAR && assignedPlacesForCars < numberOfParkingPlacesForCars) {
+                    assignedPlacesForCars += 1;
+                    toReturn.add(parkingPlace);
+                }
+                if (parkingPlace.getVehicleType() == ParkingPlace.VehicleType.AUTOCAR && assignedPlacesForAutocars < numberOfParkingPlacesForAutocars) {
+                    assignedPlacesForAutocars += 1;
+                    toReturn.add(parkingPlace);
+                }
+                if (parkingPlace.getVehicleType() == ParkingPlace.VehicleType.MOTORCYCLE && assignedPlacesForMotorcycles < numberOfParkingPlacesForMotorcycles) {
+                    assignedPlacesForMotorcycles += 1;
+                    toReturn.add(parkingPlace);
+                }
+
+                if(assignedPlacesForMotorcycles == numberOfParkingPlacesForMotorcycles &&
+                        assignedPlacesForCars == numberOfParkingPlacesForCars &&
+                        assignedPlacesForAutocars == numberOfParkingPlacesForAutocars) break;
             }
+
+            if(assignedPlacesForMotorcycles != numberOfParkingPlacesForMotorcycles ||
+                    assignedPlacesForCars != numberOfParkingPlacesForCars ||
+                    assignedPlacesForAutocars != numberOfParkingPlacesForAutocars)
+                throw new AvailabilityCheckingException("Not enough parkingPlaces, while function stated there is");
+
+            return toReturn;
+
         }else throw new LackOfSpaceException("No parkingPlaces of required capacity available.");
 
     }

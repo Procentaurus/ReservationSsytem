@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomRepository;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomServiceInterface;
@@ -62,7 +63,7 @@ public class RoomService implements RoomServiceInterface {
 
             if(params.containsKey("roomType"))
                 if(isFilteringByRoomTypePossible(params.get("roomType")))
-                    result = filterByHasLakeView(all, params.get("hasLakeView"));
+                    result = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType")));
 
         }
         return result;
@@ -110,34 +111,35 @@ public class RoomService implements RoomServiceInterface {
 
     @Override
     public Optional<Room> updateRoom(int number, Map<String, String> params) {
-//        Optional<Room> toUpdate = roomRepository.findByNumber(number);
-//        if(toUpdate.isPresent()){
-//
-//            Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
-//            Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
-//            Integer numberToChange = params.containsKey("number") ? Integer.parseInt(params.get("number")) : null;
-//            ParkingPlace.VehicleType type;
-//            if (params.containsKey("vehicleType")) try {
-//                type = ParkingPlace.VehicleType.valueOf(params.get("vehicleType").toUpperCase());
-//            } catch (IllegalArgumentException e) {
-//                type = null;
-//            }
-//            else type = null;
-//
-//            try {
-//
-//                if(price != null) toUpdate.get().setPrice(price);
-//                if(capacity != null) toUpdate.get().setCapacity(capacity);
-//                if(numberToChange != null) toUpdate.get().setNumber(number);
-//                if(type != null) toUpdate.get().setVehicleType(type);
-//
-//                parkingPlaceRepository.save(toUpdate.get());
-//                return toUpdate;
-//
-//            } catch (DataAccessException ex) {
-//                return Optional.empty();
-//            }
-//        }
+
+        Optional<Room> toUpdate = roomRepository.findByNumber(number);
+        if(toUpdate.isPresent()){
+
+            Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
+            Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
+            Integer numberToChange = params.containsKey("number") ? Integer.parseInt(params.get("number")) : null;
+            Room.RoomType type;
+            if (params.containsKey("roomType")) {
+                try {
+                    type = Room.RoomType.valueOf(params.get("roomType").toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    type = null;
+                }
+            } else type = null;
+
+            try {
+                if(price != null) toUpdate.get().setPrice(price);
+                if(capacity != null) toUpdate.get().setCapacity(capacity);
+                if(numberToChange != null) toUpdate.get().setNumber(numberToChange);
+                if(type != null) toUpdate.get().setRoomType(type);
+
+                roomRepository.save(toUpdate.get());
+                return toUpdate;
+
+            } catch (DataAccessException ex) {
+                return Optional.empty();
+            }
+        }
         return Optional.empty();
     }
 

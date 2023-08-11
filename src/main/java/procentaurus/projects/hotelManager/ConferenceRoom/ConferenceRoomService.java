@@ -3,11 +3,18 @@ package procentaurus.projects.hotelManager.ConferenceRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import procentaurus.projects.hotelManager.Exceptions.NonExistingConferenceRoomException;
+import procentaurus.projects.hotelManager.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.hotelManager.Slot.Interfaces.SlotRepository;
+import procentaurus.projects.hotelManager.Slot.Slot;
 import procentaurus.projects.hotelManager.Space.Space;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static procentaurus.projects.hotelManager.ConferenceRoom.ConferenceRoomFilter.filterByHasStage;
+import static procentaurus.projects.hotelManager.Space.AvailabilityListCreator.checkIfDateIsInPeriod;
 import static procentaurus.projects.hotelManager.Space.SpaceFilter.*;
 
 
@@ -15,10 +22,12 @@ import static procentaurus.projects.hotelManager.Space.SpaceFilter.*;
 public class ConferenceRoomService implements ConferenceRoomServiceInterface{
 
     private final ConferenceRoomRepository conferenceRoomRepository;
+    private final SlotRepository slotRepository;
 
     @Autowired
-    public ConferenceRoomService(ConferenceRoomRepository conferenceRoomRepository) {
+    public ConferenceRoomService(ConferenceRoomRepository conferenceRoomRepository, SlotRepository slotRepository) {
         this.conferenceRoomRepository = conferenceRoomRepository;
+        this.slotRepository = slotRepository;
     }
 
     @Override
@@ -51,6 +60,34 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface{
     }
 
     @Override
+    public List<ConferenceRoom> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException {
+
+        ArrayList<ConferenceRoom> toReturn = new ArrayList<>();
+        List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();
+
+        // Group slots by room ID
+        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
+
+        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
+
+            List<Slot> slotsInChosenPeriod = entry.getValue().stream().
+                    filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
+
+            boolean success = true;
+            for (Slot slot : slotsInChosenPeriod) {
+                if(slot.getConferenceRoom().isHasStage() != hasStage) success = false;
+                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
+                if(!success) break;
+            }
+
+            Optional<ConferenceRoom> toAdd = conferenceRoomRepository.findByNumber(entry.getKey());
+            if(toAdd.isPresent()) toReturn.add(toAdd.get());
+            else throw new NonExistingConferenceRoomException(entry.getKey());
+        }
+        return toReturn;
+    }
+
+    @Override
     public boolean deleteConferenceRoom(int number) {
         if(conferenceRoomRepository.existsByNumber(number)){
             conferenceRoomRepository.deleteByNumber(number);
@@ -70,7 +107,6 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface{
             String description = params.getOrDefault("description", null);
 
             try {
-
                 if(price != null) toUpdate.get().setPrice(price);
                 if(capacity != null) toUpdate.get().setCapacity(capacity);
                 if(numberToChange != null) toUpdate.get().setNumber(number);

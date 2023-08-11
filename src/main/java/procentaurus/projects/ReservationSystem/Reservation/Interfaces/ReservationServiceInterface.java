@@ -1,6 +1,7 @@
-package procentaurus.projects.ReservationSystem.Reservation;
+package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
+import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.Room.Room;
 
 import java.time.LocalDate;
@@ -14,8 +15,6 @@ public interface ReservationServiceInterface {
     List<Reservation> findReservations(Map<String, String> params);
 
     boolean deleteReservation(int number);
-
-    Optional<Reservation> updateReservation(int number, Map<String, String> params);
 
     Optional<Reservation> createReservation(Room parkingPlace);
 }

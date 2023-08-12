@@ -85,7 +85,7 @@ public class SlotService implements SlotServiceInterface {
         if(toUpdate.isPresent()){
 
             Slot.Status status;
-            if (params.containsKey("roomType")) {
+            if (params.containsKey("status")) {
                 try {
                     status = Slot.Status.valueOf(params.get("status").toUpperCase());
                 } catch (IllegalArgumentException e) {

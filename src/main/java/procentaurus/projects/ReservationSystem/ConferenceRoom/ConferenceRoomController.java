@@ -2,6 +2,7 @@ package procentaurus.projects.ReservationSystem.ConferenceRoom;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +35,16 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @GetMapping("/")
-    public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(Map<String, String> params) {
+    public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(@RequestParam Map<String, String> params) {
         List<ConferenceRoom> found = conferenceRoomService.findConferenceRooms(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage) {
+    public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
+            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(name = "numberOfDays") int numberOfDays,
+            @RequestParam(name = "hasStage") boolean hasStage) {
         List<ConferenceRoom> found = null;
         try {
             found = conferenceRoomService.findAvailableConferenceRooms(startDate, numberOfDays, hasStage);
@@ -52,7 +56,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @DeleteMapping(path = "/{number}")
-    public ResponseEntity<?> deleteConferenceRoom(int number) {
+    public ResponseEntity<?> deleteConferenceRoom(@PathVariable int number) {
         boolean success = conferenceRoomService.deleteConferenceRoom(number);
         if(success) return ResponseEntity.noContent().build();
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");
@@ -60,7 +64,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @PutMapping(path = "/{number}")
-    public ResponseEntity<?> updateConferenceRoom(int number, Map<String, String> params) {
+    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number,@RequestParam Map<String, String> params) {
         Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, params);
 
         if(updated.isPresent()) return ResponseEntity.ok(updated);
@@ -69,7 +73,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @PostMapping(path = "/")
-    public ResponseEntity<?> createConferenceRoom(ConferenceRoom conferenceRoom) {
+    public ResponseEntity<?> createConferenceRoom(@RequestBody ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> created = conferenceRoomService.createConferenceRoom(conferenceRoom);
 
         if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

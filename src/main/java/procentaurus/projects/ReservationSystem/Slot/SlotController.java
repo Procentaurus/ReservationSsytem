@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
 import procentaurus.projects.ReservationSystem.Space.Space;
@@ -34,7 +35,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @GetMapping(path = "/")
-    public ResponseEntity<List<Slot>> findSlots(Map<String, String> params) {
+    public ResponseEntity<List<Slot>> findSlots(@RequestParam Map<String, String> params) {
         List<Slot> found = slotService.findSlots(params);
         return ResponseEntity.ok(found);
     }
@@ -49,7 +50,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateSlot(@PathVariable Long id, Map<String, String> params) {
+    public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestParam Map<String, String> params) {
         Optional<Slot> updated = slotService.updateSlot(id, params);
 
         if (updated.isPresent()) return ResponseEntity.ok(new SlotLightDto(updated.get()));
@@ -58,8 +59,8 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PostMapping(path = "/")
-    public ResponseEntity<?> createSlot(@RequestBody Space space,@RequestBody LocalDate date) {
-        Optional<Slot> created = slotService.createSlot(space, date);
+    public ResponseEntity<?> createSlot(@RequestBody SlotCreationDto slot) {
+        Optional<Slot> created = slotService.createSlot(slot.getSpace(), slot.getDate());
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotLightDto(created.get()));
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");

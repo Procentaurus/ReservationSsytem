@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SlotFilter {
@@ -53,8 +54,8 @@ public class SlotFilter {
                 .toList();
     }
 
-    public static List<Slot> filterByReservationId(List<Slot> data, int reservationId){
-        return data.stream().filter(slot -> slot.getReservation().getId() == reservationId).toList();
+    public static List<Slot> filterByReservationId(List<Slot> data, Long reservationId){
+        return data.stream().filter(slot -> Objects.equals(slot.getReservation().getId(), reservationId)).toList();
     }
 
     public static List<Slot> filterByDate(List<Slot> data, LocalDate startDate){
@@ -76,6 +77,24 @@ public class SlotFilter {
             LocalDate tryDate = LocalDate.parse(date);
             return true;
         }catch (IllegalArgumentException e){
+            return false;
+        }
+    }
+
+    public static boolean isFilteringByIntPossible(String text){
+        try{
+            int stasiu = Integer.parseInt(text);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    public static boolean isFilteringByLongPossible(String text){
+        try{
+            Long stasiu = Long.parseLong(text);
+            return true;
+        }catch(NumberFormatException e){
             return false;
         }
     }

@@ -8,14 +8,14 @@ import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotServiceInterface;
 import procentaurus.projects.ReservationSystem.Space.Space;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static procentaurus.projects.ReservationSystem.Room.RoomFilter.*;
 import static procentaurus.projects.ReservationSystem.Room.RoomFilter.filterByRoomType;
-import static procentaurus.projects.ReservationSystem.Slot.SlotFilter.filterByStatus;
-import static procentaurus.projects.ReservationSystem.Slot.SlotFilter.isFilteringByStatusPossible;
+import static procentaurus.projects.ReservationSystem.Slot.SlotFilter.*;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.filterByPrice;
 
@@ -47,19 +47,22 @@ public class SlotService implements SlotServiceInterface {
                     result = filterByStatus(all, Slot.Status.valueOf(params.get("status")));
 
             if (params.containsKey("date"))
-                if(isFilteringByPricePossible(params.get("price")))
-                    result = filterByPrice(all.stream().map(x ->(Space) x).toList(),
-                            Float.parseFloat(params.get("price").substring(2)),    // value passed
-                            params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
-                            Room.class);
+                if(isFilteringByDatePossible(params.get("date")))
+                    result = filterByDate(all, LocalDate.parse("date"));
 
-            if(params.containsKey("reservationId")) result = filterByHasLakeView(all, params.get("hasLakeView"));
+            if(params.containsKey("reservationId"))
+                if(isFilteringByLongPossible(params.get("reservationId")))
+                    result = filterByReservationId(all, Long.parseLong(params.get("hasLakeView")));
 
-            if(params.containsKey("roomId")) result = filterByIsSmokingAllowed(all, params.get("hasLakeView"));
-
-            if(params.containsKey("roomType"))
-                if(isFilteringByRoomTypePossible(params.get("roomType")))
-                    result = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType")));
+            if(params.containsKey("roomNumber"))
+                if(isFilteringByIntPossible(params.get("roomNumber")))
+                    result = filterByRoomNumber(all, Integer.parseInt(params.get("roomNumber")));
+            else if(params.containsKey("conferenceRoomNumber"))
+                if(isFilteringByIntPossible(params.get("conferenceRoomNumber")))
+                    result = filterByConferenceRoomNumber(all, Integer.parseInt(params.get("conferenceRoomNumber")));
+            else if((params.containsKey("parkingPlace")))
+                if(isFilteringByIntPossible(params.get("parkingPlaceNumber")))
+                    result = filterByParkingPlaceNumber(all, Integer.parseInt(params.get("parkingPlaceNumber")));
 
         }
         return result;

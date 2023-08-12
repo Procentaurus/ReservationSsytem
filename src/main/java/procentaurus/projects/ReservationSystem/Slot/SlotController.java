@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
+import procentaurus.projects.ReservationSystem.Space.Space;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +26,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @GetMapping(path = "/{id}")
-    public ResponseEntity<?> findSingleSlot(Long id) {
+    public ResponseEntity<?> findSingleSlot(@PathVariable Long id) {
         Optional<Slot> found = slotService.findSingleSlot(id);
         if (found.isPresent()) return ResponseEntity.ok(new SlotLightDto(found.get()));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No slot of provided id.");
@@ -39,7 +41,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteSlot(Long id) {
+    public ResponseEntity<?> deleteSlot(@PathVariable Long id) {
         boolean success = slotService.deleteSlot(id);
         if (success) return ResponseEntity.noContent().build();
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No slot of provided number.");
@@ -47,7 +49,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateSlot(Long id, Map<String, String> params) {
+    public ResponseEntity<?> updateSlot(@PathVariable Long id, Map<String, String> params) {
         Optional<Slot> updated = slotService.updateSlot(id, params);
 
         if (updated.isPresent()) return ResponseEntity.ok(new SlotLightDto(updated.get()));
@@ -55,9 +57,9 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/{id}")
-    public ResponseEntity<?> createSlot(Slot slot) {
-        Optional<Slot> created = slotService.createSlot(slot);
+    @PostMapping(path = "/")
+    public ResponseEntity<?> createSlot(@RequestBody Space space,@RequestBody LocalDate date) {
+        Optional<Slot> created = slotService.createSlot(space, date);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotLightDto(created.get()));
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");

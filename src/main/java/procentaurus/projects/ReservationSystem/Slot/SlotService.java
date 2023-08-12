@@ -2,6 +2,8 @@ package procentaurus.projects.ReservationSystem.Slot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Room.Room;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
@@ -105,7 +107,14 @@ public class SlotService implements SlotServiceInterface {
     }
 
     @Override
-    public Optional<Slot> createSlot(Slot slot) {
-        return Optional.empty();
+    public Optional<Slot> createSlot(Space space, LocalDate date) {
+        try {
+            Slot slot = new Slot(space, date);
+            Slot created = slotRepository.save(slot);
+            return Optional.of(created);
+
+        }catch(IllegalArgumentException ex){
+            return Optional.empty();
+        }
     }
 }

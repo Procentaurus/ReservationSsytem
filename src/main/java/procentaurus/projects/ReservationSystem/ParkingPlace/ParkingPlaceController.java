@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @GetMapping(path = "/{number}")
-    public ResponseEntity<?> findSingleParkingPlace(int number) {
+    public ResponseEntity<?> findSingleParkingPlace(@PathVariable int number) {
         Optional<ParkingPlace> found = parkingPlaceService.findSingleParkingPlace(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No parking place of provided number.");
@@ -34,13 +35,16 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @GetMapping(path = "/")
-    public ResponseEntity<List<ParkingPlace>> findParkingPlaces(Map<String, String> params) {
+    public ResponseEntity<List<ParkingPlace>> findParkingPlaces(@RequestParam Map<String, String> params) {
         List<ParkingPlace> found = parkingPlaceService.findParkingPlaces(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    public ResponseEntity<List<ParkingPlace>> findAvailableParkingPlaces(LocalDate startDate, int numberOfDays, ParkingPlace.VehicleType vehicleType) {
+    public ResponseEntity<List<ParkingPlace>> findAvailableParkingPlaces(
+            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(name = "numberOfDays") int numberOfDays,
+            @RequestParam(name = "vehicleType") ParkingPlace.VehicleType vehicleType) {
 
         List<ParkingPlace> found;
         try {
@@ -53,7 +57,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @DeleteMapping(path = "/{number}")
-    public ResponseEntity<?> deleteParkingPlace(int number) {
+    public ResponseEntity<?> deleteParkingPlace(@PathVariable int number) {
         boolean success = parkingPlaceService.deleteParkingPlace(number);
         if (success) return ResponseEntity.noContent().build();
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No parking place of provided number.");
@@ -61,7 +65,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @PutMapping(path = "/{number}")
-    public ResponseEntity<?> updateParkingPlace(int number, Map<String, String> params) {
+    public ResponseEntity<?> updateParkingPlace(@PathVariable int number, @RequestParam Map<String, String> params) {
         Optional<ParkingPlace> updated = parkingPlaceService.updateParkingPlace(number, params);
 
         if (updated.isPresent()) return ResponseEntity.ok(updated);
@@ -70,7 +74,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @PostMapping(path = "/{number}")
-    public ResponseEntity<?> createParkingPlace(ParkingPlace parkingPlace) {
+    public ResponseEntity<?> createParkingPlace(@RequestBody ParkingPlace parkingPlace) {
         Optional<ParkingPlace> created = parkingPlaceService.createParkingPlace(parkingPlace);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

@@ -1,8 +1,10 @@
 package procentaurus.projects.ReservationSystem.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomControllerInterface;
 
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@RestController
+@RequestMapping(path = "api/rooms")
 public class RoomController implements RoomControllerInterface {
 
     private final RoomService roomService;
@@ -21,20 +25,29 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    public ResponseEntity<?> findSingleRoom(int number) {
+    @GetMapping(path = "/{number}")
+    public ResponseEntity<?> findSingleRoom(@PathVariable int number) {
         Optional<Room> found = roomService.findSingleRoom(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room of provided number.");
     }
 
     @Override
-    public ResponseEntity<List<Room>> findRooms(Map<String, String> params) {
+    @GetMapping(path = "/")
+    public ResponseEntity<List<Room>> findRooms(@RequestParam Map<String, String> params) {
         List<Room> found = roomService.findRooms(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    public ResponseEntity<List<Room>> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople) {
+    @GetMapping(path = "/available")
+    public ResponseEntity<List<Room>> findAvailableRooms(
+            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(name = "numberOfDays") short numberOfDays,
+            @RequestParam(name = "standard", required = false) Room.RoomType standard,
+            @RequestParam(name = "viewForLake", required = false) boolean viewForLake,
+            @RequestParam(name = "forSmokingPeople", required = false) boolean forSmokingPeople) {
+
         List<Room> found = null;
         try {
             found = roomService.findAvailableRooms(startDate, numberOfDays, standard, viewForLake, forSmokingPeople);
@@ -45,14 +58,16 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    public ResponseEntity<?> deleteRoom(int number) {
+    @DeleteMapping(path = "/{number}")
+    public ResponseEntity<?> deleteRoom(@PathVariable int number) {
         boolean success = roomService.deleteRoom(number);
         if (success) return ResponseEntity.noContent().build();
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room of provided number.");
     }
 
     @Override
-    public ResponseEntity<?> updateRoom(int number, Map<String, String> params) {
+    @PutMapping(path = "/{number}")
+    public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestParam Map<String, String> params) {
         Optional<Room> updated = roomService.updateRoom(number, params);
 
         if (updated.isPresent()) return ResponseEntity.ok(updated);
@@ -60,7 +75,8 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    public ResponseEntity<?> createRoom(Room room) {
+    @PostMapping(path = "/")
+    public ResponseEntity<?> createRoom(@RequestBody Room room) {
         Optional<Room> created = roomService.createRoom(room);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

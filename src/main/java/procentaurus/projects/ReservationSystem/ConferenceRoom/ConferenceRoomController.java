@@ -26,7 +26,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @GetMapping(path = "/{number}")
+    @GetMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleConferenceRoom(@PathVariable int number) {
         Optional<ConferenceRoom> found =  conferenceRoomService.findSingleConferenceRoom(number);
         if(found.isPresent()) return ResponseEntity.ok(found);
@@ -41,7 +41,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @GetMapping(path = "/available")
+    @GetMapping(path = "/available", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
@@ -56,7 +56,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @DeleteMapping(path = "/{number}")
+    @DeleteMapping(path = "/{number}", consumes = "application/json")
     public ResponseEntity<?> deleteConferenceRoom(@PathVariable int number) {
         boolean success = conferenceRoomService.deleteConferenceRoom(number);
         if(success) return ResponseEntity.noContent().build();
@@ -64,7 +64,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @PutMapping(path = "/{number}")
+    @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> updateConferenceRoom(@PathVariable int number,@RequestParam Map<String, String> params) {
         Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, params);
 
@@ -73,7 +73,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @PostMapping(path = "/")
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createConferenceRoom(@RequestBody ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> created = conferenceRoomService.createConferenceRoom(conferenceRoom);
 

@@ -10,6 +10,7 @@ import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestCustomerDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestControllerInterface;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -41,14 +42,14 @@ public class GuestController implements GuestControllerInterface {
 
     @Override
     @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<List<Guest>> getMultipleGuests(@RequestParam MultiValueMap<String, String> params) {
+    public ResponseEntity<List<Guest>> getGuests(@RequestParam Map<String, String> params) {
 
         List<Guest> guests = !params.isEmpty() ? guestService.findAllGuests() : guestService.findGuestsByFilter(params);
         return ResponseEntity.status(HttpStatus.OK).body(guests);
     }
 
     @Override
-    @DeleteMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<GuestResponse> deleteGuest(@PathVariable Long id) {
 
         boolean successfulDeletion = guestService.deleteGuest(id);

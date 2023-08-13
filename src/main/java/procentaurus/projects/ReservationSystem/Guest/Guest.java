@@ -46,7 +46,4 @@ public class Guest extends User implements Comparable<Guest>{
 
         return result;
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,15 +22,18 @@ public class StuffMember extends User {
     @NotNull
     private Role role;
 
+    @NotNull
+    @Size(min = 8, max = 50)
+    protected String password;
+
     @PastOrPresent
     @NotNull
     private LocalDate employedFrom;
 
     public enum Role{
         MANAGER,
-        HOUSEKEEPER,
+        ADMIN,
         FRONT_DESK,
-        MAINTENANCE,
         CONCIERGE
     }
 }

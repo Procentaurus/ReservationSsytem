@@ -3,7 +3,7 @@ package procentaurus.projects.ReservationSystem.Guest.Dtos;
 import lombok.Getter;
 import lombok.Setter;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
-import procentaurus.projects.ReservationSystem.Guest.Trouble.TroubleCausedByGuest;
+import procentaurus.projects.ReservationSystem.Guest.TroubleCaused.TroubleCausedByGuest;
 
 import java.util.List;
 

@@ -25,11 +25,8 @@ public abstract class User {
     @Size(min = 3, max = 30)
     protected String lastName;
 
-    @NotNull
-    @Size(min = 8, max = 50)
-    protected String password;
-
     @Past
+    @NotNull
     protected LocalDate dateOfBirth;
 
     @Size(min = 100000000, max = 999999999)
@@ -41,10 +38,10 @@ public abstract class User {
     @Column(unique = true)
     protected String email;
 
-    public User(String firstName, String lastName, String password, LocalDate dateOfBirth, int phoneNumber, String email) {
+    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String password, @NotNull LocalDate dateOfBirth,
+                int phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.email = email;

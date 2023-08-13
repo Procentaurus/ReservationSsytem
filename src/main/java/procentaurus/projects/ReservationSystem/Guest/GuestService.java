@@ -2,11 +2,11 @@ package procentaurus.projects.ReservationSystem.Guest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestRepository;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestServiceInterface;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,8 +24,7 @@ public class GuestService implements GuestServiceInterface {
         return guestRepository.findById(id);
     }
 
-    @Override
-    public List<Guest> findGuestsByFilter(MultiValueMap<String, String> params) {
+    public List<Guest> findGuestsByFilter(Map<String, String> params) {
         return null;
     }
 

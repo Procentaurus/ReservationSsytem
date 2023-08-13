@@ -1,4 +1,4 @@
-package procentaurus.projects.ReservationSystem.Guest.Trouble;
+package procentaurus.projects.ReservationSystem.Guest.TroubleCaused;
 
 import lombok.Getter;
 

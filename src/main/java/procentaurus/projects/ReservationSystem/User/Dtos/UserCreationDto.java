@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCreationDto {
+public abstract class UserCreationDto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -29,14 +29,6 @@ public class UserCreationDto {
     @NotNull
     @Size(min = 3, max = 30)
     protected String lastName;
-
-    @NotNull
-    @Size(min = 8, max = 50)
-    protected String password;
-
-    @NotNull
-    @Size(min = 8, max = 50)
-    protected String passwordConfirmation;
 
     @Past
     protected LocalDate dateOfBirth;
@@ -49,4 +41,12 @@ public class UserCreationDto {
     @NotBlank
     @Column(unique = true)
     protected String email;
+
+    public UserCreationDto(@NotNull String firstName, @NotNull String lastName, LocalDate dateOfBirth, int phoneNumber, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }

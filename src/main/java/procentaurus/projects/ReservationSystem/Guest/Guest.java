@@ -7,6 +7,7 @@ import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.User.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -19,9 +20,9 @@ public class Guest extends User implements Comparable<Guest>{
 
     //private List<TroubleCausedByGuest> troubleCaused;
 
-    @ManyToOne
+    @ManyToMany()
     @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+    private List<Reservation> reservation;
 
     public Guest(String firstName, String lastName, String password, LocalDate dateOfBirth, int phoneNumber, String email, boolean signedForNewsletter) {
         super(firstName, lastName, password, dateOfBirth, phoneNumber, email);

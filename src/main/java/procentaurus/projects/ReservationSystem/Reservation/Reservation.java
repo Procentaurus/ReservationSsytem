@@ -27,7 +27,7 @@ public class Reservation {
     @Size( min = 1, max = 90)
     private short numberOfDays;
 
-    @OneToMany(mappedBy = "reservation")
+    @ManyToMany(mappedBy = "reservation")
     private List<Guest> guests;
 
     @OneToMany(mappedBy = "reservation")

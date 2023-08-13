@@ -1,10 +1,10 @@
 package procentaurus.projects.ReservationSystem.Reservation;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationServiceInterface;
-import procentaurus.projects.ReservationSystem.Room.Room;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,13 @@ import java.util.Optional;
 
 @Service
 public class ReservationService implements ReservationServiceInterface {
+
+    private final ReservationService reservationService;
+
+    @Autowired
+    public ReservationService(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
     @Override
     public Optional<Reservation> findSingleReservation(int number) {

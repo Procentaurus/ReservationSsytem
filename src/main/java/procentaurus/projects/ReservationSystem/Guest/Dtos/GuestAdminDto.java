@@ -9,15 +9,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GuestManagerDto extends GuestDto {
+public class GuestAdminDto extends GuestDto {
     private Long id;
-    private boolean signedForNewsletter;
     private List<TroubleCausedByGuest> troubleCaused;
 
-    public GuestManagerDto(Guest guest) {
-        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail());
+    public GuestAdminDto(Guest guest) {
+        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.isSignedForNewsletter());
         this.id = guest.getId();
-        this.signedForNewsletter = guest.isSignedForNewsletter();
         //this.troubleCaused = guest.getTroubleCaused();
     }
 }

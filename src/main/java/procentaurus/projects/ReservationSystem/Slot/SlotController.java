@@ -5,11 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
-import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotMediumDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
-import procentaurus.projects.ReservationSystem.Space.Space;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,7 +27,7 @@ public class SlotController implements SlotControllerInterface {
     @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleSlot(@PathVariable Long id) {
         Optional<Slot> found = slotService.findSingleSlot(id);
-        if (found.isPresent()) return ResponseEntity.ok(new SlotLightDto(found.get()));
+        if (found.isPresent()) return ResponseEntity.ok(new SlotMediumDto(found.get()));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No slot of provided id.");
     }
 
@@ -53,7 +51,7 @@ public class SlotController implements SlotControllerInterface {
     public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestParam Map<String, String> params) {
         Optional<Slot> updated = slotService.updateSlot(id, params);
 
-        if (updated.isPresent()) return ResponseEntity.ok(new SlotLightDto(updated.get()));
+        if (updated.isPresent()) return ResponseEntity.ok(new SlotMediumDto(updated.get()));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No parking place of provided number or wrong params.");
     }
 
@@ -62,7 +60,7 @@ public class SlotController implements SlotControllerInterface {
     public ResponseEntity<?> createSlot(@RequestBody SlotCreationDto slot) {
         Optional<Slot> created = slotService.createSlot(slot.getSpace(), slot.getDate());
 
-        if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotLightDto(created.get()));
+        if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotMediumDto(created.get()));
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
     }
 }

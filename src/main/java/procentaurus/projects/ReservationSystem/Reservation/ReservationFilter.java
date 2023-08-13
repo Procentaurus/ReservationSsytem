@@ -9,6 +9,7 @@ import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class ReservationFilter {
 
@@ -45,5 +46,20 @@ public class ReservationFilter {
                                 .anyMatch(slot -> slot.getParkingPlace() != null && slot.getParkingPlace().getNumber() == parkingPlaceNumber)
                 )
                 .toList();
+    }
+
+    public static List<Reservation> filterByGuest(List<Reservation> data, String email){
+        return data.stream().filter(reservation ->
+                    reservation.getGuests().stream().anyMatch(guest -> guest.getEmail().equals(email))).toList();
+    }
+
+    public static List<Reservation> filterByGuest(List<Reservation> data, int phoneNumber){
+        return data.stream().filter(reservation ->
+                reservation.getGuests().stream().anyMatch(guest -> guest.getPhoneNumber() == phoneNumber)).toList();
+    }
+
+    public static List<Reservation> filterByGuest(List<Reservation> data, Long id){
+        return data.stream().filter(reservation ->
+                reservation.getGuests().stream().anyMatch(guest -> Objects.equals(guest.getId(), id))).toList();
     }
 }

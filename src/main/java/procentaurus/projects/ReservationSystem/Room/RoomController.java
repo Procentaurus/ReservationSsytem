@@ -25,7 +25,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{number}")
+    @GetMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleRoom(@PathVariable int number) {
         Optional<Room> found = roomService.findSingleRoom(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
@@ -33,14 +33,14 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/")
+    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Room>> findRooms(@RequestParam Map<String, String> params) {
         List<Room> found = roomService.findRooms(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    @GetMapping(path = "/available")
+    @GetMapping(path = "/available", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Room>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") short numberOfDays,
@@ -58,7 +58,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "/{number}")
+    @DeleteMapping(path = "/{number}", consumes = "application/json")
     public ResponseEntity<?> deleteRoom(@PathVariable int number) {
         boolean success = roomService.deleteRoom(number);
         if (success) return ResponseEntity.noContent().build();
@@ -66,7 +66,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @PutMapping(path = "/{number}")
+    @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestParam Map<String, String> params) {
         Optional<Room> updated = roomService.updateRoom(number, params);
 
@@ -75,7 +75,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/")
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createRoom(@RequestBody Room room) {
         Optional<Room> created = roomService.createRoom(room);
 

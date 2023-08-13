@@ -20,25 +20,25 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleReservation(@PathVariable Long id) {
         return null;
     }
 
     @Override
-    @GetMapping(path = "/")
+    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Reservation>> findReservations(Map<String, String> params) {
         return null;
     }
 
     @Override
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
         return null;
     }
 
     @Override
-    @PostMapping(path = "/")
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createReservation(Reservation reservation) {
         return null;
     }

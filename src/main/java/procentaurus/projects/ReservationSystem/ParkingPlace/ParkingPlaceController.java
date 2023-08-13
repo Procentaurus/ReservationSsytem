@@ -26,7 +26,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{number}")
+    @GetMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleParkingPlace(@PathVariable int number) {
         Optional<ParkingPlace> found = parkingPlaceService.findSingleParkingPlace(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
@@ -34,14 +34,14 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/")
+    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<ParkingPlace>> findParkingPlaces(@RequestParam Map<String, String> params) {
         List<ParkingPlace> found = parkingPlaceService.findParkingPlaces(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    @GetMapping(path = "/available")
+    @GetMapping(path = "/available", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<ParkingPlace>> findAvailableParkingPlaces(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
@@ -57,7 +57,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "/{number}")
+    @DeleteMapping(path = "/{number}", consumes = "application/json")
     public ResponseEntity<?> deleteParkingPlace(@PathVariable int number) {
         boolean success = parkingPlaceService.deleteParkingPlace(number);
         if (success) return ResponseEntity.noContent().build();
@@ -65,7 +65,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @PutMapping(path = "/{number}")
+    @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> updateParkingPlace(@PathVariable int number, @RequestParam Map<String, String> params) {
         Optional<ParkingPlace> updated = parkingPlaceService.updateParkingPlace(number, params);
 
@@ -74,7 +74,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/{number}")
+    @PostMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createParkingPlace(@RequestBody ParkingPlace parkingPlace) {
         Optional<ParkingPlace> created = parkingPlaceService.createParkingPlace(parkingPlace);
 

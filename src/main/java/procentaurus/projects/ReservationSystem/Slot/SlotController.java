@@ -26,7 +26,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleSlot(@PathVariable Long id) {
         Optional<Slot> found = slotService.findSingleSlot(id);
         if (found.isPresent()) return ResponseEntity.ok(new SlotLightDto(found.get()));
@@ -34,14 +34,14 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/")
+    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Slot>> findSlots(@RequestParam Map<String, String> params) {
         List<Slot> found = slotService.findSlots(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<?> deleteSlot(@PathVariable Long id) {
         boolean success = slotService.deleteSlot(id);
         if (success) return ResponseEntity.noContent().build();
@@ -49,7 +49,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @PutMapping(path = "/{id}")
+    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestParam Map<String, String> params) {
         Optional<Slot> updated = slotService.updateSlot(id, params);
 
@@ -58,7 +58,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/")
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createSlot(@RequestBody SlotCreationDto slot) {
         Optional<Slot> created = slotService.createSlot(slot.getSpace(), slot.getDate());
 

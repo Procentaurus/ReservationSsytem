@@ -24,12 +24,8 @@ public class GuestService implements GuestServiceInterface {
         return guestRepository.findById(id);
     }
 
-    public List<Guest> findGuestsByFilter(Map<String, String> params) {
-        return null;
-    }
-
     @Override
-    public List<Guest> findAllGuests() {
+    public List<Guest> findGuests(Map<String, String> params) {
         return null;
     }
 

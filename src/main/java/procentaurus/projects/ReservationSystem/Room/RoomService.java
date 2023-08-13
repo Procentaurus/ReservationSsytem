@@ -2,6 +2,7 @@ package procentaurus.projects.ReservationSystem.Room;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomRepository;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomServiceInterface;
@@ -21,6 +22,7 @@ import static procentaurus.projects.ReservationSystem.Space.AvailabilityListCrea
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.isFilteringByPricePossible;
 
+@Service
 public class RoomService implements RoomServiceInterface {
 
     private final RoomRepository roomRepository;

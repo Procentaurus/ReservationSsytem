@@ -27,7 +27,10 @@ public class Reservation {
     @Size( min = 1, max = 90)
     private short numberOfDays;
 
-    @ManyToMany(mappedBy = "reservation")
+    @ManyToMany
+    @JoinTable(name = "reservation_guest",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "guest_id"))
     private List<Guest> guests;
 
     @OneToMany(mappedBy = "reservation")

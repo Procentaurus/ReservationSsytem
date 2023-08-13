@@ -44,7 +44,7 @@ public class GuestController implements GuestControllerInterface {
     @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Guest>> getGuests(@RequestParam Map<String, String> params) {
 
-        List<Guest> guests = !params.isEmpty() ? guestService.findAllGuests() : guestService.findGuestsByFilter(params);
+        List<Guest> guests = !params.isEmpty() ? guestService.findGuests(null) : guestService.findGuests(params);
         return ResponseEntity.status(HttpStatus.OK).body(guests);
     }
 

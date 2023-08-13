@@ -4,6 +4,7 @@ package procentaurus.projects.ReservationSystem.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
+import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationRepository;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationServiceInterface;
 
 import java.time.LocalDate;
@@ -11,15 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 @Service
 public class ReservationService implements ReservationServiceInterface {
 
-    private final ReservationService reservationService;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
-    public ReservationService(ReservationService reservationService) {
-        this.reservationService = reservationService;
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
     }
 
     @Override

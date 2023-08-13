@@ -20,9 +20,8 @@ public class Guest extends User implements Comparable<Guest>{
 
     //private List<TroubleCausedByGuest> troubleCaused;
 
-    @ManyToMany()
-    @JoinColumn(name = "reservation_id")
-    private List<Reservation> reservation;
+    @ManyToMany(mappedBy = "guests")
+    private List<Reservation> reservations;
 
     public Guest(String firstName, String lastName, String password, LocalDate dateOfBirth, int phoneNumber, String email, boolean signedForNewsletter) {
         super(firstName, lastName, password, dateOfBirth, phoneNumber, email);

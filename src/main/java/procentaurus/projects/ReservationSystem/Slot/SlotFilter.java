@@ -71,31 +71,4 @@ public class SlotFilter {
         }
         return true;
     }
-
-    public static boolean isFilteringByDatePossible(String date){
-        try{
-            LocalDate tryDate = LocalDate.parse(date);
-            return true;
-        }catch (IllegalArgumentException e){
-            return false;
-        }
-    }
-
-    public static boolean isFilteringByIntPossible(String text){
-        try{
-            int stasiu = Integer.parseInt(text);
-            return true;
-        }catch(NumberFormatException e){
-            return false;
-        }
-    }
-
-    public static boolean isFilteringByLongPossible(String text){
-        try{
-            Long stasiu = Long.parseLong(text);
-            return true;
-        }catch(NumberFormatException e){
-            return false;
-        }
-    }
 }

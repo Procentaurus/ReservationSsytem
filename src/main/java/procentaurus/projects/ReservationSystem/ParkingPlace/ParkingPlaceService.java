@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.checkIfDateIsInPeriod;
 import static procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlaceFilter.filterByVehicleType;
 import static procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlaceFilter.isFilteringByVehicleTypePossible;
-import static procentaurus.projects.ReservationSystem.Space.AvailabilityListCreator.checkIfDateIsInPeriod;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.filterByPrice;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.isFilteringByPricePossible;
 

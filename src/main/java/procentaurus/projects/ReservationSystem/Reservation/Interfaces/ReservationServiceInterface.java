@@ -10,11 +10,11 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface ReservationServiceInterface {
-    Optional<Reservation> findSingleReservation(int number);
+    Optional<Reservation> findSingleReservation(Long id);
 
     List<Reservation> findReservations(Map<String, String> params);
 
-    boolean deleteReservation(int number);
+    boolean deleteReservation(Long id);
 
     Optional<Reservation> createReservation(List<Integer> roomsNumbers, List<Integer> conferenceRoomsNumbers, List<Integer> parkingPlacesNumbers,
                                             List<Guest> guests, LocalDate startDate, short numberOfDays);

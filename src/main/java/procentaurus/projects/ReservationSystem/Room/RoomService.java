@@ -17,8 +17,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.checkIfDateIsInPeriod;
 import static procentaurus.projects.ReservationSystem.Room.RoomFilter.*;
-import static procentaurus.projects.ReservationSystem.Space.AvailabilityListCreator.checkIfDateIsInPeriod;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.isFilteringByPricePossible;
 

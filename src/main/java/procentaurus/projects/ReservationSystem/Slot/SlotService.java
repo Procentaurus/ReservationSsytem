@@ -2,10 +2,7 @@ package procentaurus.projects.ReservationSystem.Slot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import procentaurus.projects.ReservationSystem.Room.Room;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotServiceInterface;
 import procentaurus.projects.ReservationSystem.Space.Space;
@@ -15,11 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static procentaurus.projects.ReservationSystem.Room.RoomFilter.*;
-import static procentaurus.projects.ReservationSystem.Room.RoomFilter.filterByRoomType;
+import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.*;
 import static procentaurus.projects.ReservationSystem.Slot.SlotFilter.*;
-import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
-import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.filterByPrice;
 
 
 @Service

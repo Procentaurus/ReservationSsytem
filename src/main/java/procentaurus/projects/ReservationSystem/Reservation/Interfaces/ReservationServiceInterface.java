@@ -1,6 +1,6 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
-import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
+import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.Room.Room;
 
@@ -16,5 +16,9 @@ public interface ReservationServiceInterface {
 
     boolean deleteReservation(int number);
 
-    Optional<Reservation> createReservation(Room parkingPlace);
+    Optional<Reservation> createReservation(List<Integer> roomsNumbers, List<Integer> conferenceRoomsNumbers, List<Integer> parkingPlacesNumbers,
+                                            List<Guest> guests, LocalDate startDate, short numberOfDays);
+
+    Optional<Reservation> createReservation(List<Integer> roomsNumbers, short sizeOfConferenceRoom, short numberOfParkingPlaces,
+                                            List<Guest> guests, LocalDate startDate, short numberOfDays);
 }

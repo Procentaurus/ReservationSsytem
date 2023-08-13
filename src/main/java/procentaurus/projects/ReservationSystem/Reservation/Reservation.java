@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
-import procentaurus.projects.ReservationSystem.Room.Room;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.time.LocalDate;
@@ -20,23 +19,6 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Positive
-    private int numberOfParkingPlacesForMotorcycles;
-
-    @Positive
-    private int numberOfParkingPlacesForAutocars;
-
-    @Positive
-    private int numberOfParkingPlacesForCars;
-
-    private boolean onlyRooms;
-    private boolean onlyConferenceRoom;
-    private boolean forSmokingPeople;
-    private boolean viewForLake;
-
-    @NotNull
-    private Room.RoomType chosenRoomStandard;
 
     @NotNull
     @FutureOrPresent

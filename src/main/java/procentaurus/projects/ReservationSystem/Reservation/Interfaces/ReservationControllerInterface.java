@@ -15,5 +15,5 @@ public interface ReservationControllerInterface {
 
     ResponseEntity<?> deleteReservation(Long id);
 
-    ResponseEntity<?> createReservation(Reservation reservation);
+    ResponseEntity<?> createReservation(Map<String, String> params);
 }

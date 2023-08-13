@@ -19,27 +19,32 @@ public class ReservationController implements ReservationControllerInterface {
         this.reservationService = reservationService;
     }
 
+
     @Override
-    @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> findSingleReservation(@PathVariable Long id) {
+    public ResponseEntity<?> findSingleReservation(Long id) {
         return null;
     }
 
     @Override
-    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Reservation>> findReservations(Map<String, String> params) {
         return null;
     }
 
     @Override
-    @DeleteMapping(path = "/{id}", consumes = "application/json")
-    public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
+    public ResponseEntity<?> deleteReservation(Long id) {
         return null;
     }
 
     @Override
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createReservation(Reservation reservation) {
+    public ResponseEntity<?> createReservation(Map<String, String> params) {
         return null;
+
+        //TODO : check availability
+
+        //TODO : check if some guests are already in base otherwise save them in db
+
+        //TODO : create and save the reservation
+
+        //TODO : book all of the slots
     }
 }

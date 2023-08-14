@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GuestAdminDto extends GuestDto {
+public class GuestAdminDto extends GuestBasicDto {
     private Long id;
     private List<TroubleCausedByGuest> troubleCaused;
 

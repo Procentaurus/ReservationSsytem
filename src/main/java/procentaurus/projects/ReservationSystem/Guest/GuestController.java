@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestControllerInterface;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class GuestController implements GuestControllerInterface {
         Optional<Guest> guest = guestService.findSingleGuest(id);
 
         if (guest.isPresent()){
-            GuestResponse guestResponse = new GuestResponse(new GuestCustomerDto(guest.get()));
+            GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(guest.get()));
             return ResponseEntity.status(HttpStatus.OK).body(guestResponse);
         }else{
             GuestResponse guestResponse = new GuestResponse(null);
@@ -66,7 +67,7 @@ public class GuestController implements GuestControllerInterface {
         Optional<Guest> updatedGuest = guestService.updateGuest(id, guest);
 
         if (updatedGuest.isPresent()){
-            GuestResponse guestResponse = new GuestResponse(new GuestCustomerDto(updatedGuest.get()));
+            GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(updatedGuest.get()));
             return ResponseEntity.status(200).body(guestResponse);
         }else{
             GuestResponse guestResponse = new GuestResponse(null);
@@ -82,7 +83,7 @@ public class GuestController implements GuestControllerInterface {
 
         Optional<Guest> savedGuest = guestService.createGuest(guest);
         if (savedGuest.isPresent()){
-            GuestResponse guestResponse = new GuestResponse(new GuestCustomerDto(savedGuest.get()));
+            GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(savedGuest.get()));
             return ResponseEntity.status(204).body(guestResponse);
         }else{
             GuestResponse guestResponse = new GuestResponse(null);

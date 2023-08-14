@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationRepository;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationServiceInterface;
+import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,8 +66,14 @@ public class ReservationService implements ReservationServiceInterface {
     public boolean deleteReservation(Long id) {
 
         if(reservationRepository.existsById(id)) {
-            reservationRepository.deleteById(id);
-            return true;
+            Optional<Reservation> reservation = reservationRepository.findById(id);
+            if(reservation.isPresent()) {
+                reservation.get().getOccupiedSlots().forEach(slot -> slot.setStatus(Slot.Status.FREE));
+                reservation.get().getOccupiedSlots().forEach(slot -> slot.setReservation(null));
+                reservationRepository.deleteById(id);
+                return true;
+
+            }else return false;
         }
         else return false;
     }

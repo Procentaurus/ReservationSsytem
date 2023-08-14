@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationControllerInterface;
+import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.util.List;
 import java.util.Map;
@@ -41,13 +41,10 @@ public class ReservationController implements ReservationControllerInterface {
     @Override
     @GetMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
-        return null;
 
-        //TODO : check existence
-
-        //TODO : unbook all slots
-
-        //TODO : delete reservation
+        boolean success = reservationService.deleteReservation(id);
+        if(success) return ResponseEntity.noContent().build();
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No reservation of provided id.");
     }
 
     @Override

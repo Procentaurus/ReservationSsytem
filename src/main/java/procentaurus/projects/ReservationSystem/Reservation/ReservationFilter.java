@@ -1,12 +1,5 @@
 package procentaurus.projects.ReservationSystem.Reservation;
 
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.Size;
-import procentaurus.projects.ReservationSystem.Guest.Guest;
-import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
-import procentaurus.projects.ReservationSystem.Slot.Slot;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;

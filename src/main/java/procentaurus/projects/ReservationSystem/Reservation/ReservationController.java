@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.ConferenceRoom.ConferenceRoom;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationControllerInterface;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 
@@ -49,15 +51,11 @@ public class ReservationController implements ReservationControllerInterface {
 
     @Override
     @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createReservation(@RequestBody Map<String, String> params) {
-        return null;
+    public ResponseEntity<?> createReservation(@RequestBody ReservationCreationDto creationDto) {
 
-        //TODO : check availability
+        Optional<Reservation> created = reservationService.createReservation(creationDto);
 
-        //TODO : check if some guests are already in base otherwise save them in db
-
-        //TODO : create and save the reservation
-
-        //TODO : book all of the slots
+        if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
     }
 }

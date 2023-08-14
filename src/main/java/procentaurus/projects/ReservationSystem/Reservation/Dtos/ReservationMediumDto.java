@@ -7,7 +7,8 @@ import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ReservationMediumDto {
 
@@ -17,14 +18,14 @@ public class ReservationMediumDto {
     @Size( min = 1, max = 90)
     private final short numberOfDays;
 
-    private final List<GuestBasicDto> guests;
-    private final List<SlotLightDto> occupiedSpaces;
+    private final Set<GuestBasicDto> guests;
+    private final Set<SlotLightDto> occupiedSpaces;
 
     public ReservationMediumDto(Reservation reservation) {
 
-        this.guests = reservation.getGuests().stream().map(GuestBasicDto::new).toList();
+        this.guests = reservation.getGuests().stream().map(GuestBasicDto::new).collect(Collectors.toSet());
         this.startDate = reservation.getStartDate();
         this.numberOfDays = reservation.getNumberOfDays();
-        this.occupiedSpaces = reservation.getOccupiedSlots().stream().map(SlotLightDto::new).toList();
+        this.occupiedSpaces = reservation.getOccupiedSlots().stream().map(SlotLightDto::new).collect(Collectors.toSet());
     }
 }

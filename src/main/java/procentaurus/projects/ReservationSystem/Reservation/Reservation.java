@@ -8,7 +8,7 @@ import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -31,8 +31,15 @@ public class Reservation {
     @JoinTable(name = "reservation_guest",
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "guest_id"))
-    private List<Guest> guests;
+    private Set<Guest> guests;
 
     @OneToMany(mappedBy = "reservation")
-    private List<Slot> occupiedSlots;
+    private Set<Slot> occupiedSlots;
+
+    public Reservation(@NotNull LocalDate startDate, short numberOfDays, Set<Guest> guests, Set<Slot> occupiedSlots) {
+        this.startDate = startDate;
+        this.numberOfDays = numberOfDays;
+        this.guests = guests;
+        this.occupiedSlots = occupiedSlots;
+    }
 }

@@ -1,13 +1,14 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Guest.Guest;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
-import procentaurus.projects.ReservationSystem.Room.Room;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ReservationServiceInterface {
     Optional<Reservation> findSingleReservation(Long id);
@@ -16,9 +17,8 @@ public interface ReservationServiceInterface {
 
     boolean deleteReservation(Long id);
 
-    Optional<Reservation> createReservation(List<Integer> roomsNumbers, List<Integer> conferenceRoomsNumbers, List<Integer> parkingPlacesNumbers,
-                                            List<Guest> guests, LocalDate startDate, short numberOfDays);
+    Optional<Reservation> createReservation(ReservationCreationDto creationDto);
 
-    Optional<Reservation> createReservation(List<Integer> roomsNumbers, short sizeOfConferenceRoom, short numberOfParkingPlaces,
-                                            List<Guest> guests, LocalDate startDate, short numberOfDays);
+    Optional<Reservation> createReservation(Set<Integer> roomsNumbers, short sizeOfConferenceRoom, short numberOfParkingPlaces,
+                                            Set<Guest> guests, LocalDate startDate, short numberOfDays);
 }

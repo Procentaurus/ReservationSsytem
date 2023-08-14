@@ -8,7 +8,8 @@ import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 public class ReservationLightDto {
@@ -19,23 +20,23 @@ public class ReservationLightDto {
     @Size( min = 1, max = 90)
     private final short numberOfDays;
 
-    private final List<Long> guestsIds;
-    private final List<String> guestsEmails;
-    private final List<SlotLightDto> occupiedSpaces;
+    private final Set<Long> guestsIds;
+    private final Set<String> guestsEmails;
+    private final Set<SlotLightDto> occupiedSpaces;
 
 
     public ReservationLightDto(Reservation reservation, boolean useEmails) {
 
         if (useEmails) {
-            this.guestsEmails = reservation.getGuests().stream().map(Guest::getEmail).toList();
+            this.guestsEmails = reservation.getGuests().stream().map(Guest::getEmail).collect(Collectors.toSet());
             this.guestsIds = null;
         } else {
-            this.guestsIds = reservation.getGuests().stream().map(Guest::getId).toList();
+            this.guestsIds = reservation.getGuests().stream().map(Guest::getId).collect(Collectors.toSet());
             this.guestsEmails = null;
         }
 
         this.startDate = reservation.getStartDate();
         this.numberOfDays = reservation.getNumberOfDays();
-        this.occupiedSpaces = reservation.getOccupiedSlots().stream().map(SlotLightDto::new).toList();
+        this.occupiedSpaces = reservation.getOccupiedSlots().stream().map(SlotLightDto::new).collect(Collectors.toSet());
     }
 }

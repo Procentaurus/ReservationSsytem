@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/guests")
+@RequestMapping("/api/guests/")
 public class GuestController implements GuestControllerInterface {
 
     private final GuestService guestService;
@@ -24,7 +24,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GuestResponse> getSingleGuest(@PathVariable Long id) {
 
         Optional<Guest> guest = guestService.findSingleGuest(id);
@@ -40,7 +40,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @GetMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Guest>> getGuests(@RequestParam Map<String, String> params) {
 
         List<Guest> guests = !params.isEmpty() ? guestService.findGuests(null) : guestService.findGuests(params);
@@ -48,7 +48,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "/{id}", consumes = "application/json")
+    @DeleteMapping(path = "{id}/", consumes = "application/json")
     public ResponseEntity<GuestResponse> deleteGuest(@PathVariable Long id) {
 
         boolean successfulDeletion = guestService.deleteGuest(id);
@@ -61,7 +61,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @RequestBody Guest guest) {
 
         Optional<Guest> updatedGuest = guestService.updateGuest(id, new GuestBasicDto(guest));
@@ -77,7 +77,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GuestResponse> createGuest(@RequestBody Guest guest) {
 
 

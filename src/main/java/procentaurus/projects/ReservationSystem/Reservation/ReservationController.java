@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/reservations")
+@RequestMapping("/api/reservations/")
 public class ReservationController implements ReservationControllerInterface {
 
     public ReservationService reservationService;
@@ -23,7 +23,7 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> findSingleReservation(@PathVariable Long id) {
 
         Optional<Reservation> found = reservationService.findSingleReservation(id);
@@ -33,13 +33,13 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @GetMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<Reservation>> findReservations(@RequestParam Map<String, String> params) {
         return ResponseEntity.ok(reservationService.findReservations(params));
     }
 
     @Override
-    @DeleteMapping(path = "/{id}", consumes = "application/json")
+    @DeleteMapping(path = "{id}/", consumes = "application/json")
     public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
 
         boolean success = reservationService.deleteReservation(id);
@@ -48,7 +48,7 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createReservation(@RequestBody ReservationCreateDto creationDto) {
 
         Optional<Reservation> created = reservationService.createReservation(creationDto);

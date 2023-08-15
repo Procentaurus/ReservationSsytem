@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/conference_rooms")
+@RequestMapping("/api/conference_rooms/")
 public class ConferenceRoomController implements ConferenceRoomControllerInterface {
 
     private final ConferenceRoomService conferenceRoomService;
@@ -26,22 +26,23 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @GetMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{number}/", produces = "application/json")
     public ResponseEntity<?> findSingleConferenceRoom(@PathVariable int number) {
+        System.out.println(number);
         Optional<ConferenceRoom> found =  conferenceRoomService.findSingleConferenceRoom(number);
         if(found.isPresent()) return ResponseEntity.ok(found);
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No conference room of provided number.");
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(@RequestParam Map<String, String> params) {
         List<ConferenceRoom> found = conferenceRoomService.findConferenceRooms(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    @GetMapping(path = "/available", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "available/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
@@ -56,7 +57,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @DeleteMapping(path = "/{number}", consumes = "application/json")
+    @DeleteMapping(path = "{number}/")
     public ResponseEntity<?> deleteConferenceRoom(@PathVariable int number) {
         boolean success = conferenceRoomService.deleteConferenceRoom(number);
         if(success) return ResponseEntity.noContent().build();
@@ -64,7 +65,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
+    @PutMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> updateConferenceRoom(@PathVariable int number, @RequestBody ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, conferenceRoom);
 
@@ -73,7 +74,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createConferenceRoom(@RequestBody ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> created = conferenceRoomService.createConferenceRoom(conferenceRoom);
 

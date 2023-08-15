@@ -64,7 +64,7 @@ public class GuestController implements GuestControllerInterface {
     @PutMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @RequestBody Guest guest) {
 
-        Optional<Guest> updatedGuest = guestService.updateGuest(id, guest);
+        Optional<Guest> updatedGuest = guestService.updateGuest(id, new GuestBasicDto(guest));
 
         if (updatedGuest.isPresent()){
             GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(updatedGuest.get()));

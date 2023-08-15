@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Slot.Dtos;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,10 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 public class SlotCreationDto {
+
+    @NotNull
     private Space space;
+
+    @NotNull
     private LocalDate date;
 }

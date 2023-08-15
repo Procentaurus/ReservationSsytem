@@ -87,15 +87,10 @@ public class SlotService implements SlotServiceInterface {
                 }
             } else status = null;
 
-            try {
-                if(status != null) toUpdate.get().setStatus(status);
+            if(status != null) toUpdate.get().setStatus(status);
 
-                slotRepository.save(toUpdate.get());
-                return toUpdate;
-
-            } catch (DataAccessException ex) {
-                return Optional.empty();
-            }
+            slotRepository.save(toUpdate.get());
+            return toUpdate;
         }
         return Optional.empty();
     }

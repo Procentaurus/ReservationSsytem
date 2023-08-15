@@ -18,7 +18,7 @@ public interface RoomServiceInterface {
 
     boolean deleteRoom(int number);
 
-    Optional<Room> updateRoom(int number, Map<String, String> params);
+    Optional<Room> updateRoom(int number, Room room);
 
-    Optional<Room> createRoom(Room parkingPlace);
+    Optional<Room> createRoom(Room room);
 }

@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import procentaurus.projects.ReservationSystem.ConferenceRoom.ConferenceRoom;
-import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationControllerInterface;
-import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +39,7 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/{id}", consumes = "application/json")
+    @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<?> deleteReservation(@PathVariable Long id) {
 
         boolean success = reservationService.deleteReservation(id);
@@ -50,8 +48,8 @@ public class ReservationController implements ReservationControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createReservation(@RequestBody ReservationCreationDto creationDto) {
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> createReservation(@RequestBody ReservationCreateDto creationDto) {
 
         Optional<Reservation> created = reservationService.createReservation(creationDto);
 

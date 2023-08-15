@@ -14,7 +14,7 @@ public class GuestPermissionedStuffDto extends GuestBasicDto {
     private List<TroubleCausedByGuest> troubleCaused;
 
     public GuestPermissionedStuffDto(Guest guest) {
-        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.isSignedForNewsletter());
+        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.getSignedForNewsletter());
         //this.troubleCaused = guest.getTroubleCa9used();
     }
 }

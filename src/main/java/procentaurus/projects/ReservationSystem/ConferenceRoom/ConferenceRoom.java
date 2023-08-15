@@ -19,9 +19,10 @@ import java.util.Set;
 @Table(name = "conferenceRooms")
 public class ConferenceRoom extends Space {
 
-    private boolean hasStage;
+    @NotNull
+    private Boolean hasStage;
 
-    @Size(min = 10, max = 200)
+    @Size(max = 200)
     private String description;
 
     @OneToMany(mappedBy = "conferenceRoom")

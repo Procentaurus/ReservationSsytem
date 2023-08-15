@@ -18,7 +18,7 @@ public interface ConferenceRoomServiceInterface {
 
     boolean deleteConferenceRoom(int number);
 
-    Optional<ConferenceRoom> updateConferenceRoom(int number, Map<String, String> params);
+    Optional<ConferenceRoom> updateConferenceRoom(int number, ConferenceRoom conferenceRoom);
 
     Optional<ConferenceRoom> createConferenceRoom(ConferenceRoom conferenceRoom);
 }

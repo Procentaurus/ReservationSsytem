@@ -15,7 +15,7 @@ public class GuestAdminDto extends GuestBasicDto {
     private SortedSet<TroubleCausedByGuest> troubleCaused;
 
     public GuestAdminDto(Guest guest) {
-        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.isSignedForNewsletter());
+        super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.getSignedForNewsletter());
         this.id = guest.getId();
         //this.troubleCaused = guest.getTroubleCaused();
     }

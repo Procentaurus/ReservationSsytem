@@ -17,7 +17,7 @@ public interface RoomControllerInterface {
 
     ResponseEntity<?> deleteRoom(int number);
 
-    ResponseEntity<?> updateRoom(int number, Map<String, String> params);
+    ResponseEntity<?> updateRoom(int number, Room room);
 
     ResponseEntity<?> createRoom(Room room);
 }

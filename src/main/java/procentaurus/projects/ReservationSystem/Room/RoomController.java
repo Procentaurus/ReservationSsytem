@@ -67,8 +67,8 @@ public class RoomController implements RoomControllerInterface {
 
     @Override
     @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestParam Map<String, String> params) {
-        Optional<Room> updated = roomService.updateRoom(number, params);
+    public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestBody Room room) {
+        Optional<Room> updated = roomService.updateRoom(number, room);
 
         if (updated.isPresent()) return ResponseEntity.ok(updated);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room of provided number or wrong params.");

@@ -3,6 +3,7 @@ package procentaurus.projects.ReservationSystem.ConferenceRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomRepository;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomServiceInterface;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingConferenceRoomException;
@@ -76,7 +77,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
 
             boolean success = true;
             for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getConferenceRoom().isHasStage() != hasStage) success = false;
+                if(slot.getConferenceRoom().getHasStage() != hasStage) success = false;
                 if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
                 if(!success) break;
             }
@@ -97,20 +98,20 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     }
 
     @Override
-    public Optional<ConferenceRoom> updateConferenceRoom(int number, Map<String, String> params) {
+    public Optional<ConferenceRoom> updateConferenceRoom(int number, ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> toUpdate = conferenceRoomRepository.findByNumber(number);
-        if(toUpdate.isPresent()){
+        if(toUpdate.isPresent() && conferenceRoom != null){
 
-            Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
-            Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
-            Integer numberToChange = params.containsKey("number") ? Integer.parseInt(params.get("number")) : null;
-            Boolean hasStage = params.containsKey("hasStage") ? Boolean.parseBoolean(params.get("hasStage")) : null;
-            String description = params.getOrDefault("description", null);
+            float price = conferenceRoom.getPrice();
+            int capacity = conferenceRoom.getCapacity();
+            int numberToChange = conferenceRoom.getNumber();
+            Boolean hasStage = conferenceRoom.getHasStage();
+            String description = conferenceRoom.getDescription();
 
             try {
-                if(price != null) toUpdate.get().setPrice(price);
-                if(capacity != null) toUpdate.get().setCapacity(capacity);
-                if(numberToChange != null) toUpdate.get().setNumber(number);
+                if(price != 0.0) toUpdate.get().setPrice(price);
+                if(capacity != 0) toUpdate.get().setCapacity(capacity);
+                if(numberToChange != 0) toUpdate.get().setNumber(number);
                 if(hasStage != null) toUpdate.get().setHasStage(hasStage);
                 if(description != null) toUpdate.get().setDescription(description);
 
@@ -129,7 +130,6 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
         try {
             ConferenceRoom created = conferenceRoomRepository.save(conferenceRoom);
             return Optional.of(created);
-
         }catch(IllegalArgumentException ex){
             return Optional.empty();
         }

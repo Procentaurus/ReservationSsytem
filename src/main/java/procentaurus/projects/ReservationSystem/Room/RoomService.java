@@ -88,8 +88,8 @@ public class RoomService implements RoomServiceInterface {
 
             boolean success = true;
             for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getRoom().isSmokingAllowed() != forSmokingPeople) success = false;
-                if(slot.getRoom().isHasLakeView() == viewForLake) success = false;
+                if(slot.getRoom().getIsSmokingAllowed() != forSmokingPeople) success = false;
+                if(slot.getRoom().getHasLakeView() == viewForLake) success = false;
                 if(slot.getRoom().getRoomType().equals(standard)) success = false;
                 if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
                 if(!success) break;
@@ -112,27 +112,20 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
-    public Optional<Room> updateRoom(int number, Map<String, String> params) {
+    public Optional<Room> updateRoom(int number, Room room) {
 
         Optional<Room> toUpdate = roomRepository.findByNumber(number);
-        if(toUpdate.isPresent()){
+        if(toUpdate.isPresent() && room != null){
 
-            Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
-            Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
-            Integer numberToChange = params.containsKey("number") ? Integer.parseInt(params.get("number")) : null;
-            Room.RoomType type;
-            if (params.containsKey("roomType")) {
-                try {
-                    type = Room.RoomType.valueOf(params.get("roomType").toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    type = null;
-                }
-            } else type = null;
+            float price = room.getPrice();
+            int capacity = room.getCapacity();
+            int numberToChange = room.getNumber();
+            Room.RoomType type = room.getRoomType();
 
             try {
-                if(price != null) toUpdate.get().setPrice(price);
-                if(capacity != null) toUpdate.get().setCapacity(capacity);
-                if(numberToChange != null) toUpdate.get().setNumber(numberToChange);
+                if(price != 0) toUpdate.get().setPrice(price);
+                if(capacity != 0) toUpdate.get().setCapacity(capacity);
+                if(numberToChange != 0) toUpdate.get().setNumber(numberToChange);
                 if(type != null) toUpdate.get().setRoomType(type);
 
                 roomRepository.save(toUpdate.get());

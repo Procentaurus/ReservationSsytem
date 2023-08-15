@@ -1,7 +1,7 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Guest.Guest;
-import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ public interface ReservationServiceInterface {
 
     boolean deleteReservation(Long id);
 
-    Optional<Reservation> createReservation(ReservationCreationDto creationDto);
+    Optional<Reservation> createReservation(ReservationCreateDto creationDto);
 
     Optional<Reservation> createReservation(Set<Integer> roomsNumbers, short sizeOfConferenceRoom, short numberOfParkingPlaces,
                                             Set<Guest> guests, LocalDate startDate, short numberOfDays);

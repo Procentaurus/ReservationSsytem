@@ -7,8 +7,8 @@ public class RoomFilter {
     public static List<Room> filterByIsSmokingAllowed(List<Room> data, String valueOfParam){
 
         List<Room> result;
-        if (Boolean.parseBoolean(valueOfParam)) result = data.stream().filter(Room::isSmokingAllowed).toList();
-        else result = data.stream().filter(room -> !room.isSmokingAllowed()).toList();
+        if (Boolean.parseBoolean(valueOfParam)) result = data.stream().filter(Room::getIsSmokingAllowed).toList();
+        else result = data.stream().filter(room -> !room.getIsSmokingAllowed()).toList();
 
         return result;
     }
@@ -16,8 +16,8 @@ public class RoomFilter {
     public static List<Room> filterByHasLakeView(List<Room> data, String valueOfParam){
 
         List<Room> result;
-        if (Boolean.parseBoolean(valueOfParam)) result = data.stream().filter(Room::isHasLakeView).toList();
-        else result = data.stream().filter(room -> !room.isHasLakeView()).toList();
+        if (Boolean.parseBoolean(valueOfParam)) result = data.stream().filter(Room::getHasLakeView).toList();
+        else result = data.stream().filter(room -> !room.getHasLakeView()).toList();
 
         return result;
     }

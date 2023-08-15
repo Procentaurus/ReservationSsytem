@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Guest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestRepository;
@@ -81,14 +82,21 @@ public class GuestService implements GuestServiceInterface {
         Optional<Guest> toUpdate = guestRepository.findByEmail(email);
 
         if(toUpdate.isPresent()) {
-            if (guest.getPhoneNumber() != 0) toUpdate.get().setPhoneNumber(guest.getPhoneNumber());
-            if (guest.getFirstName() != null) toUpdate.get().setFirstName(guest.getFirstName());
-            if (guest.getDateOfBirth() != null) toUpdate.get().setDateOfBirth(guest.getDateOfBirth());
-            if (guest.getLastName() != null) toUpdate.get().setLastName(guest.getLastName());
-            if (guest.getEmail() != null) toUpdate.get().setEmail(guest.getEmail());
+            Guest existingGuest = toUpdate.get();
+            try {
+                if (guest.getPhoneNumber() != 0) existingGuest.setPhoneNumber(guest.getPhoneNumber());
+                if (guest.getFirstName() != null) existingGuest.setFirstName(guest.getFirstName());
+                if (guest.getDateOfBirth() != null) existingGuest.setDateOfBirth(guest.getDateOfBirth());
+                if (guest.getLastName() != null) existingGuest.setLastName(guest.getLastName());
+                if (guest.getEmail() != null) existingGuest.setEmail(guest.getEmail());
+                if(guest.getSignedForNewsletter() != null) existingGuest.setSignedForNewsletter(guest.getSignedForNewsletter());
 
-            guestRepository.save(toUpdate.get());
-            return toUpdate;
+                guestRepository.save(existingGuest);
+                return toUpdate;
+
+            }catch(DataAccessException e){
+                return Optional.empty();
+            }
         }else{
             return Optional.empty();
         }

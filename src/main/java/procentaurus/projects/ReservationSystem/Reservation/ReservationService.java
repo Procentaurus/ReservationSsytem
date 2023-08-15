@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestRepository;
-import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationRepository;
 import procentaurus.projects.ReservationSystem.Reservation.Interfaces.ReservationServiceInterface;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
@@ -84,7 +84,7 @@ public class ReservationService implements ReservationServiceInterface {
     }
 
     @Override
-    public Optional<Reservation> createReservation(ReservationCreationDto creationDto) {
+    public Optional<Reservation> createReservation(ReservationCreateDto creationDto) {
 
         // Declarations of local variables
         Set<Integer> roomNumbers = creationDto.getRoomNumbers();

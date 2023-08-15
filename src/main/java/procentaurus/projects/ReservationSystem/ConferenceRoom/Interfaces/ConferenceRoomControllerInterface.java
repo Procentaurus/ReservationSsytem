@@ -17,7 +17,7 @@ public interface ConferenceRoomControllerInterface {
 
     ResponseEntity<?> deleteConferenceRoom(int number);
 
-    ResponseEntity<?> updateConferenceRoom(int number, Map<String, String> params);
+    ResponseEntity<?> updateConferenceRoom(int number, ConferenceRoom conferenceRoom);
 
     ResponseEntity<?> createConferenceRoom(ConferenceRoom conferenceRoom);
 }

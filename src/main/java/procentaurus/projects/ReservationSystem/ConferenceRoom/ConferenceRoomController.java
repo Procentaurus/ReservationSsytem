@@ -65,8 +65,8 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @PutMapping(path = "/{number}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number,@RequestParam Map<String, String> params) {
-        Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, params);
+    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number, @RequestBody ConferenceRoom conferenceRoom) {
+        Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, conferenceRoom);
 
         if(updated.isPresent()) return ResponseEntity.ok(updated);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number or wrong params.");

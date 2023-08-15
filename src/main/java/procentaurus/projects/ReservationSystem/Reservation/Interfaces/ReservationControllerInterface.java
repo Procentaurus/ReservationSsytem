@@ -1,8 +1,7 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import org.springframework.http.ResponseEntity;
-import procentaurus.projects.ReservationSystem.ConferenceRoom.ConferenceRoom;
-import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreationDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 
 import java.util.List;
@@ -16,5 +15,5 @@ public interface ReservationControllerInterface {
 
     ResponseEntity<?> deleteReservation(Long id);
 
-    ResponseEntity<?> createReservation(ReservationCreationDto creationDto);
+    ResponseEntity<?> createReservation(ReservationCreateDto creationDto);
 }

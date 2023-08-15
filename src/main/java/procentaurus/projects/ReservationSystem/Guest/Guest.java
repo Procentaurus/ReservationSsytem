@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Guest extends User implements Comparable<Guest>{
 
-    private boolean signedForNewsletter;
+    private Boolean signedForNewsletter;
 
     //private List<TroubleCausedByGuest> troubleCaused;
 

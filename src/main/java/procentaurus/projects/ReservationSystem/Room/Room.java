@@ -24,12 +24,14 @@ public class Room extends Space {
     @Size(min = 1, max = 4)
     private int capacity;
 
-    private boolean isSmokingAllowed;
-
-    private boolean hasLakeView;
+    @NotNull
+    private Boolean isSmokingAllowed;
 
     @NotNull
-    @Size(min = 10, max = 200)
+    private Boolean hasLakeView;
+
+    @NotNull
+    @Size(max = 200)
     private String description;
 
     @OneToMany(mappedBy = "room")

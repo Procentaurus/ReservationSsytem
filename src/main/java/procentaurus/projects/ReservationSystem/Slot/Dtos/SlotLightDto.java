@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 public class SlotLightDto {
 
-    private Long id;
+    private final Long id;
     private SpaceType spaceType;
 
     public SlotLightDto(Slot slot){

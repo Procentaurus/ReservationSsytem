@@ -8,8 +8,8 @@ import lombok.*;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 import procentaurus.projects.ReservationSystem.Space.Space;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -23,7 +23,7 @@ public class ParkingPlace extends Space {
     private VehicleType vehicleType;
 
     @OneToMany(mappedBy = "parkingPlace")
-    private List<Slot> slots;
+    private Set<Slot> slots;
 
     public enum VehicleType {
         CAR,
@@ -34,6 +34,6 @@ public class ParkingPlace extends Space {
     public ParkingPlace(int number, int floor, float price, @Min(1) @Max(1) int capacity, @NotNull VehicleType vehicleType) {
         super(number, floor, price, capacity);
         this.vehicleType = vehicleType;
-        this.slots = new LinkedList<>();
+        this.slots = new HashSet<>();
     }
 }

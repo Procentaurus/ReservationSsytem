@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingParkingPlaceException;
-import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceControllerInterface;
 
 import java.time.LocalDate;

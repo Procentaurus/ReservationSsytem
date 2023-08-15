@@ -6,8 +6,9 @@ import lombok.*;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 import procentaurus.projects.ReservationSystem.Space.Space;
 
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -24,14 +25,14 @@ public class ConferenceRoom extends Space {
     private String description;
 
     @OneToMany(mappedBy = "conferenceRoom")
-    private List<Slot> slots;
+    private Set<Slot> slots;
 
     public ConferenceRoom(int number, int floor, float price,
                           @Min(value = 10, message = "The capacity must be set 10 at least.") int capacity, boolean hasStage) {
         super(number, floor, price, capacity);
         this.hasStage = hasStage;
         this.description = "";
-        this.slots = new LinkedList<>();
+        this.slots = new HashSet<>();
     }
 
     public ConferenceRoom(int number, int floor, float price,
@@ -40,6 +41,6 @@ public class ConferenceRoom extends Space {
         super(number, floor, price, capacity);
         this.hasStage = hasStage;
         this.description = description;
-        this.slots = new LinkedList<>();
+        this.slots = new HashSet<>();
     }
 }

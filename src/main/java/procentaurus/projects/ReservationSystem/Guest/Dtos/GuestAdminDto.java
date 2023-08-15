@@ -6,12 +6,13 @@ import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Guest.TroubleCaused.TroubleCausedByGuest;
 
 import java.util.List;
+import java.util.SortedSet;
 
 @Getter
 @Setter
 public class GuestAdminDto extends GuestBasicDto {
     private Long id;
-    private List<TroubleCausedByGuest> troubleCaused;
+    private SortedSet<TroubleCausedByGuest> troubleCaused;
 
     public GuestAdminDto(Guest guest) {
         super(guest.getFirstName(), guest.getLastName(), guest.getDateOfBirth(), guest.getPhoneNumber(), guest.getEmail(), guest.isSignedForNewsletter());

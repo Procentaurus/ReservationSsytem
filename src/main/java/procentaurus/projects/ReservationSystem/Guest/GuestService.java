@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Guest;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class GuestService implements GuestServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteGuest(Long id) {
         if(guestRepository.existsById(id)){
             guestRepository.deleteById(id);
@@ -48,6 +50,7 @@ public class GuestService implements GuestServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteGuest(String email) {
         if(guestRepository.existsByEmail(email)){
             guestRepository.deleteByEmail(email);
@@ -58,6 +61,7 @@ public class GuestService implements GuestServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<Guest> updateGuest(Long id, GuestBasicDto guest) {
 
         Optional<Guest> toUpdate = guestRepository.findById(id);
@@ -77,6 +81,7 @@ public class GuestService implements GuestServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<Guest> updateGuest(String email, GuestBasicDto guest) {
 
         Optional<Guest> toUpdate = guestRepository.findByEmail(email);

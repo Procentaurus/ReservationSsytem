@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.ConferenceRoom;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteConferenceRoom(int number) {
         if(conferenceRoomRepository.existsByNumber(number)){
             conferenceRoomRepository.deleteByNumber(number);
@@ -98,6 +100,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<ConferenceRoom> updateConferenceRoom(int number, ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> toUpdate = conferenceRoomRepository.findByNumber(number);
         if(toUpdate.isPresent() && conferenceRoom != null){

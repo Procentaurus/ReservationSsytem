@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Room;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -104,6 +105,7 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteRoom(int number) {
         if(roomRepository.existsByNumber(number)){
             roomRepository.deleteByNumber(number);
@@ -112,6 +114,7 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<Room> updateRoom(int number, Room room) {
 
         Optional<Room> toUpdate = roomRepository.findByNumber(number);

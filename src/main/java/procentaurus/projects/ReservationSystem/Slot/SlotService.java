@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Slot;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,7 @@ public class SlotService implements SlotServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteSlot(Long id) {
         if(slotRepository.existsById(id)){
             slotRepository.deleteById(id);
@@ -73,6 +75,7 @@ public class SlotService implements SlotServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<Slot> updateSlot(Long id, Map<String, String> params) {
 
         Optional<Slot> toUpdate = slotRepository.findById(id);

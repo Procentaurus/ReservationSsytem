@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Reservation;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
@@ -68,6 +69,7 @@ public class ReservationService implements ReservationServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteReservation(Long id) {
 
         if(reservationRepository.existsById(id)) {

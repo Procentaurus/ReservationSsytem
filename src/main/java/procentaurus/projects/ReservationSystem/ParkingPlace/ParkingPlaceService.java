@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,7 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
     }
 
     @Override
+    @Transactional
     public boolean deleteParkingPlace(int number) {
         if(parkingPlaceRepository.existsByNumber(number)){
             parkingPlaceRepository.deleteByNumber(number);
@@ -96,6 +98,7 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
     }
 
     @Override
+    @Transactional
     public Optional<ParkingPlace> updateParkingPlace(int number, Map<String, String> params) {
         Optional<ParkingPlace> toUpdate = parkingPlaceRepository.findByNumber(number);
         if(toUpdate.isPresent()){

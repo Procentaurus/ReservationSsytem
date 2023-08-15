@@ -31,7 +31,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
         System.out.println(number);
         Optional<ConferenceRoom> found =  conferenceRoomService.findSingleConferenceRoom(number);
         if(found.isPresent()) return ResponseEntity.ok(found);
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No conference room of provided number.");
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");
     }
 
     @Override

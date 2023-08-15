@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.ConferenceRoom;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -7,7 +8,6 @@ import procentaurus.projects.ReservationSystem.Slot.Slot;
 import procentaurus.projects.ReservationSystem.Space.Space;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 
@@ -25,6 +25,7 @@ public class ConferenceRoom extends Space {
     @Size(max = 200)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "conferenceRoom")
     private Set<Slot> slots;
 

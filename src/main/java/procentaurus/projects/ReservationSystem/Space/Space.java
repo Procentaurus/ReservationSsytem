@@ -13,8 +13,6 @@ import jakarta.validation.constraints.Positive;
 @Setter
 public abstract class Space {
 
-    protected Long id;
-
     @Id
     @Positive
     @Column(unique = true)
@@ -28,11 +26,4 @@ public abstract class Space {
 
     @Positive
     private int capacity;
-
-    public Space(int number, int floor, float price, int capacity) {
-        this.number = number;
-        this.floor = floor;
-        this.price = price;
-        this.capacity = capacity;
-    }
 }

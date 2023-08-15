@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Room;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,6 +35,7 @@ public class Room extends Space {
     @Size(max = 200)
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room")
     private Set<Slot> slots;
 

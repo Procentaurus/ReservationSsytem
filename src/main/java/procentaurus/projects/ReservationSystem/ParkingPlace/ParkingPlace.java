@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -22,6 +23,7 @@ public class ParkingPlace extends Space {
     @NotNull
     private VehicleType vehicleType;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "parkingPlace")
     private Set<Slot> slots;
 

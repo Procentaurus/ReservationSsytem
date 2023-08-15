@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Guest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -20,6 +21,7 @@ public class Guest extends User implements Comparable<Guest>{
 
     //private List<TroubleCausedByGuest> troubleCaused;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "guests")
     private List<Reservation> reservations;
 

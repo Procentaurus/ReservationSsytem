@@ -19,6 +19,10 @@ import java.util.Set;
 @Table(name = "conferenceRooms")
 public class ConferenceRoom extends Space {
 
+    @Min(10)
+    @Max(1000)
+    private int capacity;
+
     @NotNull
     private Boolean hasStage;
 
@@ -29,17 +33,14 @@ public class ConferenceRoom extends Space {
     @OneToMany(mappedBy = "conferenceRoom")
     private Set<Slot> slots;
 
-    public ConferenceRoom(int number, int floor, float price,
-                          @Min(value = 10, message = "The capacity must be set 10 at least.") int capacity, boolean hasStage) {
+    public ConferenceRoom(int number, int floor, float price, int capacity, boolean hasStage) {
         super(number, floor, price, capacity);
         this.hasStage = hasStage;
         this.description = "";
         this.slots = new HashSet<>();
     }
 
-    public ConferenceRoom(int number, int floor, float price,
-                          @Min(value = 10, message = "The capacity must be set 10 at least.") int capacity, boolean hasStage,
-                          String description) {
+    public ConferenceRoom(int number, int floor, float price, int capacity, boolean hasStage, String description) {
         super(number, floor, price, capacity);
         this.hasStage = hasStage;
         this.description = description;

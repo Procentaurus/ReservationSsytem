@@ -1,11 +1,13 @@
 package procentaurus.projects.ReservationSystem.Room;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
+import procentaurus.projects.ReservationSystem.Room.Dtos.RoomUpdateDto;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomControllerInterface;
 
 import java.time.LocalDate;
@@ -25,7 +27,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{number}/", produces = "application/json")
     public ResponseEntity<?> findSingleRoom(@PathVariable int number) {
         Optional<Room> found = roomService.findSingleRoom(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
@@ -58,7 +60,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "{number}/", consumes = "application/json")
+    @DeleteMapping(path = "{number}/", produces = "application/json")
     public ResponseEntity<?> deleteRoom(@PathVariable int number) {
         boolean success = roomService.deleteRoom(number);
         if (success) return ResponseEntity.noContent().build();
@@ -67,7 +69,7 @@ public class RoomController implements RoomControllerInterface {
 
     @Override
     @PutMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestBody Room room) {
+    public ResponseEntity<?> updateRoom(@PathVariable int number, @RequestBody RoomUpdateDto room) {
         Optional<Room> updated = roomService.updateRoom(number, room);
 
         if (updated.isPresent()) return ResponseEntity.ok(updated);
@@ -76,7 +78,7 @@ public class RoomController implements RoomControllerInterface {
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createRoom(@RequestBody Room room) {
+    public ResponseEntity<?> createRoom(@Valid @RequestBody Room room) {
         Optional<Room> created = roomService.createRoom(room);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

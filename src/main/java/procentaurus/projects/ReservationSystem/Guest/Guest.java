@@ -3,6 +3,7 @@ package procentaurus.projects.ReservationSystem.Guest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.User.User;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Guest extends User implements Comparable<Guest>{
 
+    @NotNull
     private Boolean signedForNewsletter;
 
     //private List<TroubleCausedByGuest> troubleCaused;

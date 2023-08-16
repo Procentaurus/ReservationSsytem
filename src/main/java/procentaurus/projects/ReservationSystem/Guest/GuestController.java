@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Guest;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +63,7 @@ public class GuestController implements GuestControllerInterface {
 
     @Override
     @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @RequestBody Guest guest) {
+    public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @Valid @RequestBody Guest guest) {
 
         Optional<Guest> updatedGuest = guestService.updateGuest(id, new GuestBasicDto(guest));
 
@@ -78,7 +79,7 @@ public class GuestController implements GuestControllerInterface {
 
     @Override
     @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<GuestResponse> createGuest(@RequestBody Guest guest) {
+    public ResponseEntity<GuestResponse> createGuest(@Valid  @RequestBody Guest guest) {
 
 
         Optional<Guest> savedGuest = guestService.createGuest(guest);

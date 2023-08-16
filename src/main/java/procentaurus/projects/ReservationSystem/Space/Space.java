@@ -1,5 +1,7 @@
 package procentaurus.projects.ReservationSystem.Space;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -19,12 +21,12 @@ public abstract class Space {
     @Column(unique = true)
     protected int number;
 
-    @Size(min = -1, max = 5)
+    @Min(-1)
+    @Max(5)
     protected int floor;
 
     @Positive
     protected float price;
 
-    @Positive
     private int capacity;
 }

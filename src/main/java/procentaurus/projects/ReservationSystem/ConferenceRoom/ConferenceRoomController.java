@@ -1,11 +1,13 @@
 package procentaurus.projects.ReservationSystem.ConferenceRoom;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.ConferenceRoom.Dtos.ConferenceRoomUpdateDto;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomControllerInterface;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingConferenceRoomException;
 
@@ -65,7 +67,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @PutMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number, @RequestBody ConferenceRoom conferenceRoom) {
+    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number, @Valid @RequestBody ConferenceRoomUpdateDto conferenceRoom) {
         Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, conferenceRoom);
 
         if(updated.isPresent()) return ResponseEntity.ok(updated);
@@ -74,7 +76,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createConferenceRoom(@RequestBody ConferenceRoom conferenceRoom) {
+    public ResponseEntity<?> createConferenceRoom(@Valid @RequestBody ConferenceRoom conferenceRoom) {
         Optional<ConferenceRoom> created = conferenceRoomService.createConferenceRoom(conferenceRoom);
 
         if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

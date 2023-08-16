@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Guest;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,7 @@ public class GuestService implements GuestServiceInterface {
 
     @Override
     @Transactional
-    public Optional<Guest> updateGuest(Long id, GuestBasicDto guest) {
+    public Optional<Guest> updateGuest(Long id, @Valid GuestBasicDto guest) {
 
         Optional<Guest> toUpdate = guestRepository.findById(id);
 
@@ -82,7 +83,7 @@ public class GuestService implements GuestServiceInterface {
 
     @Override
     @Transactional
-    public Optional<Guest> updateGuest(String email, GuestBasicDto guest) {
+    public Optional<Guest> updateGuest(String email, @Valid GuestBasicDto guest) {
 
         Optional<Guest> toUpdate = guestRepository.findByEmail(email);
 

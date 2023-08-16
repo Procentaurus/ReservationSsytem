@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -74,7 +75,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @PostMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createParkingPlace(@RequestBody ParkingPlace parkingPlace) {
+    public ResponseEntity<?> createParkingPlace(@Valid @RequestBody ParkingPlace parkingPlace) {
         Optional<ParkingPlace> created = parkingPlaceService.createParkingPlace(parkingPlace);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);

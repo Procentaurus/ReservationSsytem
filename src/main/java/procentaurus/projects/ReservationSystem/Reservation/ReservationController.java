@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Reservation;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class ReservationController implements ReservationControllerInterface {
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createReservation(@RequestBody ReservationCreateDto creationDto) {
+    public ResponseEntity<?> createReservation(@Valid @RequestBody ReservationCreateDto creationDto) {
 
         Optional<Reservation> created = reservationService.createReservation(creationDto);
 

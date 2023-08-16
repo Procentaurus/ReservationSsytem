@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Room.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
+import procentaurus.projects.ReservationSystem.Room.Dtos.RoomUpdateDto;
 import procentaurus.projects.ReservationSystem.Room.Room;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public interface RoomServiceInterface {
 
     boolean deleteRoom(int number);
 
-    Optional<Room> updateRoom(int number, Room room);
+    Optional<Room> updateRoom(int number, RoomUpdateDto room);
 
     Optional<Room> createRoom(Room room);
 }

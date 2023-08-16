@@ -24,7 +24,8 @@ public class Reservation {
     @FutureOrPresent
     private LocalDate startDate;
 
-    @Size( min = 1, max = 90)
+    @Min(1)
+    @Max(90)
     private short numberOfDays;
 
     @ManyToMany

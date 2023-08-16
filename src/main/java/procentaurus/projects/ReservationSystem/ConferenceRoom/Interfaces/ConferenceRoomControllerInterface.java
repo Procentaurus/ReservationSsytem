@@ -2,6 +2,7 @@ package procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces;
 
 import org.springframework.http.ResponseEntity;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.ConferenceRoom;
+import procentaurus.projects.ReservationSystem.ConferenceRoom.Dtos.ConferenceRoomUpdateDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface ConferenceRoomControllerInterface {
 
     ResponseEntity<?> deleteConferenceRoom(int number);
 
-    ResponseEntity<?> updateConferenceRoom(int number, ConferenceRoom conferenceRoom);
+    ResponseEntity<?> updateConferenceRoom(int number, ConferenceRoomUpdateDto conferenceRoom);
 
     ResponseEntity<?> createConferenceRoom(ConferenceRoom conferenceRoom);
 }

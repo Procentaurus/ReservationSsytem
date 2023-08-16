@@ -1,10 +1,12 @@
 package procentaurus.projects.ReservationSystem.Room;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingRoomException;
+import procentaurus.projects.ReservationSystem.Room.Dtos.RoomUpdateDto;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomRepository;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomServiceInterface;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
@@ -21,7 +23,6 @@ import java.util.stream.Collectors;
 import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.checkIfDateIsInPeriod;
 import static procentaurus.projects.ReservationSystem.Room.RoomFilter.*;
 import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
-import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.isFilteringByPricePossible;
 
 @Service
 public class RoomService implements RoomServiceInterface {
@@ -42,35 +43,34 @@ public class RoomService implements RoomServiceInterface {
 
     @Override
     public List<Room> findRooms(Map<String, String> params) {
-        List<Room> all = roomRepository.findAll(), result = null;
+        List<Room> all = roomRepository.findAll();
 
         if(params != null) {
 
             if (params.containsKey("capacity"))
-                if(isFilteringByCapacityPossible(params.get("price")))
-                    result = filterByCapacity(all.stream().map(x ->(Space) x).toList(),
+                if (isFilteringByCapacityPossible(params.get("price")))
+                    all = filterByCapacity(all.stream().map(x -> (Space) x).toList(),
                             Integer.parseInt(params.get("price").substring(2)),    // value passed
                             params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
                             Room.class);
 
             if (params.containsKey("price"))
-                if(isFilteringByPricePossible(params.get("price")))
-                    result = filterByPrice(all.stream().map(x ->(Space) x).toList(),
+                if (isFilteringByPricePossible(params.get("price")))
+                    all = filterByPrice(all.stream().map(x -> (Space) x).toList(),
                             Float.parseFloat(params.get("price").substring(2)),    // value passed
                             params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
                             Room.class);
 
-            if(params.containsKey("hasLakeView")) result = filterByHasLakeView(all, params.get("hasLakeView"));
+            if (params.containsKey("hasLakeView")) all = filterByHasLakeView(all, params.get("hasLakeView"));
 
-            if(params.containsKey("isSmokingAllowed")) result = filterByIsSmokingAllowed(all, params.get("hasLakeView"));
+            if (params.containsKey("isSmokingAllowed")) all = filterByIsSmokingAllowed(all, params.get("hasLakeView"));
 
-            if(params.containsKey("roomType"))
-                if(isFilteringByRoomTypePossible(params.get("roomType")))
-                    result = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType")));
+            if (params.containsKey("roomType"))
+                if (isFilteringByRoomTypePossible(params.get("roomType")))
+                    all = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType")));
 
-            return result;
-        }else
-            return all;
+        }
+        return all;
     }
 
     @Override
@@ -116,19 +116,23 @@ public class RoomService implements RoomServiceInterface {
 
     @Override
     @Transactional
-    public Optional<Room> updateRoom(int number, Room room) {
+    public Optional<Room> updateRoom(int number, RoomUpdateDto room) {
 
         Optional<Room> toUpdate = roomRepository.findByNumber(number);
-        if(toUpdate.isPresent() && room != null){
+        if(toUpdate.isPresent() && room != null && room.isValid()){
 
-            float price = room.getPrice();
-            int capacity = room.getCapacity();
+            Float price = room.getPrice();
+            Integer capacity = room.getCapacity();
             Room.RoomType type = room.getRoomType();
+            Boolean hasLakeView = room.getHasLakeView();
+            Boolean isForSmokingPeople = room.getIsSmokingAllowed();
 
             try {
-                if(price != 0) toUpdate.get().setPrice(price);
-                if(capacity != 0) toUpdate.get().setCapacity(capacity);
+                if(price != null) toUpdate.get().setPrice(price);
+                if(capacity != null) toUpdate.get().setCapacity(capacity);
                 if(type != null) toUpdate.get().setRoomType(type);
+                if(hasLakeView != null) toUpdate.get().setHasLakeView(hasLakeView);
+                if(isForSmokingPeople != null) toUpdate.get().setIsSmokingAllowed(isForSmokingPeople);
 
                 roomRepository.save(toUpdate.get());
                 return toUpdate;

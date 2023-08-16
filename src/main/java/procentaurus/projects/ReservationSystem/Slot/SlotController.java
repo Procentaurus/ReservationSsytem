@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Slot;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createSlot(@RequestBody SlotCreationDto slot) {
+    public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreationDto slot) {
         Optional<Slot> created = slotService.createSlot(slot.getSpace(), slot.getDate());
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotMediumDto(created.get()));

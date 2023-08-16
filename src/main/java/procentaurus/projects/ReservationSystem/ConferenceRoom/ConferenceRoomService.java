@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import procentaurus.projects.ReservationSystem.ConferenceRoom.Dtos.ConferenceRoomUpdateDto;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomRepository;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomServiceInterface;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingConferenceRoomException;
@@ -101,9 +102,10 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
 
     @Override
     @Transactional
-    public Optional<ConferenceRoom> updateConferenceRoom(int number, ConferenceRoom conferenceRoom) {
+    public Optional<ConferenceRoom> updateConferenceRoom(int number, ConferenceRoomUpdateDto conferenceRoom) {
+
         Optional<ConferenceRoom> toUpdate = conferenceRoomRepository.findByNumber(number);
-        if(toUpdate.isPresent() && conferenceRoom != null){
+        if(toUpdate.isPresent() && conferenceRoom != null && conferenceRoom.isValid()){
 
             float price = conferenceRoom.getPrice();
             int capacity = conferenceRoom.getCapacity();

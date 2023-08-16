@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Room.Interfaces;
 
 import org.springframework.http.ResponseEntity;
+import procentaurus.projects.ReservationSystem.Room.Dtos.RoomUpdateDto;
 import procentaurus.projects.ReservationSystem.Room.Room;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public interface RoomControllerInterface {
 
     ResponseEntity<?> deleteRoom(int number);
 
-    ResponseEntity<?> updateRoom(int number, Room room);
+    ResponseEntity<?> updateRoom(int number, RoomUpdateDto room);
 
     ResponseEntity<?> createRoom(Room room);
 }

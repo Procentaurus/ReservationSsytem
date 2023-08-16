@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Reservation;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
@@ -86,7 +87,7 @@ public class ReservationService implements ReservationServiceInterface {
     }
 
     @Override
-    public Optional<Reservation> createReservation(ReservationCreateDto creationDto) {
+    public Optional<Reservation> createReservation(@Valid ReservationCreateDto creationDto) {
 
         // Declarations of local variables
         Set<Integer> roomNumbers = creationDto.getRoomNumbers();

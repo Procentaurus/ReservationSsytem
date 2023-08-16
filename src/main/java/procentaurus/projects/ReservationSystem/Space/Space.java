@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Space;
 
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import jakarta.persistence.*;
@@ -18,7 +19,7 @@ public abstract class Space {
     @Column(unique = true)
     protected int number;
 
-    @Positive
+    @Size(min = -1, max = 5)
     protected int floor;
 
     @Positive

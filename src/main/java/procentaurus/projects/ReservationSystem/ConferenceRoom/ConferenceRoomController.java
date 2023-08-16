@@ -28,7 +28,6 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     @Override
     @GetMapping(path = "{number}/", produces = "application/json")
     public ResponseEntity<?> findSingleConferenceRoom(@PathVariable int number) {
-        System.out.println(number);
         Optional<ConferenceRoom> found =  conferenceRoomService.findSingleConferenceRoom(number);
         if(found.isPresent()) return ResponseEntity.ok(found);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");

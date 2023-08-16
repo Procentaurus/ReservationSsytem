@@ -114,7 +114,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
             try {
                 if(price != 0.0) toUpdate.get().setPrice(price);
                 if(capacity != 0) toUpdate.get().setCapacity(capacity);
-                if(numberToChange != 0) toUpdate.get().setNumber(number);
+                if(numberToChange != 0) toUpdate.get().setNumber(numberToChange);
                 if(hasStage != null) toUpdate.get().setHasStage(hasStage);
                 if(description != null) toUpdate.get().setDescription(description);
 

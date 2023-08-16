@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.ReservationSystem.ParkingPlace.Dtos.ParkingPlaceUpdateDto;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceControllerInterface;
 
 import java.time.LocalDate;
@@ -66,8 +67,8 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
 
     @Override
     @PutMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateParkingPlace(@PathVariable int number, @RequestParam Map<String, String> params) {
-        Optional<ParkingPlace> updated = parkingPlaceService.updateParkingPlace(number, params);
+    public ResponseEntity<?> updateParkingPlace(@PathVariable int number, @RequestBody ParkingPlaceUpdateDto parkingPlace) {
+        Optional<ParkingPlace> updated = parkingPlaceService.updateParkingPlace(number, parkingPlace);
 
         if (updated.isPresent()) return ResponseEntity.ok(updated);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No parking place of provided number or wrong params.");

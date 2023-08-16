@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.ReservationSystem.ParkingPlace.Dtos.ParkingPlaceUpdateDto;
 import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public interface ParkingPlaceServiceInterface {
 
     boolean deleteParkingPlace(int number);
 
-    Optional<ParkingPlace> updateParkingPlace(int number, Map<String, String> params);
+    Optional<ParkingPlace> updateParkingPlace(int number, ParkingPlaceUpdateDto parkingPlace);
 
     Optional<ParkingPlace> createParkingPlace(ParkingPlace parkingPlace);
 }

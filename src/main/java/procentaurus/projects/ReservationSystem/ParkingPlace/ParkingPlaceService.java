@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Exceptions.NonExistingParkingPlaceException;
+import procentaurus.projects.ReservationSystem.ParkingPlace.Dtos.ParkingPlaceUpdateDto;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceRepository;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceServiceInterface;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
@@ -99,24 +100,17 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
 
     @Override
     @Transactional
-    public Optional<ParkingPlace> updateParkingPlace(int number, Map<String, String> params) {
-        Optional<ParkingPlace> toUpdate = parkingPlaceRepository.findByNumber(number);
-        if(toUpdate.isPresent()){
+    public Optional<ParkingPlace> updateParkingPlace(int number, ParkingPlaceUpdateDto parkingPlace) {
 
-            Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
-            Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
-            ParkingPlace.VehicleType type;
-            if (params.containsKey("vehicleType")) try {
-                type = ParkingPlace.VehicleType.valueOf(params.get("vehicleType").toUpperCase());
-            } catch (IllegalArgumentException e) {
-                type = null;
-            }
-            else type = null;
+        Optional<ParkingPlace> toUpdate = parkingPlaceRepository.findByNumber(number);
+        if(toUpdate.isPresent() && parkingPlace != null && parkingPlace.isValid()){
+
+            Float price = parkingPlace.getPrice();
+            ParkingPlace.VehicleType type = parkingPlace.getVehicleType();
 
             try {
 
                 if(price != null) toUpdate.get().setPrice(price);
-                if(capacity != null) toUpdate.get().setCapacity(capacity);
                 if(type != null) toUpdate.get().setVehicleType(type);
 
                 parkingPlaceRepository.save(toUpdate.get());

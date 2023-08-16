@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces;
 
 import org.springframework.http.ResponseEntity;
+import procentaurus.projects.ReservationSystem.ParkingPlace.Dtos.ParkingPlaceUpdateDto;
 import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public interface ParkingPlaceControllerInterface {
 
     ResponseEntity<?> deleteParkingPlace(int number);
 
-    ResponseEntity<?> updateParkingPlace(int number, Map<String, String> params);
+    ResponseEntity<?> updateParkingPlace(int number, ParkingPlaceUpdateDto parkingPlace);
 
     ResponseEntity<?> createParkingPlace(ParkingPlace parkingPlace);
 }

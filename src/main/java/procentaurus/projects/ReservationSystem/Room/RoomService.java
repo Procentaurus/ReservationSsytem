@@ -68,8 +68,9 @@ public class RoomService implements RoomServiceInterface {
                 if(isFilteringByRoomTypePossible(params.get("roomType")))
                     result = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType")));
 
-        }
-        return result;
+            return result;
+        }else
+            return all;
     }
 
     @Override

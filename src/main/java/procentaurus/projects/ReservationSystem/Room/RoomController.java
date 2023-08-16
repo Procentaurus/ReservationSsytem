@@ -33,7 +33,7 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @GetMapping(consumes = "application/json", produces = "application/json")
+    @GetMapping
     public ResponseEntity<List<Room>> findRooms(@RequestParam Map<String, String> params) {
         List<Room> found = roomService.findRooms(params);
         return ResponseEntity.ok(found);

@@ -34,7 +34,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(@RequestParam Map<String, String> params) {
         List<ConferenceRoom> found = conferenceRoomService.findConferenceRooms(params);
         return ResponseEntity.ok(found);

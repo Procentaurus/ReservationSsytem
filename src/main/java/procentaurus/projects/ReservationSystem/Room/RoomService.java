@@ -122,13 +122,11 @@ public class RoomService implements RoomServiceInterface {
 
             float price = room.getPrice();
             int capacity = room.getCapacity();
-            int numberToChange = room.getNumber();
             Room.RoomType type = room.getRoomType();
 
             try {
                 if(price != 0) toUpdate.get().setPrice(price);
                 if(capacity != 0) toUpdate.get().setCapacity(capacity);
-                if(numberToChange != 0) toUpdate.get().setNumber(numberToChange);
                 if(type != null) toUpdate.get().setRoomType(type);
 
                 roomRepository.save(toUpdate.get());

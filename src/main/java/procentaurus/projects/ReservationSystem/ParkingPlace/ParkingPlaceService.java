@@ -105,7 +105,6 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
 
             Float price = params.containsKey("price") ? Float.parseFloat(params.get("price")) : null;
             Integer capacity = params.containsKey("capacity") ? Integer.parseInt(params.get("capacity")) : null;
-            Integer numberToChange = params.containsKey("number") ? Integer.parseInt(params.get("number")) : null;
             ParkingPlace.VehicleType type;
             if (params.containsKey("vehicleType")) try {
                 type = ParkingPlace.VehicleType.valueOf(params.get("vehicleType").toUpperCase());
@@ -118,7 +117,6 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
 
                 if(price != null) toUpdate.get().setPrice(price);
                 if(capacity != null) toUpdate.get().setCapacity(capacity);
-                if(numberToChange != null) toUpdate.get().setNumber(number);
                 if(type != null) toUpdate.get().setVehicleType(type);
 
                 parkingPlaceRepository.save(toUpdate.get());

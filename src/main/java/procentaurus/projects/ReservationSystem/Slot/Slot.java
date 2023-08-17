@@ -52,7 +52,13 @@ public class Slot {
         IN_RENOVATION;
     }
 
-    public Slot(Space space, @NotNull LocalDate date) {
+    public enum SpaceType{
+        ROOM,
+        CONFERENCE_ROOM,
+        PARKING_PLACE,
+    }
+
+    public Slot(@NotNull Space space, @NotNull LocalDate date) {
         this.date = date;
         this.status = Status.FREE;
         this.reservation = null;

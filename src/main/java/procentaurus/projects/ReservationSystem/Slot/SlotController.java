@@ -59,7 +59,7 @@ public class SlotController implements SlotControllerInterface {
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreationDto slot) {
-        Optional<Slot> created = slotService.createSlot(slot.getSpace(), slot.getDate());
+        Optional<Slot> created = slotService.createSlot(slot);
 
         if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotMediumDto(created.get()));
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");

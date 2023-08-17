@@ -10,18 +10,13 @@ import java.time.LocalDate;
 public class SlotLightDto {
 
     private final Long id;
-    private SpaceType spaceType;
+    private Slot.SpaceType spaceType;
 
     public SlotLightDto(Slot slot){
         this.id = slot.getId();
 
-        if(slot.getConferenceRoom() != null) this.spaceType = SpaceType.CONFERENCE_ROOM;
-        else if(slot.getRoom() != null) this.spaceType = SpaceType.ROOM;
-        else if(slot.getParkingPlace() != null) this.spaceType = SpaceType.PARKING_PLACE;
-    }
-    public enum SpaceType{
-        ROOM,
-        CONFERENCE_ROOM,
-        PARKING_PLACE,
+        if(slot.getConferenceRoom() != null) this.spaceType = Slot.SpaceType.CONFERENCE_ROOM;
+        else if(slot.getRoom() != null) this.spaceType = Slot.SpaceType.ROOM;
+        else if(slot.getParkingPlace() != null) this.spaceType = Slot.SpaceType.PARKING_PLACE;
     }
 }

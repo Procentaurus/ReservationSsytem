@@ -45,10 +45,10 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
 
         if(params != null) {
             if (params.containsKey("capacity"))
-                if(isFilteringByCapacityPossible(params.get("price")))
+                if(isFilteringByCapacityPossible(params.get("capacity")))
                     all = filterByCapacity(all.stream().map(x ->(Space) x).toList(),
-                            Integer.parseInt(params.get("price").substring(2)),    // value passed
-                            params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
+                            Integer.parseInt(params.get("capacity").substring(2)),    // value passed
+                            params.get("capacity").substring(0, 2),                              // mark passed, one from [==, <=, >=]
                             ConferenceRoom.class);
 
             if (params.containsKey("price"))
@@ -107,14 +107,14 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
         Optional<ConferenceRoom> toUpdate = conferenceRoomRepository.findByNumber(number);
         if(toUpdate.isPresent() && conferenceRoom != null && conferenceRoom.isValid()){
 
-            float price = conferenceRoom.getPrice();
-            int capacity = conferenceRoom.getCapacity();
+            Float price = conferenceRoom.getPrice();
+            Integer capacity = conferenceRoom.getCapacity();
             Boolean hasStage = conferenceRoom.getHasStage();
             String description = conferenceRoom.getDescription();
 
             try {
-                if(price != 0.0) toUpdate.get().setPrice(price);
-                if(capacity != 0) toUpdate.get().setCapacity(capacity);
+                if(price != null) toUpdate.get().setPrice(price);
+                if(capacity != null) toUpdate.get().setCapacity(capacity);
                 if(hasStage != null) toUpdate.get().setHasStage(hasStage);
                 if(description != null) toUpdate.get().setDescription(description);
 

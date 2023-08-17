@@ -50,17 +50,20 @@ public class SpaceFilter {
     }
     public static boolean isFilteringByPricePossible(String data){
 
-        String mark = data.substring(0, 2);
-        String[] marks = {"==", "<=", ">="};
+        if( data.length() >= 3) {
+            String mark = data.substring(0, 2);
+            String[] marks = {"==", "<=", ">="};
 
-        float value;
-        try {
-            value = Float.parseFloat(data.substring(2));
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        if (!Arrays.asList(marks).contains(data.substring(0, 2))) return false;
+            float value;
+            try {
+                value = Float.parseFloat(data.substring(2));
+            } catch (NumberFormatException e) {
+                return false;
+            }
+            if (!Arrays.asList(marks).contains(data.substring(0, 2))) return false;
 
-        return true;
+            return true;
+
+        }else return false;
     }
 }

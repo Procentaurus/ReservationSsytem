@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotServiceInterface;
 import procentaurus.projects.ReservationSystem.Space.Space;
@@ -99,7 +100,7 @@ public class SlotService implements SlotServiceInterface {
     }
 
     @Override
-    public Optional<Slot> createSlot(Space space, LocalDate date) {
+    public Optional<Slot> createSlot(SlotCreationDto slot) {
         try {
             Slot slot = new Slot(space, date);
             Slot created = slotRepository.save(slot);

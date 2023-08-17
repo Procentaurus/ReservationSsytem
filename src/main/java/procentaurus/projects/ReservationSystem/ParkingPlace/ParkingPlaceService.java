@@ -53,8 +53,8 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
                             ParkingPlace.class);
 
             if (params.containsKey("vehicleType")){
-                if(isFilteringByVehicleTypePossible(params.get("vehicleType")))
-                    all = filterByVehicleType(all, ParkingPlace.VehicleType.valueOf(params.get("vehicleType")));
+                if(isFilteringByVehicleTypePossible(params.get("vehicleType").toUpperCase()))
+                    all = filterByVehicleType(all, ParkingPlace.VehicleType.valueOf(params.get("vehicleType").toUpperCase()));
             }
         }
         return all;

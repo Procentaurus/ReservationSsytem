@@ -20,9 +20,11 @@ import java.util.Set;
 @Table(name="parkingPlaces")
 public class ParkingPlace extends Space {
 
-    @Min(1)
-    @Max(1)
-    private int capacity;
+    protected int capacity = 1;
+
+    @Min(-1)
+    @Max(0)
+    protected int floor;
 
     @NotNull
     private VehicleType vehicleType;
@@ -37,8 +39,8 @@ public class ParkingPlace extends Space {
         MOTORCYCLE
     }
 
-    public ParkingPlace(int number, int floor, float price, int capacity, @NotNull VehicleType vehicleType) {
-        super(number, floor, price, capacity);
+    public ParkingPlace(int number, int floor, float price, @NotNull VehicleType vehicleType) {
+        super(number, floor, price, 1);
         this.vehicleType = vehicleType;
         this.slots = new HashSet<>();
     }

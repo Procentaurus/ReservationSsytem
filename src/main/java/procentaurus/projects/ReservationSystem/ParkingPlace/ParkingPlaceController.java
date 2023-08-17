@@ -27,7 +27,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{number}/",produces = "application/json")
     public ResponseEntity<?> findSingleParkingPlace(@PathVariable int number) {
         Optional<ParkingPlace> found = parkingPlaceService.findSingleParkingPlace(number);
         if (found.isPresent()) return ResponseEntity.ok(found);
@@ -35,7 +35,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @GetMapping(consumes = "application/json", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<ParkingPlace>> findParkingPlaces(@RequestParam Map<String, String> params) {
         List<ParkingPlace> found = parkingPlaceService.findParkingPlaces(params);
         return ResponseEntity.ok(found);
@@ -58,7 +58,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "{number}/", consumes = "application/json")
+    @DeleteMapping(path = "{number}/", produces = "application/json")
     public ResponseEntity<?> deleteParkingPlace(@PathVariable int number) {
         boolean success = parkingPlaceService.deleteParkingPlace(number);
         if (success) return ResponseEntity.noContent().build();
@@ -75,7 +75,7 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createParkingPlace(@Valid @RequestBody ParkingPlace parkingPlace) {
         Optional<ParkingPlace> created = parkingPlaceService.createParkingPlace(parkingPlace);
 

@@ -8,15 +8,25 @@ import procentaurus.projects.ReservationSystem.Slot.Slot;
 @Setter
 public class SlotMediumDto extends SlotDto{
     protected int spaceId;
+    protected Slot.SpaceType type;
 
     public SlotMediumDto(Slot slot) {
-        super(slot.getId(), slot.getDate(), slot.getStatus(), slot.getReservation().getId());
+        super(slot.getId(),
+                slot.getDate(),
+                slot.getStatus(),
+                slot.getReservation() != null ? slot.getReservation().getId() : null);
 
-        if(slot.getConferenceRoom() != null)
+        if(slot.getConferenceRoom() != null) {
             this.spaceId = slot.getConferenceRoom().getNumber();
-        else if(slot.getRoom() != null)
+            this.type = Slot.SpaceType.CONFERENCE_ROOM;
+        }
+        else if(slot.getRoom() != null) {
             this.spaceId = slot.getRoom().getNumber();
-        else if(slot.getParkingPlace() != null)
+            this.type = Slot.SpaceType.ROOM;
+        }
+        else if(slot.getParkingPlace() != null) {
             this.spaceId = slot.getParkingPlace().getNumber();
+            this.type = Slot.SpaceType.PARKING_PLACE;
+        }
     }
 }

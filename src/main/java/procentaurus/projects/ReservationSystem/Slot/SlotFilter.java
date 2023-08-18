@@ -43,14 +43,14 @@ public class SlotFilter {
     public static List<Slot> filterByConferenceRoomNumber(List<Slot> data, int conferenceRoomNumber){
         return data.stream()
                 .filter(slot -> slot.getConferenceRoom() != null)
-                .filter(slot -> slot.getRoom().getNumber() == conferenceRoomNumber)
+                .filter(slot -> slot.getConferenceRoom().getNumber() == conferenceRoomNumber)
                 .toList();
     }
 
     public static List<Slot> filterByParkingPlaceNumber(List<Slot> data, int parkingPlaceNumber){
         return data.stream()
                 .filter(slot -> slot.getParkingPlace() != null)
-                .filter(slot -> slot.getRoom().getNumber() == parkingPlaceNumber)
+                .filter(slot -> slot.getParkingPlace().getNumber() == parkingPlaceNumber)
                 .toList();
     }
 

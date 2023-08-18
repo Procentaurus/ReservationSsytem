@@ -46,34 +46,34 @@ public class SlotService implements SlotServiceInterface {
     @Override
     public List<Slot> findSlots(Map<String, String> params) {
 
-        List<Slot> all = slotRepository.findAll(), result = null;
+        List<Slot> all = slotRepository.findAll();
 
         if(params != null) {
 
             if (params.containsKey("status"))
                 if(isFilteringByStatusPossible(params.get("status")))
-                    result = filterByStatus(all, Slot.Status.valueOf(params.get("status")));
+                    all = filterByStatus(all, Slot.Status.valueOf(params.get("status")));
 
             if (params.containsKey("date"))
                 if(isFilteringByDatePossible(params.get("date")))
-                    result = filterByDate(all, LocalDate.parse("date"));
+                    all = filterByDate(all, LocalDate.parse("date"));
 
             if(params.containsKey("reservationId"))
                 if(isFilteringByLongPossible(params.get("reservationId")))
-                    result = filterByReservationId(all, Long.parseLong(params.get("hasLakeView")));
+                    all = filterByReservationId(all, Long.parseLong(params.get("hasLakeView")));
 
             if(params.containsKey("roomNumber"))
                 if(isFilteringByIntPossible(params.get("roomNumber")))
-                    result = filterByRoomNumber(all, Integer.parseInt(params.get("roomNumber")));
+                    all = filterByRoomNumber(all, Integer.parseInt(params.get("roomNumber")));
             else if(params.containsKey("conferenceRoomNumber"))
                 if(isFilteringByIntPossible(params.get("conferenceRoomNumber")))
-                    result = filterByConferenceRoomNumber(all, Integer.parseInt(params.get("conferenceRoomNumber")));
-            else if((params.containsKey("parkingPlace")))
+                    all = filterByConferenceRoomNumber(all, Integer.parseInt(params.get("conferenceRoomNumber")));
+            else if((params.containsKey("parkingPlaceNumber")))
                 if(isFilteringByIntPossible(params.get("parkingPlaceNumber")))
-                    result = filterByParkingPlaceNumber(all, Integer.parseInt(params.get("parkingPlaceNumber")));
+                    all = filterByParkingPlaceNumber(all, Integer.parseInt(params.get("parkingPlaceNumber")));
 
         }
-        return result;
+        return all;
     }
 
     @Override
@@ -132,7 +132,7 @@ public class SlotService implements SlotServiceInterface {
             } else if (slot.getNumberOfDays() == null) {
                 Slot created = createSlotIfPossible(spacePassed, slot.getDate());
                 toReturn.add(created);
-            } else throw new IllegalArgumentException("Number of days must be less or equal to 90.");
+            }else throw new IllegalArgumentException("Number of days must be less or equal to 90.");
 
             return toReturn;
 
@@ -162,14 +162,16 @@ public class SlotService implements SlotServiceInterface {
 
         Slot newSlot, toReturn;
 
-        if(checkIfSlotAlreadyExists(space, date))
+        if(!checkIfSlotAlreadyExists(space, date))
             newSlot = new Slot(space, date);
         else throw new IllegalArgumentException("Cant create slot with provided data. The slot already exists.");
+
         try {
             toReturn = slotRepository.save(newSlot);
         }catch (Exception e){
             throw new DataBaseErrorException();
         }
+
         return toReturn;
     }
 }

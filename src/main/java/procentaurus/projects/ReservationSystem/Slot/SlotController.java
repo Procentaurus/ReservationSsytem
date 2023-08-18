@@ -34,7 +34,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @GetMapping(consumes = "application/json", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Slot>> findSlots(@RequestParam Map<String, String> params) {
         List<Slot> found = slotService.findSlots(params);
         return ResponseEntity.ok(found);

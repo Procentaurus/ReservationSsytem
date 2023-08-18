@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotMediumDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
@@ -58,10 +59,18 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreationDto slot) {
-        Optional<Slot> created = slotService.createSlot(slot);
+    public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreationDto slot){
 
-        if (created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(new SlotMediumDto(created.get()));
-        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
+        List<Slot> created;
+        try {
+            created = slotService.createSlot(slot);
+        }catch (DataBaseErrorException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Some error occurred. Please contact the service administrator.");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+
+        List<SlotMediumDto> toReturn = created.stream().map(SlotMediumDto::new).toList();
+        return ResponseEntity.status(HttpStatus.CREATED).body(toReturn);
     }
 }

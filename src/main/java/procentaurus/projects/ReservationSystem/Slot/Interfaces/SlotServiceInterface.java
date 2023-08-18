@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Slot.Interfaces;
 
+import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 
@@ -17,5 +18,5 @@ public interface SlotServiceInterface{
 
     Optional<Slot> updateSlot(Long id, Map<String, String> params);
 
-    Optional<Slot> createSlot(SlotCreationDto slot);
+    List<Slot> createSlot(SlotCreationDto slot) throws DataBaseErrorException;
 }

@@ -121,7 +121,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
                 conferenceRoomRepository.save(toUpdate.get());
                 return toUpdate;
 
-            } catch (DataAccessException ex) {
+            } catch (Exception ex) {
                 return Optional.empty();
             }
         }

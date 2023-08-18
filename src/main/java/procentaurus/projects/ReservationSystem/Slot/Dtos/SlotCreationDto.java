@@ -21,4 +21,12 @@ public class SlotCreationDto {
 
     @NotNull
     private LocalDate date;
+
+    private Short numberOfDays;
+
+    public SlotCreationDto(@NotNull Integer numberOfSpace, @NotNull Slot.SpaceType type, @NotNull LocalDate date) {
+        this.numberOfSpace = numberOfSpace;
+        this.type = type;
+        this.date = date;
+    }
 }

@@ -2,6 +2,7 @@ package procentaurus.projects.ReservationSystem.Slot.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface SlotServiceInterface{
 
     boolean deleteSlot(Long id);
 
-    Optional<Slot> updateSlot(Long id, Map<String, String> params);
+    Optional<Slot> updateSlot(Long id, SlotUpdateDto slotUpdateDto);
 
     List<Slot> createSlot(SlotCreationDto slot) throws DataBaseErrorException;
 }

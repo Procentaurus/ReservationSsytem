@@ -11,6 +11,7 @@ import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomRepository;
 import procentaurus.projects.ReservationSystem.Room.Room;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotServiceInterface;
 import procentaurus.projects.ReservationSystem.Space.Space;
@@ -56,22 +57,24 @@ public class SlotService implements SlotServiceInterface {
 
             if (params.containsKey("date"))
                 if(isFilteringByDatePossible(params.get("date")))
-                    all = filterByDate(all, LocalDate.parse("date"));
+                    all = filterByDate(all, LocalDate.parse(params.get("date")));
 
             if(params.containsKey("reservationId"))
                 if(isFilteringByLongPossible(params.get("reservationId")))
                     all = filterByReservationId(all, Long.parseLong(params.get("hasLakeView")));
 
-            if(params.containsKey("roomNumber"))
-                if(isFilteringByIntPossible(params.get("roomNumber")))
+            if(params.containsKey("roomNumber")) {
+                if (isFilteringByIntPossible(params.get("roomNumber")))
                     all = filterByRoomNumber(all, Integer.parseInt(params.get("roomNumber")));
-            else if(params.containsKey("conferenceRoomNumber"))
-                if(isFilteringByIntPossible(params.get("conferenceRoomNumber")))
+            }
+            else if(params.containsKey("conferenceRoomNumber")) {
+                if (isFilteringByIntPossible(params.get("conferenceRoomNumber")))
                     all = filterByConferenceRoomNumber(all, Integer.parseInt(params.get("conferenceRoomNumber")));
-            else if((params.containsKey("parkingPlaceNumber")))
-                if(isFilteringByIntPossible(params.get("parkingPlaceNumber")))
+            }
+            else if(params.containsKey("parkingPlaceNumber")) {
+                if (isFilteringByIntPossible(params.get("parkingPlaceNumber")))
                     all = filterByParkingPlaceNumber(all, Integer.parseInt(params.get("parkingPlaceNumber")));
-
+            }
         }
         return all;
     }
@@ -87,21 +90,12 @@ public class SlotService implements SlotServiceInterface {
 
     @Override
     @Transactional
-    public Optional<Slot> updateSlot(Long id, Map<String, String> params) {
+    public Optional<Slot> updateSlot(Long id, SlotUpdateDto slotUpdateDto) {
 
         Optional<Slot> toUpdate = slotRepository.findById(id);
         if(toUpdate.isPresent()){
 
-            Slot.Status status;
-            if (params.containsKey("status")) {
-                try {
-                    status = Slot.Status.valueOf(params.get("status").toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    status = null;
-                }
-            } else status = null;
-
-            if(status != null) toUpdate.get().setStatus(status);
+            toUpdate.get().setStatus(slotUpdateDto.getStatus());
 
             slotRepository.save(toUpdate.get());
             return toUpdate;

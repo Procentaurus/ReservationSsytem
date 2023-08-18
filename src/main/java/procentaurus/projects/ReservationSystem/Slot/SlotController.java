@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotMediumDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
 
 import java.util.List;
@@ -50,8 +51,8 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestParam Map<String, String> params) {
-        Optional<Slot> updated = slotService.updateSlot(id, params);
+    public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestBody SlotUpdateDto slotUpdateDto) {
+        Optional<Slot> updated = slotService.updateSlot(id, slotUpdateDto);
 
         if (updated.isPresent()) return ResponseEntity.ok(new SlotMediumDto(updated.get()));
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No parking place of provided number or wrong params.");

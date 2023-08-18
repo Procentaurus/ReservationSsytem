@@ -15,7 +15,7 @@ public class FilterPossibilityChecker {
         try{
             LocalDate tryDate = LocalDate.parse(date);
             return true;
-        }catch (IllegalArgumentException e){
+        }catch (Exception e){
             return false;
         }
     }
@@ -23,19 +23,19 @@ public class FilterPossibilityChecker {
     public static boolean isFilteringByIntPossible(String text){
         try{
             int stasiu = Integer.parseInt(text);
-            return true;
         }catch(NumberFormatException e){
             return false;
         }
+        return true;
     }
 
     public static boolean isFilteringByLongPossible(String text){
         try{
             Long stasiu = Long.parseLong(text);
-            return true;
         }catch(NumberFormatException e){
             return false;
         }
+        return true;
     }
 
     public static boolean isFilteringByEmailPossible(String email){

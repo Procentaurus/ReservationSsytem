@@ -26,7 +26,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{id}/", produces = "application/json")
     public ResponseEntity<?> findSingleSlot(@PathVariable Long id) {
         Optional<Slot> found = slotService.findSingleSlot(id);
         if (found.isPresent()) return ResponseEntity.ok(new SlotMediumDto(found.get()));
@@ -41,7 +41,7 @@ public class SlotController implements SlotControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "{id}/", consumes = "application/json")
+    @DeleteMapping(path = "{id}/", produces = "application/json")
     public ResponseEntity<?> deleteSlot(@PathVariable Long id) {
         boolean success = slotService.deleteSlot(id);
         if (success) return ResponseEntity.noContent().build();

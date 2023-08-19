@@ -91,9 +91,9 @@ public class RoomService implements RoomServiceInterface {
             boolean success = true;
             if(slotsInChosenPeriod.size() == numberOfDays) {
                 for (Slot slot : slotsInChosenPeriod) {
-                    if (!slot.getRoom().getIsSmokingAllowed().equals(forSmokingPeople)) success = false;
-                    if (!slot.getRoom().getHasLakeView().equals(viewForLake)) success = false;
-                    if (!slot.getRoom().getRoomType().equals(standard)) success = false;
+                    if (forSmokingPeople != null && !slot.getRoom().getIsSmokingAllowed().equals(forSmokingPeople)) success = false;
+                    if (viewForLake != null && !slot.getRoom().getHasLakeView().equals(viewForLake)) success = false;
+                    if (standard != null && !slot.getRoom().getRoomType().equals(standard)) success = false;
                     if (!slot.getStatus().equals(Slot.Status.FREE)) success = false;
                     if (!success) break;
                 }

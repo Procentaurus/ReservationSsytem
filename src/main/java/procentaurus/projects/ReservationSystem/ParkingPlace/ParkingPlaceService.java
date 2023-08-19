@@ -78,7 +78,7 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
             boolean success = true;
             if(slotsInChosenPeriod.size() == numberOfDays){
                 for (Slot slot : slotsInChosenPeriod) {
-                    if(slot.getParkingPlace().getVehicleType() != vehicleType) success = false;
+                    if(!slot.getParkingPlace().getVehicleType().equals(vehicleType)) success = false;
                     if(!slot.getStatus().equals(Slot.Status.FREE)) success = false;
                     if(!success) break;
                 }

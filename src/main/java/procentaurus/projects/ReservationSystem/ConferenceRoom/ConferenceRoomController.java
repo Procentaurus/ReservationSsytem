@@ -43,11 +43,12 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     }
 
     @Override
-    @GetMapping(path = "available/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "available/", produces = "application/json")
     public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
             @RequestParam(name = "hasStage", required = false) Boolean hasStage) {
+
         List<ConferenceRoom> found = null;
         try {
             found = conferenceRoomService.findAvailableConferenceRooms(startDate, numberOfDays, hasStage);

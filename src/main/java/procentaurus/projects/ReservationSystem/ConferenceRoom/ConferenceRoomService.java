@@ -67,10 +67,10 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     public List<ConferenceRoom> findAvailableConferenceRooms(LocalDate startDate, int numberOfDays, Boolean hasStage) throws NonExistingConferenceRoomException {
 
         ArrayList<ConferenceRoom> toReturn = new ArrayList<>();
-        List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();
+        List<Slot> data = slotRepository.findByConferenceRoomIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByConferenceRoomNumber = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
+        Map<Integer, List<Slot>> slotsByConferenceRoomNumber = data.stream().collect(Collectors.groupingBy(slot -> slot.getConferenceRoom().getNumber()));
 
         for (Map.Entry<Integer, List<Slot>> entry : slotsByConferenceRoomNumber.entrySet()) {
 
@@ -80,7 +80,7 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
             boolean success = true;
             if(slotsInChosenPeriod.size() == numberOfDays){
                 for (Slot slot : slotsInChosenPeriod) {
-                    if(hasStage != null && slot.getConferenceRoom().getHasStage() != hasStage) success = false;
+                    if(hasStage != null && !slot.getConferenceRoom().getHasStage().equals(hasStage)) success = false;
                     if(!slot.getStatus().equals(Slot.Status.FREE)) success = false;
                     if(!success) break;
                 }

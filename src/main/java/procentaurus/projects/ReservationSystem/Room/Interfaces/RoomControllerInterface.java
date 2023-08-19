@@ -14,7 +14,7 @@ public interface RoomControllerInterface {
 
     ResponseEntity<List<Room>> findRooms(Map<String, String> params);
 
-    ResponseEntity<List<Room>> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople);
+    ResponseEntity<List<Room>> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, Boolean viewForLake, Boolean forSmokingPeople);
 
     ResponseEntity<?> deleteRoom(int number);
 

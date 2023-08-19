@@ -47,7 +47,7 @@ public class ConferenceRoomController implements ConferenceRoomControllerInterfa
     public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
-            @RequestParam(name = "hasStage", required = false) boolean hasStage) {
+            @RequestParam(name = "hasStage", required = false) Boolean hasStage) {
         List<ConferenceRoom> found = null;
         try {
             found = conferenceRoomService.findAvailableConferenceRooms(startDate, numberOfDays, hasStage);

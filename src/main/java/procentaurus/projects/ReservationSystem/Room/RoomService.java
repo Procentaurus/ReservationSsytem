@@ -74,33 +74,36 @@ public class RoomService implements RoomServiceInterface {
     }
 
     @Override
-    public List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople)
+    public List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, Boolean viewForLake, Boolean forSmokingPeople)
             throws NonExistingRoomException {
 
         ArrayList<Room> toReturn = new ArrayList<>();
         List<Slot> data = slotRepository.findByRoomIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
+        Map<Integer, List<Slot>> slotsByRoomNumber = data.stream().collect(Collectors.groupingBy(slot -> slot.getRoom().getNumber()));
 
-        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
+        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomNumber.entrySet()) {
 
             List<Slot> slotsInChosenPeriod = entry.getValue().stream().
                     filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
 
             boolean success = true;
-            for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getRoom().getIsSmokingAllowed() != forSmokingPeople) success = false;
-                if(slot.getRoom().getHasLakeView() == viewForLake) success = false;
-                if(slot.getRoom().getRoomType().equals(standard)) success = false;
-                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
-                if(!success) break;
+            if(slotsInChosenPeriod.size() == numberOfDays) {
+                for (Slot slot : slotsInChosenPeriod) {
+                    if (!slot.getRoom().getIsSmokingAllowed().equals(forSmokingPeople)) success = false;
+                    if (!slot.getRoom().getHasLakeView().equals(viewForLake)) success = false;
+                    if (!slot.getRoom().getRoomType().equals(standard)) success = false;
+                    if (!slot.getStatus().equals(Slot.Status.FREE)) success = false;
+                    if (!success) break;
+                }
+            }else success = false;
+
+            if(success) {
+                Optional<Room> toAdd = roomRepository.findByNumber(entry.getKey());
+                if (toAdd.isPresent()) toReturn.add(toAdd.get());
+                else throw new NonExistingRoomException(entry.getKey());
             }
-
-            Optional<Room> toAdd = roomRepository.findByNumber(entry.getKey());
-            if(toAdd.isPresent()) toReturn.add(toAdd.get());
-            else throw new NonExistingRoomException(entry.getKey());
-
         }
         return toReturn;
     }

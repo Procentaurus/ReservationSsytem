@@ -68,23 +68,27 @@ public class ParkingPlaceService implements ParkingPlaceServiceInterface {
         List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
+        Map<Integer, List<Slot>> slotsByParkingPlaceNumber = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
 
-        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
+        for (Map.Entry<Integer, List<Slot>> entry : slotsByParkingPlaceNumber.entrySet()) {
 
             List<Slot> slotsInChosenPeriod = entry.getValue().stream().
                     filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
 
             boolean success = true;
-            for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getParkingPlace().getVehicleType() != vehicleType) success = false;
-                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
-                if(!success) break;
-            }
+            if(slotsInChosenPeriod.size() == numberOfDays){
+                for (Slot slot : slotsInChosenPeriod) {
+                    if(slot.getParkingPlace().getVehicleType() != vehicleType) success = false;
+                    if(!slot.getStatus().equals(Slot.Status.FREE)) success = false;
+                    if(!success) break;
+                }
+            }else success = false;
 
-            Optional<ParkingPlace> toAdd = parkingPlaceRepository.findByNumber(entry.getKey());
-            if(toAdd.isPresent()) toReturn.add(toAdd.get());
-            else throw new NonExistingParkingPlaceException(entry.getKey());
+            if(success) {
+                Optional<ParkingPlace> toAdd = parkingPlaceRepository.findByNumber(entry.getKey());
+                if (toAdd.isPresent()) toReturn.add(toAdd.get());
+                else throw new NonExistingParkingPlaceException(entry.getKey());
+            }
         }
         return toReturn;
     }

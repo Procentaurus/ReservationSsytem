@@ -42,13 +42,13 @@ public class RoomController implements RoomControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "available/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "available/", produces = "application/json")
     public ResponseEntity<List<Room>> findAvailableRooms(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") short numberOfDays,
             @RequestParam(name = "standard", required = false) Room.RoomType standard,
-            @RequestParam(name = "viewForLake", required = false) boolean viewForLake,
-            @RequestParam(name = "forSmokingPeople", required = false) boolean forSmokingPeople) {
+            @RequestParam(name = "viewForLake", required = false) Boolean viewForLake,
+            @RequestParam(name = "forSmokingPeople", required = false) Boolean forSmokingPeople) {
 
         List<Room> found = null;
         try {

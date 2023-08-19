@@ -64,29 +64,33 @@ public class ConferenceRoomService implements ConferenceRoomServiceInterface {
     }
 
     @Override
-    public List<ConferenceRoom> findAvailableConferenceRooms(LocalDate startDate, int numberOfDays, boolean hasStage) throws NonExistingConferenceRoomException {
+    public List<ConferenceRoom> findAvailableConferenceRooms(LocalDate startDate, int numberOfDays, Boolean hasStage) throws NonExistingConferenceRoomException {
 
         ArrayList<ConferenceRoom> toReturn = new ArrayList<>();
         List<Slot> data = slotRepository.findByParkingPlaceIsNotNull();
 
         // Group slots by room ID
-        Map<Integer, List<Slot>> slotsByRoomId = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
+        Map<Integer, List<Slot>> slotsByConferenceRoomNumber = data.stream().collect(Collectors.groupingBy(slot -> slot.getParkingPlace().getNumber()));
 
-        for (Map.Entry<Integer, List<Slot>> entry : slotsByRoomId.entrySet()) {
+        for (Map.Entry<Integer, List<Slot>> entry : slotsByConferenceRoomNumber.entrySet()) {
 
             List<Slot> slotsInChosenPeriod = entry.getValue().stream().
                     filter(slot -> checkIfDateIsInPeriod(startDate, slot.getDate(), numberOfDays)).toList();
 
             boolean success = true;
-            for (Slot slot : slotsInChosenPeriod) {
-                if(slot.getConferenceRoom().getHasStage() != hasStage) success = false;
-                if(slot.getStatus().equals(Slot.Status.FREE)) success = false;
-                if(!success) break;
-            }
+            if(slotsInChosenPeriod.size() == numberOfDays){
+                for (Slot slot : slotsInChosenPeriod) {
+                    if(hasStage != null && slot.getConferenceRoom().getHasStage() != hasStage) success = false;
+                    if(!slot.getStatus().equals(Slot.Status.FREE)) success = false;
+                    if(!success) break;
+                }
+            }else success = false;
 
-            Optional<ConferenceRoom> toAdd = conferenceRoomRepository.findByNumber(entry.getKey());
-            if(toAdd.isPresent()) toReturn.add(toAdd.get());
-            else throw new NonExistingConferenceRoomException(entry.getKey());
+            if(success) {
+                Optional<ConferenceRoom> toAdd = conferenceRoomRepository.findByNumber(entry.getKey());
+                if (toAdd.isPresent()) toReturn.add(toAdd.get());
+                else throw new NonExistingConferenceRoomException(entry.getKey());
+            }
         }
         return toReturn;
     }

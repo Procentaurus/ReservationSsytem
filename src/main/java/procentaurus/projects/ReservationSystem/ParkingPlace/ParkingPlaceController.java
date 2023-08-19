@@ -42,11 +42,11 @@ public class ParkingPlaceController implements ParkingPlaceControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "available/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "available/", produces = "application/json")
     public ResponseEntity<List<ParkingPlace>> findAvailableParkingPlaces(
             @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(name = "numberOfDays") int numberOfDays,
-            @RequestParam(name = "vehicleType", required = false) ParkingPlace.VehicleType vehicleType) {
+            @RequestParam(name = "vehicleType") ParkingPlace.VehicleType vehicleType) {
 
         List<ParkingPlace> found;
         try {

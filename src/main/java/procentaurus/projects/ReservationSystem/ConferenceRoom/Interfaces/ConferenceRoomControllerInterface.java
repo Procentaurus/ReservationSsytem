@@ -14,7 +14,7 @@ public interface ConferenceRoomControllerInterface {
 
     ResponseEntity<List<ConferenceRoom>> findConferenceRooms(Map<String, String> params);
 
-    ResponseEntity<List<ConferenceRoom>> findAvailableRooms(LocalDate startDate, int numberOfDays, boolean hasStage);
+    ResponseEntity<List<ConferenceRoom>> findAvailableRooms(LocalDate startDate, int numberOfDays, Boolean hasStage);
 
     ResponseEntity<?> deleteConferenceRoom(int number);
 

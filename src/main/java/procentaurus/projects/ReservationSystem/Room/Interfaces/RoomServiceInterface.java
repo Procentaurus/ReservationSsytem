@@ -14,7 +14,7 @@ public interface RoomServiceInterface {
 
     List<Room> findRooms(Map<String, String> params);
 
-    List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, boolean viewForLake, boolean forSmokingPeople)
+    List<Room> findAvailableRooms(LocalDate startDate, short numberOfDays, Room.RoomType standard, Boolean viewForLake, Boolean forSmokingPeople)
             throws NonExistingRoomException;
 
     boolean deleteRoom(int number);

@@ -58,7 +58,7 @@ public class GuestController implements GuestControllerInterface {
                 .body(new GuestResponse(null, "The deletion was successful."));
         else return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new GuestResponse(null, "The deletion was not successful. Object of provided id does not exist in dataBase."));
+                .body(new GuestResponse(null, "The deletion was not successful. Guest of provided id does not exist."));
     }
 
     @Override
@@ -80,7 +80,6 @@ public class GuestController implements GuestControllerInterface {
     @Override
     @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<GuestResponse> createGuest(@Valid  @RequestBody Guest guest) {
-
 
         Optional<Guest> savedGuest = guestService.createGuest(guest);
         if (savedGuest.isPresent()){

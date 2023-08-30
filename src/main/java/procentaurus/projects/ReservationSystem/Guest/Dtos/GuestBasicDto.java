@@ -17,6 +17,7 @@ public class GuestBasicDto {
     protected final Boolean signedForNewsletter;
 
     public GuestBasicDto(Guest guest){
+
         this.firstName = guest.getFirstName();
         this.lastName = guest.getLastName();
         this.dateOfBirth = guest.getDateOfBirth();

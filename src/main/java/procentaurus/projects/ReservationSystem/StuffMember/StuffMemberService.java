@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 
-import procentaurus.projects.ReservationSystem.Room.Room;
-import procentaurus.projects.ReservationSystem.Space.Space;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberRepository;
@@ -20,10 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.isFilteringByDatePossible;
-import static procentaurus.projects.ReservationSystem.Room.RoomFilter.*;
-import static procentaurus.projects.ReservationSystem.Room.RoomFilter.filterByRoomType;
-import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.*;
-import static procentaurus.projects.ReservationSystem.Space.SpaceFilter.filterByPrice;
 import static procentaurus.projects.ReservationSystem.StuffMember.StuffMemberFilter.*;
 import static procentaurus.projects.ReservationSystem.User.UserFilter.*;
 

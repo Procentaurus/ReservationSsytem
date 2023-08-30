@@ -94,13 +94,12 @@ public class GuestService implements GuestServiceInterface {
                 if (guest.getFirstName() != null) existingGuest.setFirstName(guest.getFirstName());
                 if (guest.getDateOfBirth() != null) existingGuest.setDateOfBirth(guest.getDateOfBirth());
                 if (guest.getLastName() != null) existingGuest.setLastName(guest.getLastName());
-                if (guest.getEmail() != null) existingGuest.setEmail(guest.getEmail());
                 if(guest.getSignedForNewsletter() != null) existingGuest.setSignedForNewsletter(guest.getSignedForNewsletter());
 
                 guestRepository.save(existingGuest);
                 return toUpdate;
 
-            }catch(DataAccessException e){
+            }catch(Exception e){
                 return Optional.empty();
             }
         }else{

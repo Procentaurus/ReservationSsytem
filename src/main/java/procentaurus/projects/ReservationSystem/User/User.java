@@ -29,7 +29,7 @@ public abstract class User {
     @NotNull
     protected LocalDate dateOfBirth;
 
-    @Min(111111111)
+    @Min(100000000)
     @Max(999999999)
     @Column(unique = true)
     protected int phoneNumber;

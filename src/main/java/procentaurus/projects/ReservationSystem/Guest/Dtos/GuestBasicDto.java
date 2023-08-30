@@ -14,7 +14,6 @@ public class GuestBasicDto {
     protected final String lastName;
     protected final LocalDate dateOfBirth;
     protected final int phoneNumber;
-    protected final String email;
     private final Boolean signedForNewsletter;
 
     public GuestBasicDto(Guest guest){
@@ -22,9 +21,8 @@ public class GuestBasicDto {
         this.firstName = guest.getFirstName();
         this.lastName = guest.getLastName();
         this.dateOfBirth = guest.getDateOfBirth();
-
-        this.email = guest.getEmail();
         this.phoneNumber = guest.getPhoneNumber();
+
         this.signedForNewsletter = guest.getSignedForNewsletter();
     }
 }

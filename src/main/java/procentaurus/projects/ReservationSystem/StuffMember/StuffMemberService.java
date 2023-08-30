@@ -67,7 +67,7 @@ public class StuffMemberService implements StuffMemberServiceInterface {
                 if (isFilteringByDatePossible(params.get("dateOfBirth").substring(3)))
                     all = filterByDateOfBirth(all.stream().map(y -> (User) y).toList(),
                             LocalDate.parse(params.get("dateOfBirth").substring(3)), params.get("dateOfBirth").substring(0, 2))
-                            .stream().map(y -> (StuffMember) y).toList();;
+                            .stream().map(y -> (StuffMember) y).toList();
 
         }
         return all;
@@ -87,6 +87,33 @@ public class StuffMemberService implements StuffMemberServiceInterface {
     @Override
     @Transactional
     public Optional<StuffMember> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember) {
+
+        Optional<StuffMember> toUpdate = stuffMemberRepository.findById(id);
+        if(toUpdate.isPresent() && stuffMember != null && stuffMember.isValid()){
+
+            String firstName = stuffMember.getFirstName();
+            String lastName = stuffMember.getLastName();
+            LocalDate dateOfBirth = stuffMember.getDateOfBirth();
+            Integer phoneNumber = stuffMember.getPhoneNumber();
+            String email = stuffMember.getEmail();
+            StuffMember.Role role = stuffMember.getRole();
+
+
+            try {
+                if(firstName != null) toUpdate.get().setFirstName(firstName);
+                if(lastName != null) toUpdate.get().setLastName(lastName);
+                if(dateOfBirth != null) toUpdate.get().setDateOfBirth(dateOfBirth);
+                if(phoneNumber != null) toUpdate.get().setPhoneNumber(phoneNumber);
+                if(email != null) toUpdate.get().setEmail(email);
+                if(role != null) toUpdate.get().setRole(role);
+
+                stuffMemberRepository.save(toUpdate.get());
+                return toUpdate;
+
+            } catch (Exception ex) {
+                return Optional.empty();
+            }
+        }
         return Optional.empty();
     }
 
@@ -115,78 +142,3 @@ public class StuffMemberService implements StuffMemberServiceInterface {
     }
 
 }
-
-//    List<Room> all = roomRepository.findAll();
-//
-//        if(params != null) {
-//
-//                if (params.containsKey("capacity"))
-//                if (isFilteringByCapacityPossible(params.get("price")))
-//                all = filterByCapacity(all.stream().map(x -> (Space) x).toList(),
-//                Integer.parseInt(params.get("price").substring(2)),    // value passed
-//                params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
-//                Room.class);
-//
-//        if (params.containsKey("price"))
-//        if (isFilteringByPricePossible(params.get("price")))
-//        all = filterByPrice(all.stream().map(x -> (Space) x).toList(),
-//        Float.parseFloat(params.get("price").substring(2)),    // value passed
-//        params.get("price").substring(0, 2),                              // mark passed, one from [==, <=, >=]
-//        Room.class);
-//
-//        if (params.containsKey("hasLakeView")) all = filterByHasLakeView(all, params.get("hasLakeView"));
-//
-//        if (params.containsKey("isSmokingAllowed")) all = filterByIsSmokingAllowed(all, params.get("isSmokingAllowed"));
-//
-//        if (params.containsKey("roomType"))
-//        if (isFilteringByRoomTypePossible(params.get("roomType").toUpperCase()))
-//        all = filterByRoomType(all, Room.RoomType.valueOf(params.get("roomType").toUpperCase()));
-//
-//        }
-//        return all;
-
-//    @Override
-//    @Transactional
-//    public Optional<Guest> updateGuest(Long id, @Valid GuestBasicDto guest) {
-//
-//        Optional<Guest> toUpdate = guestRepository.findById(id);
-//
-//        if(toUpdate.isPresent()) {
-//            if (guest.getPhoneNumber() != 0) toUpdate.get().setPhoneNumber(guest.getPhoneNumber());
-//            if (guest.getFirstName() != null) toUpdate.get().setFirstName(guest.getFirstName());
-//            if (guest.getDateOfBirth() != null) toUpdate.get().setDateOfBirth(guest.getDateOfBirth());
-//            if (guest.getLastName() != null) toUpdate.get().setLastName(guest.getLastName());
-//            if (guest.getEmail() != null) toUpdate.get().setEmail(guest.getEmail());
-//
-//            guestRepository.save(toUpdate.get());
-//            return toUpdate;
-//        }else{
-//            return Optional.empty();
-//        }
-//    }
-//
-//    @Override
-//    @Transactional
-//    public Optional<Guest> updateGuest(String email, @Valid GuestBasicDto guest) {
-//
-//        Optional<Guest> toUpdate = guestRepository.findByEmail(email);
-//
-//        if(toUpdate.isPresent()) {
-//            Guest existingGuest = toUpdate.get();
-//            try {
-//                if (guest.getPhoneNumber() != 0) existingGuest.setPhoneNumber(guest.getPhoneNumber());
-//                if (guest.getFirstName() != null) existingGuest.setFirstName(guest.getFirstName());
-//                if (guest.getDateOfBirth() != null) existingGuest.setDateOfBirth(guest.getDateOfBirth());
-//                if (guest.getLastName() != null) existingGuest.setLastName(guest.getLastName());
-//                if(guest.getSignedForNewsletter() != null) existingGuest.setSignedForNewsletter(guest.getSignedForNewsletter());
-//
-//                guestRepository.save(existingGuest);
-//                return toUpdate;
-//
-//            }catch(Exception e){
-//                return Optional.empty();
-//            }
-//        }else{
-//            return Optional.empty();
-//        }
-//    }

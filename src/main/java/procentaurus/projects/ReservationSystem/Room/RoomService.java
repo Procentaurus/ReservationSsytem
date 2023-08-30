@@ -140,7 +140,7 @@ public class RoomService implements RoomServiceInterface {
                 roomRepository.save(toUpdate.get());
                 return toUpdate;
 
-            } catch (DataAccessException ex) {
+            } catch (Exception ex) {
                 return Optional.empty();
             }
         }

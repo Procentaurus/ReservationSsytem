@@ -25,7 +25,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/stuffMembers")
+@RequestMapping("/api/stuffMembers/")
 public class StuffMemberController implements StuffMemberControllerInterface {
 
     private final StuffMemberService stuffMemberService;
@@ -36,97 +36,43 @@ public class StuffMemberController implements StuffMemberControllerInterface {
     }
 
     @Override
+    @GetMapping(path = "{id}/", produces = "application/json")
     public ResponseEntity<?> findSingleStuffMember(@PathVariable Long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<StuffMember>> findStuffMembers(Map<String, String> params) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> deleteStuffMember(@PathVariable Long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> updateStuffMember(@PathVariable Long id, @RequestBody StuffMemberUpdateDto room) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> createStuffMember(@Valid @RequestBody StuffMemberCreationDto stuffMember) {
-        return null;
-    }
-}
-
-@RestController
-@RequestMapping("/api/conference_rooms/")
-public class ConferenceRoomController implements ConferenceRoomControllerInterface {
-
-    private final ConferenceRoomService conferenceRoomService;
-
-    @Autowired
-    public ConferenceRoomController(ConferenceRoomService conferenceRoomService) {
-        this.conferenceRoomService = conferenceRoomService;
-    }
-
-    @Override
-    @GetMapping(path = "{number}/", produces = "application/json")
-    public ResponseEntity<?> findSingleConferenceRoom(@PathVariable int number) {
-        Optional<ConferenceRoom> found =  conferenceRoomService.findSingleConferenceRoom(number);
+        Optional<StuffMember> found =  stuffMemberService.findSingleStuffMember(id);
         if(found.isPresent()) return ResponseEntity.ok(found);
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
     }
 
     @Override
-    @GetMapping
-    public ResponseEntity<List<ConferenceRoom>> findConferenceRooms(@RequestParam Map<String, String> params) {
-        List<ConferenceRoom> found = conferenceRoomService.findConferenceRooms(params);
+    @GetMapping(produces = "application/json")
+    public ResponseEntity<List<StuffMember>> findStuffMembers(Map<String, String> params) {
+        List<StuffMember> found = stuffMemberService.findStuffMembers(params);
         return ResponseEntity.ok(found);
     }
 
     @Override
-    @GetMapping(path = "available/", produces = "application/json")
-    public ResponseEntity<List<ConferenceRoom>> findAvailableRooms(
-            @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(name = "numberOfDays") int numberOfDays,
-            @RequestParam(name = "hasStage", required = false) Boolean hasStage) {
-
-        List<ConferenceRoom> found = null;
-        try {
-            found = conferenceRoomService.findAvailableConferenceRooms(startDate, numberOfDays, hasStage);
-        } catch (NonExistingConferenceRoomException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-        return ResponseEntity.ok(found);
-    }
-
-    @Override
-    @DeleteMapping(path = "{number}/")
-    public ResponseEntity<?> deleteConferenceRoom(@PathVariable int number) {
-        boolean success = conferenceRoomService.deleteConferenceRoom(number);
+    @DeleteMapping(path = "{id}/")
+    public ResponseEntity<?> deleteStuffMember(@PathVariable Long id) {
+        boolean success = stuffMemberService.deleteStuffMember(id);
         if(success) return ResponseEntity.noContent().build();
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number.");
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
     }
 
     @Override
-    @PutMapping(path = "{number}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateConferenceRoom(@PathVariable int number, @Valid @RequestBody ConferenceRoomUpdateDto conferenceRoom) {
-        Optional<ConferenceRoom> updated = conferenceRoomService.updateConferenceRoom(number, conferenceRoom);
+    @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> updateStuffMember(@PathVariable Long id, @RequestBody StuffMemberUpdateDto stuffMember) {
+        Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
 
         if(updated.isPresent()) return ResponseEntity.ok(updated);
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No conference room of provided number or wrong params.");
+        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id or wrong params.");
     }
 
     @Override
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createConferenceRoom(@Valid @RequestBody ConferenceRoom conferenceRoom) {
-        Optional<ConferenceRoom> created = conferenceRoomService.createConferenceRoom(conferenceRoom);
+    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> createStuffMember(@Valid @RequestBody StuffMemberCreationDto stuffMember) {
+        Optional<StuffMember> created = stuffMemberService.createStuffMember(stuffMember);
 
         if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
     }
 }
-

@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.StuffMember.Interfaces;
 
+import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.StuffMember;
@@ -18,5 +19,5 @@ public interface StuffMemberServiceInterface {
 
     Optional<StuffMember> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember);
 
-    Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember);
+    Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException;
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberRepository;
@@ -54,13 +55,14 @@ public class StuffMemberService implements StuffMemberServiceInterface {
     }
 
     @Override
-    public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) {
+    public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException {
 
-        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation())) {
-            throw new IllegalArgumentException("Password and password confirmation do not match");
-        }
+        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation()))
+            throw new IllegalArgumentException();
 
-        // Assuming you have a StuffMember constructor that takes relevant parameters
+        if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
+            throw new UserAlreadyExistsException();
+
         StuffMember newStuffMember = new StuffMember(
                 stuffMember.getFirstName(),
                 stuffMember.getLastName(),

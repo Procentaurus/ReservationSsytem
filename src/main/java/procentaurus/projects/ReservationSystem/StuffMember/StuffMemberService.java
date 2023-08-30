@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
@@ -8,6 +9,7 @@ import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdat
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberRepository;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberServiceInterface;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,10 +18,12 @@ import java.util.Optional;
 public class StuffMemberService implements StuffMemberServiceInterface {
 
     private final StuffMemberRepository stuffMemberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public StuffMemberService(StuffMemberRepository stuffMemberRepository) {
+    public StuffMemberService(StuffMemberRepository stuffMemberRepository, PasswordEncoder passwordEncoder) {
         this.stuffMemberRepository = stuffMemberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -51,11 +55,29 @@ public class StuffMemberService implements StuffMemberServiceInterface {
 
     @Override
     public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) {
-        return Optional.empty();
+
+        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation())) {
+            throw new IllegalArgumentException("Password and password confirmation do not match");
+        }
+
+        // Assuming you have a StuffMember constructor that takes relevant parameters
+        StuffMember newStuffMember = new StuffMember(
+                stuffMember.getFirstName(),
+                stuffMember.getLastName(),
+                stuffMember.getDateOfBirth(),
+                stuffMember.getPhoneNumber(),
+                stuffMember.getEmail(),
+                stuffMember.getRole(),
+                passwordEncoder.encode(stuffMember.getPassword()),
+                LocalDate.now()
+        );
+
+        StuffMember savedStuffMember = stuffMemberRepository.save(newStuffMember);
+        return Optional.of(savedStuffMember);
     }
+
 }
 
-//
 //    @Override
 //    @Transactional
 //    public Optional<Guest> updateGuest(Long id, @Valid GuestBasicDto guest) {
@@ -98,17 +120,6 @@ public class StuffMemberService implements StuffMemberServiceInterface {
 //                return Optional.empty();
 //            }
 //        }else{
-//            return Optional.empty();
-//        }
-//    }
-//
-//    @Override
-//    public Optional<Guest> createGuest(Guest guest) {
-//        try {
-//            Guest created = guestRepository.save(guest);
-//            return Optional.of(created);
-//
-//        }catch(IllegalArgumentException ex){
 //            return Optional.empty();
 //        }
 //    }

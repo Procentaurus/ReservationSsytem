@@ -72,7 +72,6 @@ public class GuestService implements GuestServiceInterface {
             if (guest.getFirstName() != null) toUpdate.get().setFirstName(guest.getFirstName());
             if (guest.getDateOfBirth() != null) toUpdate.get().setDateOfBirth(guest.getDateOfBirth());
             if (guest.getLastName() != null) toUpdate.get().setLastName(guest.getLastName());
-            if (guest.getEmail() != null) toUpdate.get().setEmail(guest.getEmail());
 
             guestRepository.save(toUpdate.get());
             return toUpdate;

@@ -25,7 +25,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @GetMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "{id}/", produces = "application/json")
     public ResponseEntity<GuestResponse> getSingleGuest(@PathVariable Long id) {
 
         Optional<Guest> guest = guestService.findSingleGuest(id);
@@ -41,7 +41,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @GetMapping(consumes = "application/json", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<Guest>> getGuests(@RequestParam Map<String, String> params) {
 
         List<Guest> guests = !params.isEmpty() ? guestService.findGuests(null) : guestService.findGuests(params);
@@ -49,7 +49,7 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @DeleteMapping(path = "{id}/", consumes = "application/json")
+    @DeleteMapping(path = "{id}/")
     public ResponseEntity<GuestResponse> deleteGuest(@PathVariable Long id) {
 
         boolean successfulDeletion = guestService.deleteGuest(id);

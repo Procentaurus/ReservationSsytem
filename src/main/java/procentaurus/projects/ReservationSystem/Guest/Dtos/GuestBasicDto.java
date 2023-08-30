@@ -14,15 +14,13 @@ public class GuestBasicDto {
     protected final String lastName;
     protected final LocalDate dateOfBirth;
     protected final int phoneNumber;
-    private final Boolean signedForNewsletter;
+    protected final Boolean signedForNewsletter;
 
     public GuestBasicDto(Guest guest){
-
         this.firstName = guest.getFirstName();
         this.lastName = guest.getLastName();
         this.dateOfBirth = guest.getDateOfBirth();
         this.phoneNumber = guest.getPhoneNumber();
-
         this.signedForNewsletter = guest.getSignedForNewsletter();
     }
 }

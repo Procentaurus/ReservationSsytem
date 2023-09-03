@@ -19,6 +19,8 @@ import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 import java.time.LocalDate;
 import java.util.*;
 
+import static procentaurus.projects.ReservationSystem.Miscellaneous.ContactDataUniquenessChecker.checkEmailUniqueness;
+import static procentaurus.projects.ReservationSystem.Miscellaneous.ContactDataUniquenessChecker.checkPhoneNumberUniqueness;
 import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.isFilteringByDatePossible;
 import static procentaurus.projects.ReservationSystem.StuffMember.StuffMemberFilter.*;
 import static procentaurus.projects.ReservationSystem.MyUser.MyUserFilter.*;
@@ -109,21 +111,19 @@ public class StuffMemberService implements StuffMemberServiceInterface {
             String email = stuffMember.getEmail();
             Role role = stuffMember.getRole();
 
+            checkEmailUniqueness(toUpdate.get().getEmail(), email, stuffMemberRepository);
+            checkPhoneNumberUniqueness(toUpdate.get().getPhoneNumber(), phoneNumber, stuffMemberRepository);
 
-            try {
-                if(firstName != null) toUpdate.get().setFirstName(firstName);
-                if(lastName != null) toUpdate.get().setLastName(lastName);
-                if(dateOfBirth != null) toUpdate.get().setDateOfBirth(dateOfBirth);
-                if(phoneNumber != null) toUpdate.get().setPhoneNumber(phoneNumber);
-                if(email != null) toUpdate.get().setEmail(email);
-                if(role != null) toUpdate.get().setRole(role);
+            toUpdate.get().setEmail(email);
+            toUpdate.get().setPhoneNumber(phoneNumber);
 
-                stuffMemberRepository.save(toUpdate.get());
-                return toUpdate;
+            if(firstName != null) toUpdate.get().setFirstName(firstName);
+            if(lastName != null) toUpdate.get().setLastName(lastName);
+            if(dateOfBirth != null) toUpdate.get().setDateOfBirth(dateOfBirth);
+            if(role != null) toUpdate.get().setRole(role);
 
-            } catch (Exception ex) {
-                return Optional.empty();
-            }
+            stuffMemberRepository.save(toUpdate.get());
+            return toUpdate;
         }
         return Optional.empty();
     }

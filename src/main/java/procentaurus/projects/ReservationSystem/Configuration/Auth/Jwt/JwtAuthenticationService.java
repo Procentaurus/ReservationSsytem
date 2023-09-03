@@ -2,10 +2,8 @@ package procentaurus.projects.ReservationSystem.Configuration.Auth.Jwt;
 
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.http2.HPackHuffman;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,7 @@ import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMembe
 import procentaurus.projects.ReservationSystem.StuffMember.StuffMember;
 
 import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +29,15 @@ public class JwtAuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) throws UserAlreadyExistsException, DataBaseErrorException {
 
-        var stuffMember = request.getStuffMemberCreationDto();
-
+        var stuffMember = request.getStuffMember();
         if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation()))
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Password must be the same.");
 
         if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
             throw new UserAlreadyExistsException("email");
+
+        if(stuffMemberRepository.existsByPhoneNumber(stuffMember.getPhoneNumber()))
+            throw new UserAlreadyExistsException("phone");
 
         StuffMember newStuffMember = new StuffMember(
                 stuffMember.getFirstName(),
@@ -49,11 +50,11 @@ public class JwtAuthenticationService {
                 LocalDate.now()
         );
 
-        StuffMember savedStuffMember;
+        StuffMember savedStuffMember = null;
         try {
             savedStuffMember = stuffMemberRepository.save(newStuffMember);
         }catch(Exception e){
-            throw new DataBaseErrorException();
+            System.out.println(e.getMessage());
         }
 
         var jwtToken = jwtService.generateToken(savedStuffMember);
@@ -62,7 +63,7 @@ public class JwtAuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request){
+    public AuthenticationResponse authenticate(AuthenticationRequest request) throws NoSuchElementException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -70,9 +71,7 @@ public class JwtAuthenticationService {
                 )
         );
 
-        var user = stuffMemberRepository
-                .findByEmail(request.getEmail())
-                .orElseThrow();
+        var user = stuffMemberRepository.findByEmail(request.getEmail()).orElseThrow();
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

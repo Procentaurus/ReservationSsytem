@@ -1,7 +1,7 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -30,7 +30,6 @@ public class StuffMember extends MyUser implements UserDetails {
     private Role role;
 
     @NotNull
-    @Size(min = 8, max = 50)
     private String password;
 
     @PastOrPresent
@@ -45,31 +44,37 @@ public class StuffMember extends MyUser implements UserDetails {
         this.employedFrom = employedFrom;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

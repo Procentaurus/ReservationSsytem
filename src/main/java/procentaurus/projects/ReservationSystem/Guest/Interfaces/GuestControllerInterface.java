@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Guest.Interfaces;
 
 import org.springframework.http.ResponseEntity;
+import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
 import procentaurus.projects.ReservationSystem.Guest.GuestResponse;
 
@@ -15,8 +16,8 @@ public interface GuestControllerInterface {
 
     ResponseEntity<GuestResponse> deleteGuest(Long id);
 
-    ResponseEntity<GuestResponse> updateGuest(Long id, Guest guest);
+    ResponseEntity<GuestResponse> updateGuest(Long id, GuestBasicDto guest);
 
-    ResponseEntity<GuestResponse> createGuest(Guest guest);
+    ResponseEntity<GuestResponse> createGuest(GuestBasicDto guest);
 
 }

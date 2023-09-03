@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.GuestControllerInterface;
 
@@ -63,9 +64,16 @@ public class GuestController implements GuestControllerInterface {
 
     @Override
     @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @Valid @RequestBody Guest guest) {
+    public ResponseEntity<GuestResponse> updateGuest(@PathVariable Long id, @Valid @RequestBody GuestBasicDto guest) {
 
-        Optional<Guest> updatedGuest = guestService.updateGuest(id, new GuestBasicDto(guest));
+        Optional<Guest> updatedGuest;
+        try {
+            updatedGuest = guestService.updateGuest(id, guest);
+        }catch(IllegalArgumentException e){
+            GuestResponse guestResponse = new GuestResponse(null);
+            guestResponse.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(guestResponse);
+        }
 
         if (updatedGuest.isPresent()){
             GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(updatedGuest.get()));
@@ -78,17 +86,24 @@ public class GuestController implements GuestControllerInterface {
     }
 
     @Override
-    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<GuestResponse> createGuest(@Valid  @RequestBody Guest guest) {
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<GuestResponse> createGuest(@Valid  @RequestBody GuestBasicDto guest) {
 
-        Optional<Guest> savedGuest = guestService.createGuest(guest);
-        if (savedGuest.isPresent()){
-            GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(savedGuest.get()));
-            return ResponseEntity.status(204).body(guestResponse);
-        }else{
+        Optional<Guest> savedGuest;
+        try {
+            savedGuest = guestService.createGuest(guest);
+        }catch (UserAlreadyExistsException e){
             GuestResponse guestResponse = new GuestResponse(null);
             guestResponse.setMessage("Cannot create user with such a data.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(guestResponse);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(guestResponse);
+        }
+        if (savedGuest.isPresent()){
+            GuestResponse guestResponse = new GuestResponse(new GuestBasicDto(savedGuest.get()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(guestResponse);
+        }else{
+            GuestResponse guestResponse = new GuestResponse(null);
+            guestResponse.setMessage("Server error occured. Contact admin.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(guestResponse);
         }
 
     }

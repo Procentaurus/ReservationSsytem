@@ -36,7 +36,7 @@ public class JwtAuthenticationService {
             throw new IllegalArgumentException();
 
         if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("email");
 
         StuffMember newStuffMember = new StuffMember(
                 stuffMember.getFirstName(),

@@ -13,11 +13,12 @@ public class GuestBasicDto {
     protected final String firstName;
     protected final String lastName;
     protected final LocalDate dateOfBirth;
-    protected final int phoneNumber;
+    protected final Integer phoneNumber;
+    protected final String email;
     protected final Boolean signedForNewsletter;
 
     public GuestBasicDto(Guest guest){
-
+        this.email = guest.getEmail();
         this.firstName = guest.getFirstName();
         this.lastName = guest.getLastName();
         this.dateOfBirth = guest.getDateOfBirth();

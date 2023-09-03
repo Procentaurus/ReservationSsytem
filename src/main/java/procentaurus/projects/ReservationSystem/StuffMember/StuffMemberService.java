@@ -28,12 +28,10 @@ import static procentaurus.projects.ReservationSystem.MyUser.MyUserFilter.*;
 public class StuffMemberService implements StuffMemberServiceInterface {
 
     private final StuffMemberRepository stuffMemberRepository;
-    //private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public StuffMemberService(StuffMemberRepository stuffMemberRepository, PasswordEncoder passwordEncoder) {
         this.stuffMemberRepository = stuffMemberRepository;
-        //this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -129,29 +127,4 @@ public class StuffMemberService implements StuffMemberServiceInterface {
         }
         return Optional.empty();
     }
-
-//    @Override
-//    public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException {
-//
-//        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation()))
-//            throw new IllegalArgumentException();
-//
-//        if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
-//            throw new UserAlreadyExistsException();
-//
-//        StuffMember newStuffMember = new StuffMember(
-//                stuffMember.getFirstName(),
-//                stuffMember.getLastName(),
-//                stuffMember.getDateOfBirth(),
-//                stuffMember.getPhoneNumber(),
-//                stuffMember.getEmail(),
-//                stuffMember.getRole(),
-//                passwordEncoder.encode(stuffMember.getPassword()),
-//                LocalDate.now()
-//        );
-//
-//        StuffMember savedStuffMember = stuffMemberRepository.save(newStuffMember);
-//        return Optional.of(savedStuffMember);
-//    }
-
 }

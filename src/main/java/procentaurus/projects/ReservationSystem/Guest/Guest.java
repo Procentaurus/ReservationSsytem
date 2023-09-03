@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 
@@ -14,11 +15,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "guests")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Guest extends MyUser implements Comparable<Guest>{
 
-    @NotNull
     private Boolean signedForNewsletter;
 
     //private List<TroubleCausedByGuest> troubleCaused;
@@ -27,7 +28,7 @@ public class Guest extends MyUser implements Comparable<Guest>{
     @ManyToMany(mappedBy = "guests")
     private List<Reservation> reservations;
 
-    public Guest(String firstName, String lastName, String password, LocalDate dateOfBirth, int phoneNumber, String email, boolean signedForNewsletter) {
+    public Guest(String firstName, String lastName, String password, LocalDate dateOfBirth, int phoneNumber, String email, @NotNull Boolean signedForNewsletter) {
         super(firstName, lastName, password, dateOfBirth, phoneNumber, email);
         //this.troubleCaused = new LinkedList<>();
         this.signedForNewsletter = signedForNewsletter;
@@ -36,6 +37,15 @@ public class Guest extends MyUser implements Comparable<Guest>{
         super(firstName, lastName, password, dateOfBirth, phoneNumber, email);
         //this.troubleCaused = new LinkedList<>();
         this.signedForNewsletter = false;
+    }
+
+    public Guest(GuestBasicDto guest){
+        this.email = guest.getEmail();
+        this.firstName = guest.getFirstName();
+        this.lastName = guest.getLastName();
+        this.dateOfBirth = guest.getDateOfBirth();
+        this.phoneNumber = guest.getPhoneNumber();
+        this.signedForNewsletter = guest.getSignedForNewsletter() != null && guest.getSignedForNewsletter();
     }
 
     @Override

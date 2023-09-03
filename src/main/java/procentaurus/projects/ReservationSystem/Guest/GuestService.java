@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.*;
 import procentaurus.projects.ReservationSystem.MyUser.MyUser;
@@ -94,7 +95,21 @@ public class GuestService implements GuestServiceInterface {
         Optional<Guest> toUpdate = guestRepository.findById(id);
 
         if(toUpdate.isPresent()) {
-            if (guest.getPhoneNumber() != 0) toUpdate.get().setPhoneNumber(guest.getPhoneNumber());
+
+            if (guest.getEmail() != null)
+                if(!guest.getEmail().equals(toUpdate.get().getEmail())) {
+                    if (guestRepository.findByEmail(guest.getEmail()).isEmpty()) {
+                        toUpdate.get().setEmail(guest.getEmail());
+                    } else throw new IllegalArgumentException("Provided email is already assigned to another guest.");
+                }else throw new IllegalArgumentException("Cannot change the email, the provided one is same as the old one.");
+
+            if (guest.getPhoneNumber() != null)
+                if(!(guest.getPhoneNumber() == toUpdate.get().getPhoneNumber())) {
+                    if (guestRepository.findByPhoneNumber(guest.getPhoneNumber()).isEmpty()) {
+                        toUpdate.get().setPhoneNumber(guest.getPhoneNumber());
+                    } else throw new IllegalArgumentException("Provided phone number is already assigned to another guest.");
+                }else throw new IllegalArgumentException("Cannot change the phone number, the provided one is same as the old one.");
+
             if (guest.getFirstName() != null) toUpdate.get().setFirstName(guest.getFirstName());
             if (guest.getDateOfBirth() != null) toUpdate.get().setDateOfBirth(guest.getDateOfBirth());
             if (guest.getLastName() != null) toUpdate.get().setLastName(guest.getLastName());
@@ -134,13 +149,16 @@ public class GuestService implements GuestServiceInterface {
     }
 
     @Override
-    public Optional<Guest> createGuest(Guest guest) {
-        try {
-            Guest created = guestRepository.save(guest);
-            return Optional.of(created);
+    public Optional<Guest> createGuest(GuestBasicDto guest) throws UserAlreadyExistsException {
 
-        }catch(IllegalArgumentException ex){
-            return Optional.empty();
-        }
+        Guest provided = new Guest(guest);
+
+        if(guestRepository.findByEmail(provided.getEmail()).isPresent())
+            throw new UserAlreadyExistsException("email");
+        if(guestRepository.findByPhoneNumber(provided.getPhoneNumber()).isPresent())
+            throw new UserAlreadyExistsException("phone number");
+
+        Guest created = guestRepository.save(provided);
+        return Optional.of(created);
     }
 }

@@ -1,5 +1,6 @@
 package procentaurus.projects.ReservationSystem.Guest.Interfaces;
 
+import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Guest;
 
@@ -19,5 +20,5 @@ public interface GuestServiceInterface {
     Optional<Guest> updateGuest(Long id, GuestBasicDto guest);
     Optional<Guest> updateGuest(String email, GuestBasicDto guest);
 
-    Optional<Guest> createGuest(Guest guest);
+    Optional<Guest> createGuest(GuestBasicDto guest) throws UserAlreadyExistsException;
 }

@@ -10,6 +10,5 @@ import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreat
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
-
     private StuffMemberCreationDto stuffMemberCreationDto;
 }

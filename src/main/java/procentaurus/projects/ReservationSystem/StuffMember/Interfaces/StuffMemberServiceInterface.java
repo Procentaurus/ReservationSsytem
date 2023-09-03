@@ -18,6 +18,4 @@ public interface StuffMemberServiceInterface {
     boolean deleteStuffMember(Long id);
 
     Optional<StuffMember> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember);
-
-//    Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException;
 }

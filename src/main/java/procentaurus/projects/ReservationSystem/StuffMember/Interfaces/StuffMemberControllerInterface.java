@@ -17,7 +17,4 @@ public interface StuffMemberControllerInterface {
     ResponseEntity<?> deleteStuffMember(Long id);
 
     ResponseEntity<?> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember);
-
-//    ResponseEntity<?> createStuffMember(StuffMemberCreationDto stuffMember);
-
 }

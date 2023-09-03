@@ -8,9 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
-import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 
-import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberRepository;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberServiceInterface;

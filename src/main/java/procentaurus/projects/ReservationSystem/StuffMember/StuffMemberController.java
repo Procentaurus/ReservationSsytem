@@ -27,8 +27,8 @@ public class StuffMemberController implements StuffMemberControllerInterface {
     @Override
     @GetMapping(path = "{id}/", produces = "application/json")
     public ResponseEntity<?> findSingleStuffMember(@PathVariable Long id) {
-        Optional<StuffMember> found =  stuffMemberService.findSingleStuffMember(id);
-        if(found.isPresent()) return ResponseEntity.ok(found);
+        Optional<StuffMember> found = stuffMemberService.findSingleStuffMember(id);
+        if (found.isPresent()) return ResponseEntity.ok(found);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
     }
 
@@ -43,7 +43,7 @@ public class StuffMemberController implements StuffMemberControllerInterface {
     @DeleteMapping(path = "{id}/")
     public ResponseEntity<?> deleteStuffMember(@PathVariable Long id) {
         boolean success = stuffMemberService.deleteStuffMember(id);
-        if(success) return ResponseEntity.noContent().build();
+        if (success) return ResponseEntity.noContent().build();
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
     }
 
@@ -52,22 +52,7 @@ public class StuffMemberController implements StuffMemberControllerInterface {
     public ResponseEntity<?> updateStuffMember(@PathVariable Long id, @RequestBody StuffMemberUpdateDto stuffMember) {
         Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
 
-        if(updated.isPresent()) return ResponseEntity.ok(updated);
+        if (updated.isPresent()) return ResponseEntity.ok(updated);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id or wrong params.");
     }
-
-//    @Override
-//    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-//    public ResponseEntity<?> createStuffMember(@Valid @RequestBody StuffMemberCreationDtoMy stuffMember) {
-//        try {
-//            Optional<StuffMember> created = stuffMemberService.createStuffMember(stuffMember);
-//            if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);
-//            else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
-//
-//        }catch(IllegalArgumentException e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password and password confirmation do not match");
-//        }catch(UserAlreadyExistsException e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User of provided email already exists.");
-//        }
-//    }
 }

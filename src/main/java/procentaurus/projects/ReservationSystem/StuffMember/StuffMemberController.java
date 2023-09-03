@@ -1,13 +1,10 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
-import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberControllerInterface;
 
@@ -59,18 +56,18 @@ public class StuffMemberController implements StuffMemberControllerInterface {
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id or wrong params.");
     }
 
-    @Override
-    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createStuffMember(@Valid @RequestBody StuffMemberCreationDto stuffMember) {
-        try {
-            Optional<StuffMember> created = stuffMemberService.createStuffMember(stuffMember);
-            if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);
-            else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
-
-        }catch(IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password and password confirmation do not match");
-        }catch(UserAlreadyExistsException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User of provided email already exists.");
-        }
-    }
+//    @Override
+//    @PostMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
+//    public ResponseEntity<?> createStuffMember(@Valid @RequestBody StuffMemberCreationDtoMy stuffMember) {
+//        try {
+//            Optional<StuffMember> created = stuffMemberService.createStuffMember(stuffMember);
+//            if(created.isPresent()) return ResponseEntity.status(HttpStatus.CREATED).body(created);
+//            else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong data passed.");
+//
+//        }catch(IllegalArgumentException e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password and password confirmation do not match");
+//        }catch(UserAlreadyExistsException e){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User of provided email already exists.");
+//        }
+//    }
 }

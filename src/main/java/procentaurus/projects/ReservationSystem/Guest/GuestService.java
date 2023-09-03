@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestBasicDto;
 import procentaurus.projects.ReservationSystem.Guest.Interfaces.*;
-import procentaurus.projects.ReservationSystem.User.User;
+import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static procentaurus.projects.ReservationSystem.Guest.GuestFilter.filterBySignedForNewsletter;
 import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.isFilteringByDatePossible;
-import static procentaurus.projects.ReservationSystem.User.UserFilter.*;
+import static procentaurus.projects.ReservationSystem.MyUser.MyUserFilter.*;
 
 @Service
 public class GuestService implements GuestServiceInterface {
@@ -48,16 +48,16 @@ public class GuestService implements GuestServiceInterface {
                 all = filterBySignedForNewsletter(all, Boolean.parseBoolean(params.get("signedForNewsletter")));
 
             if (params.containsKey("firstName"))
-                all = filterByFirstName(all.stream().map(x -> (User)x).toList(), params.get("firstName"))
+                all = filterByFirstName(all.stream().map(x -> (MyUser)x).toList(), params.get("firstName"))
                         .stream().map(y -> (Guest) y).toList();
 
             if (params.containsKey("lastName"))
-                all = filterByLastName(all.stream().map(x -> (User)x).toList(), params.get("lastName"))
+                all = filterByLastName(all.stream().map(x -> (MyUser)x).toList(), params.get("lastName"))
                         .stream().map(y -> (Guest) y).toList();
 
             if (params.containsKey("dateOfBirth"))
                 if (isFilteringByDatePossible(params.get("dateOfBirth").substring(3)))
-                    all = filterByDateOfBirth(all.stream().map(y -> (User) y).toList(),
+                    all = filterByDateOfBirth(all.stream().map(y -> (MyUser) y).toList(),
                             LocalDate.parse(params.get("dateOfBirth").substring(3)), params.get("dateOfBirth").substring(0, 2))
                             .stream().map(y -> (Guest) y).toList();
 

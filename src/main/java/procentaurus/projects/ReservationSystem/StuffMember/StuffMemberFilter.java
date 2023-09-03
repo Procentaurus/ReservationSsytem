@@ -1,19 +1,17 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
-import procentaurus.projects.ReservationSystem.User.User;
-
 import java.time.LocalDate;
 import java.util.List;
 
 public class StuffMemberFilter {
 
-    public static List<StuffMember> filterByRole(List<StuffMember> data, StuffMember.Role role){
+    public static List<StuffMember> filterByRole(List<StuffMember> data, Role role){
         return data.stream().filter(x -> x.getRole().equals(role)).toList();
     }
 
     public static boolean isFilteringByRolePossible(String text){
         try{
-            StuffMember.Role role = StuffMember.Role.valueOf(text);
+            Role role = Role.valueOf(text);
             return true;
         }catch (Exception e){
             return false;

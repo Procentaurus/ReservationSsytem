@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
-import procentaurus.projects.ReservationSystem.User.User;
+import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "guests")
 @Data
 @NoArgsConstructor
-public class Guest extends User implements Comparable<Guest>{
+public class Guest extends MyUser implements Comparable<Guest>{
 
     @NotNull
     private Boolean signedForNewsletter;

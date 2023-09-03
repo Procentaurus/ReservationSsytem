@@ -1,26 +1,22 @@
-package procentaurus.projects.ReservationSystem.User.Dtos;
+package procentaurus.projects.ReservationSystem.MyUser;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import jakarta.persistence.Column;
+import lombok.*;
+
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
+
+@Data
 @NoArgsConstructor
-public abstract class UserCreationDto {
+@MappedSuperclass
+@AllArgsConstructor
+public class MyUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -31,9 +27,11 @@ public abstract class UserCreationDto {
     protected String lastName;
 
     @Past
+    @NotNull
     protected LocalDate dateOfBirth;
 
-    @Size(min = 100000000, max = 999999999)
+    @Min(100000000)
+    @Max(999999999)
     @Column(unique = true)
     protected int phoneNumber;
 
@@ -42,7 +40,8 @@ public abstract class UserCreationDto {
     @Column(unique = true)
     protected String email;
 
-    public UserCreationDto(@NotNull String firstName, @NotNull String lastName, LocalDate dateOfBirth, int phoneNumber, String email) {
+    public MyUser(@NotNull String firstName, @NotNull String lastName, @NotNull String password, @NotNull LocalDate dateOfBirth,
+                  int phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

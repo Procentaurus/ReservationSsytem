@@ -1,21 +1,21 @@
-package procentaurus.projects.ReservationSystem.User;
+package procentaurus.projects.ReservationSystem.MyUser.Dtos;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.*;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@MappedSuperclass
-public abstract class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public abstract class MyUserCreationDto {
 
     @NotNull
     @Size(min = 3, max = 20)
@@ -26,11 +26,9 @@ public abstract class User {
     protected String lastName;
 
     @Past
-    @NotNull
     protected LocalDate dateOfBirth;
 
-    @Min(100000000)
-    @Max(999999999)
+    @Size(min = 100000000, max = 999999999)
     @Column(unique = true)
     protected int phoneNumber;
 
@@ -39,8 +37,7 @@ public abstract class User {
     @Column(unique = true)
     protected String email;
 
-    public User(@NotNull String firstName, @NotNull String lastName, @NotNull String password, @NotNull LocalDate dateOfBirth,
-                int phoneNumber, String email) {
+    public MyUserCreationDto(@NotNull String firstName, @NotNull String lastName, LocalDate dateOfBirth, int phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

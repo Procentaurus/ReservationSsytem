@@ -19,5 +19,5 @@ public interface StuffMemberServiceInterface {
 
     Optional<StuffMember> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember);
 
-    Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException;
+//    Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException;
 }

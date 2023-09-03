@@ -3,11 +3,17 @@ package procentaurus.projects.ReservationSystem.StuffMember;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import procentaurus.projects.ReservationSystem.User.User;
+import org.springframework.security.core.GrantedAuthority;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,10 +21,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "stuffMembers")
-public class StuffMember extends User {
+public class StuffMember extends MyUser implements UserDetails {
 
     @NotNull
+    @Enumerated
     private Role role;
 
     @NotNull
@@ -37,10 +45,33 @@ public class StuffMember extends User {
         this.employedFrom = employedFrom;
     }
 
-    public enum Role{
-        MANAGER,
-        ADMIN,
-        FRONT_DESK,
-        CONCIERGE
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

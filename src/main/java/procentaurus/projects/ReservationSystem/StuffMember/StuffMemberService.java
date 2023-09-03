@@ -1,42 +1,55 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.Exceptions.UserAlreadyExistsException;
 
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberCreationDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberRepository;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberServiceInterface;
-import procentaurus.projects.ReservationSystem.User.User;
+import procentaurus.projects.ReservationSystem.MyUser.MyUser;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static procentaurus.projects.ReservationSystem.Miscellaneous.FilterPossibilityChecker.isFilteringByDatePossible;
 import static procentaurus.projects.ReservationSystem.StuffMember.StuffMemberFilter.*;
-import static procentaurus.projects.ReservationSystem.User.UserFilter.*;
+import static procentaurus.projects.ReservationSystem.MyUser.MyUserFilter.*;
 
 
 @Service
 public class StuffMemberService implements StuffMemberServiceInterface {
 
     private final StuffMemberRepository stuffMemberRepository;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public StuffMemberService(StuffMemberRepository stuffMemberRepository, PasswordEncoder passwordEncoder) {
         this.stuffMemberRepository = stuffMemberRepository;
-        this.passwordEncoder = passwordEncoder;
+        //this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Optional<StuffMember> findSingleStuffMember(Long id) {
         return stuffMemberRepository.findById(id);
+    }
+
+    public UserDetails findSingleStuffMember(String email) throws DataBaseErrorException {
+
+        if(stuffMemberRepository.existsByEmail(email)){
+            Optional<StuffMember> found = stuffMemberRepository.findByEmail(email);
+            if(found.isPresent()){
+                StuffMember temp = found.get();
+                return new User(temp.getEmail(), temp.getPassword(), new LinkedList<>());
+            }else throw new DataBaseErrorException();
+        }else throw new UsernameNotFoundException("User with email: "+email+" does not exist");
     }
 
     @Override
@@ -53,19 +66,19 @@ public class StuffMemberService implements StuffMemberServiceInterface {
 
             if (params.containsKey("role"))
                 if (isFilteringByRolePossible(params.get("role").toUpperCase()))
-                    all = filterByRole(all, StuffMember.Role.valueOf(params.get("role")));
+                    all = filterByRole(all, Role.valueOf(params.get("role")));
 
             if (params.containsKey("firstName"))
-                all = filterByFirstName(all.stream().map(x -> (User)x).toList(), params.get("firstName"))
+                all = filterByFirstName(all.stream().map(x -> (MyUser)x).toList(), params.get("firstName"))
                         .stream().map(y -> (StuffMember) y).toList();
 
             if (params.containsKey("lastName"))
-                all = filterByLastName(all.stream().map(x -> (User)x).toList(), params.get("lastName"))
+                all = filterByLastName(all.stream().map(x -> (MyUser)x).toList(), params.get("lastName"))
                         .stream().map(y -> (StuffMember) y).toList();
 
             if (params.containsKey("dateOfBirth"))
                 if (isFilteringByDatePossible(params.get("dateOfBirth").substring(3)))
-                    all = filterByDateOfBirth(all.stream().map(y -> (User) y).toList(),
+                    all = filterByDateOfBirth(all.stream().map(y -> (MyUser) y).toList(),
                             LocalDate.parse(params.get("dateOfBirth").substring(3)), params.get("dateOfBirth").substring(0, 2))
                             .stream().map(y -> (StuffMember) y).toList();
 
@@ -96,7 +109,7 @@ public class StuffMemberService implements StuffMemberServiceInterface {
             LocalDate dateOfBirth = stuffMember.getDateOfBirth();
             Integer phoneNumber = stuffMember.getPhoneNumber();
             String email = stuffMember.getEmail();
-            StuffMember.Role role = stuffMember.getRole();
+            Role role = stuffMember.getRole();
 
 
             try {
@@ -117,28 +130,28 @@ public class StuffMemberService implements StuffMemberServiceInterface {
         return Optional.empty();
     }
 
-    @Override
-    public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException {
-
-        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation()))
-            throw new IllegalArgumentException();
-
-        if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
-            throw new UserAlreadyExistsException();
-
-        StuffMember newStuffMember = new StuffMember(
-                stuffMember.getFirstName(),
-                stuffMember.getLastName(),
-                stuffMember.getDateOfBirth(),
-                stuffMember.getPhoneNumber(),
-                stuffMember.getEmail(),
-                stuffMember.getRole(),
-                passwordEncoder.encode(stuffMember.getPassword()),
-                LocalDate.now()
-        );
-
-        StuffMember savedStuffMember = stuffMemberRepository.save(newStuffMember);
-        return Optional.of(savedStuffMember);
-    }
+//    @Override
+//    public Optional<StuffMember> createStuffMember(StuffMemberCreationDto stuffMember) throws UserAlreadyExistsException {
+//
+//        if (!stuffMember.getPassword().equals(stuffMember.getPasswordConfirmation()))
+//            throw new IllegalArgumentException();
+//
+//        if(stuffMemberRepository.existsByEmail(stuffMember.getEmail()))
+//            throw new UserAlreadyExistsException();
+//
+//        StuffMember newStuffMember = new StuffMember(
+//                stuffMember.getFirstName(),
+//                stuffMember.getLastName(),
+//                stuffMember.getDateOfBirth(),
+//                stuffMember.getPhoneNumber(),
+//                stuffMember.getEmail(),
+//                stuffMember.getRole(),
+//                passwordEncoder.encode(stuffMember.getPassword()),
+//                LocalDate.now()
+//        );
+//
+//        StuffMember savedStuffMember = stuffMemberRepository.save(newStuffMember);
+//        return Optional.of(savedStuffMember);
+//    }
 
 }

@@ -18,6 +18,6 @@ public interface StuffMemberControllerInterface {
 
     ResponseEntity<?> updateStuffMember(Long id, StuffMemberUpdateDto stuffMember);
 
-    ResponseEntity<?> createStuffMember(StuffMemberCreationDto stuffMember);
+//    ResponseEntity<?> createStuffMember(StuffMemberCreationDto stuffMember);
 
 }

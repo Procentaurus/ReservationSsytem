@@ -1,16 +1,12 @@
-package procentaurus.projects.ReservationSystem.User;
-
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.*;
-import procentaurus.projects.ReservationSystem.Space.Space;
+package procentaurus.projects.ReservationSystem.MyUser;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class UserFilter {
+public class MyUserFilter {
 
-    public static List<User> filterByDateOfBirth(List<User> data, LocalDate date, String mark){
-        List<User> results;
+    public static List<MyUser> filterByDateOfBirth(List<MyUser> data, LocalDate date, String mark){
+        List<MyUser> results;
 
         switch (mark) {
             case "==" -> results = data.stream().filter(x -> x.getDateOfBirth().equals(date)).toList();
@@ -21,11 +17,11 @@ public class UserFilter {
         return results;
     }
 
-    public static List<User> filterByLastName(List<User> data, String lastName){
+    public static List<MyUser> filterByLastName(List<MyUser> data, String lastName){
         return data.stream().filter(x -> x.getLastName().equals(lastName)).toList();
     }
 
-    public static List<User> filterByFirstName(List<User> data, String firstName){
+    public static List<MyUser> filterByFirstName(List<MyUser> data, String firstName){
         return data.stream().filter(x -> x.getFirstName().equals(firstName)).toList();
     }
 }

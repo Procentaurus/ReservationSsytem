@@ -3,6 +3,7 @@ package procentaurus.projects.ReservationSystem.Configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,9 +27,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((auth) -> auth.anyRequest().permitAll()
-//                        .requestMatchers("/api/auth/**").permitAll()
-//                        .anyRequest().authenticated()
+                .authorizeHttpRequests((auth) -> auth//.anyRequest().permitAll()
+
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/slots/**", "/api/stuffMembers/**").hasAnyAuthority("MANAGER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE, "/api/rooms/**", "/api/conferenceRooms/**",
+                                "/api/parkingPlaces/**", "/api/guests/**", "/api/stuffMembers/**")
+                        .hasAnyAuthority("MANAGER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
+                        .hasAnyAuthority("MANAGER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
+                        .hasAnyAuthority("MANAGER", "ADMIN")
+
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -7,15 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtService implements Serializable {
@@ -25,24 +22,24 @@ public class JwtService implements Serializable {
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token)throws MalformedJwtException, ExpiredJwtException {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Date extractIssuedAtDate(String token) {
+    public Date extractIssuedAtDate(String token)throws MalformedJwtException, ExpiredJwtException {
         return extractClaim(token, Claims::getIssuedAt);
     }
 
-    public Date extractExpirationDate(String token) {
+    public Date extractExpirationDate(String token) throws MalformedJwtException, ExpiredJwtException {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws MalformedJwtException, ExpiredJwtException{
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws MalformedJwtException, ExpiredJwtException {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -56,9 +53,14 @@ public class JwtService implements Serializable {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private Boolean isTokenExpired(String token) {
-        final Date expiration = extractExpirationDate(token);
-        return expiration.before(new Date());
+    private Boolean isTokenExpired(String token) throws MalformedJwtException{
+
+        try {
+            final Date expiration = extractExpirationDate(token);
+        }catch(ExpiredJwtException e){
+            return false;
+        }
+        return true;
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
@@ -77,7 +79,20 @@ public class JwtService implements Serializable {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+
+        final String username;
+        try {
+            username = extractUsername(token);
+        }catch (ExpiredJwtException | MalformedJwtException e) {
+            return false;
+        }
+
+        boolean isTokenExpired;
+        try{
+            isTokenExpired = isTokenExpired(token);
+        }catch(MalformedJwtException e){
+            return false;
+        }
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired);
     }
 }

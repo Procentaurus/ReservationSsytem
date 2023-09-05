@@ -39,7 +39,12 @@ public class StuffMemberService implements StuffMemberServiceInterface {
         return stuffMemberRepository.findById(id);
     }
 
-    public UserDetails findSingleStuffMember(String email) throws DataBaseErrorException {
+    @Override
+    public Optional<StuffMember> findSingleStuffMember(String email) {
+        return stuffMemberRepository.findByEmail(email);
+    }
+
+    public UserDetails findStuffMemberDetails(String email) throws DataBaseErrorException {
 
         if(stuffMemberRepository.existsByEmail(email)){
             Optional<StuffMember> found = stuffMemberRepository.findByEmail(email);

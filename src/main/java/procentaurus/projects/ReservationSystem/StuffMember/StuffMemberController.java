@@ -1,13 +1,18 @@
 package procentaurus.projects.ReservationSystem.StuffMember;
 
+import org.apache.catalina.realm.UserDatabaseRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberControllerInterface;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,10 +31,20 @@ public class StuffMemberController implements StuffMemberControllerInterface {
 
     @Override
     @GetMapping(path = "{id}/", produces = "application/json")
-    public ResponseEntity<?> findSingleStuffMember(@PathVariable Long id) {
+    public ResponseEntity<?> findSingleStuffMember(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+
+        String userEmail = userDetails.getUsername();
+        Optional<StuffMember> requestSender = stuffMemberService.findSingleStuffMember(userEmail);
         Optional<StuffMember> found = stuffMemberService.findSingleStuffMember(id);
-        if (found.isPresent()) return ResponseEntity.ok(found);
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
+
+        if(requestSender.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication error. Contact admin.");
+        if(found.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
+
+        boolean isUserChangingHisData = requestSender.get().equals(found.get());
+
+        if(isUserChangingHisData || isPermittedStuffMember(userDetails)){
+            return ResponseEntity.ok(found);
+        }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have necessary permissions to update that stuff memeber.");
     }
 
     @Override
@@ -49,10 +64,28 @@ public class StuffMemberController implements StuffMemberControllerInterface {
 
     @Override
     @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateStuffMember(@PathVariable Long id, @RequestBody StuffMemberUpdateDto stuffMember) {
-        Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
+    public ResponseEntity<?> updateStuffMember(
+            @PathVariable Long id, @RequestBody StuffMemberUpdateDto stuffMember, @AuthenticationPrincipal UserDetails userDetails) {
 
-        if (updated.isPresent()) return ResponseEntity.ok(updated);
-        else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id or wrong params.");
+        String userEmail = userDetails.getUsername();
+        Optional<StuffMember> requestSender = stuffMemberService.findSingleStuffMember(userEmail);
+        Optional<StuffMember> found = stuffMemberService.findSingleStuffMember(id);
+
+        if(requestSender.isEmpty()) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication error. Contact admin.");
+        if(found.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No stuff member of provided id.");
+
+        boolean isUserChangingHisData = requestSender.get().equals(found.get());
+
+        if(isUserChangingHisData || isPermittedStuffMember(userDetails)){
+            Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
+            if (updated.isPresent()) return ResponseEntity.ok(updated);
+            else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No stuff member of provided id or wrong params.");
+        }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have necessary permissions to update that stuff memeber.");
+
+    }
+
+    private boolean isPermittedStuffMember(UserDetails userDetails){
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("MANAGER") || auth.getAuthority().equals("ADMIN"));
     }
 }

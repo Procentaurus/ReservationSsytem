@@ -1,5 +1,5 @@
 package procentaurus.projects.ReservationSystem.Configuration.Auth.Jwt;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.security.Key;
 import java.util.Date;

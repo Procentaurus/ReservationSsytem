@@ -13,6 +13,8 @@ public interface StuffMemberServiceInterface {
 
     Optional<StuffMember> findSingleStuffMember(Long id);
 
+    Optional<StuffMember> findSingleStuffMember(String email);
+
     List<StuffMember> findStuffMembers(Map<String, String> params);
 
     boolean deleteStuffMember(Long id);

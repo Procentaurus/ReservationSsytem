@@ -27,22 +27,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((auth) -> auth//.anyRequest().permitAll()
+                .authorizeHttpRequests((auth) -> auth
 
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/slots/**", "/api/stuffMembers/**").hasAnyAuthority("MANAGER", "ADMIN")
+                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/api/slots/**", "/api/stuffMembers/**").hasAnyAuthority("MANAGER", "ADMIN")
 
-                        .requestMatchers(HttpMethod.DELETE, "/api/rooms/**", "/api/conferenceRooms/**",
-                                "/api/parkingPlaces/**", "/api/guests/**", "/api/stuffMembers/**")
-                        .hasAnyAuthority("MANAGER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/rooms/**", "/api/conferenceRooms/**",
+                            "/api/parkingPlaces/**", "/api/guests/**", "/api/stuffMembers/**")
+                    .hasAnyAuthority("MANAGER", "ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
-                        .hasAnyAuthority("MANAGER", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
+                    .hasAnyAuthority("MANAGER", "ADMIN")
 
-                        .requestMatchers(HttpMethod.PUT, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
-                        .hasAnyAuthority("MANAGER", "ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
+                    .hasAnyAuthority("MANAGER", "ADMIN")
 
-                        .anyRequest().authenticated()
+                    .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

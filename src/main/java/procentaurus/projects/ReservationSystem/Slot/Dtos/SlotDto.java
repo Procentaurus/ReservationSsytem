@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 public abstract class SlotDto {
-    protected Long id;
     protected LocalDate date;
     protected Slot.Status status;
     protected Long reservationId;

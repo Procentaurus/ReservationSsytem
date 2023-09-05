@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
-import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreateDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotMediumDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotControllerInterface;
@@ -51,7 +53,9 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PutMapping(path = "{id}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> updateSlot(@PathVariable Long id, @RequestBody SlotUpdateDto slotUpdateDto) {
+    public ResponseEntity<?> updateSlot(
+            @PathVariable Long id, @RequestBody SlotUpdateDto slotUpdateDto, @AuthenticationPrincipal UserDetails userDetails) {
+
         Optional<Slot> updated = slotService.updateSlot(id, slotUpdateDto);
 
         if (updated.isPresent()) return ResponseEntity.ok(new SlotMediumDto(updated.get()));
@@ -60,7 +64,7 @@ public class SlotController implements SlotControllerInterface {
 
     @Override
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreationDto slot){
+    public ResponseEntity<?> createSlot(@Valid @RequestBody SlotCreateDto slot){
 
         List<Slot> created;
         try {

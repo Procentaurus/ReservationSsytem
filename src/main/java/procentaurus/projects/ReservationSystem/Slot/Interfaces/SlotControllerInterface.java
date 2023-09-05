@@ -1,12 +1,11 @@
 package procentaurus.projects.ReservationSystem.Slot.Interfaces;
 
 import org.springframework.http.ResponseEntity;
-import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
+import org.springframework.security.core.userdetails.UserDetails;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreateDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
-import procentaurus.projects.ReservationSystem.Space.Space;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ public interface SlotControllerInterface {
 
     ResponseEntity<?> deleteSlot(Long id);
 
-    ResponseEntity<?> updateSlot(Long id, SlotUpdateDto slotUpdateDto);
+    ResponseEntity<?> updateSlot(Long id, SlotUpdateDto slotUpdateDto, UserDetails userDetails);
 
-    ResponseEntity<?> createSlot(SlotCreationDto slot);
+    ResponseEntity<?> createSlot(SlotCreateDto slot);
 }

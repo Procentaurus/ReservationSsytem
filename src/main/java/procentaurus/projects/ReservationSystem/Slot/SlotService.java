@@ -7,10 +7,9 @@ import procentaurus.projects.ReservationSystem.ConferenceRoom.ConferenceRoom;
 import procentaurus.projects.ReservationSystem.ConferenceRoom.Interfaces.ConferenceRoomRepository;
 import procentaurus.projects.ReservationSystem.Exceptions.DataBaseErrorException;
 import procentaurus.projects.ReservationSystem.ParkingPlace.Interfaces.ParkingPlaceRepository;
-import procentaurus.projects.ReservationSystem.ParkingPlace.ParkingPlace;
 import procentaurus.projects.ReservationSystem.Room.Interfaces.RoomRepository;
 import procentaurus.projects.ReservationSystem.Room.Room;
-import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreationDto;
+import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotCreateDto;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotUpdateDto;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotRepository;
 import procentaurus.projects.ReservationSystem.Slot.Interfaces.SlotServiceInterface;
@@ -104,7 +103,7 @@ public class SlotService implements SlotServiceInterface {
     }
 
     @Override
-    public List<Slot> createSlot(SlotCreationDto slot) throws DataBaseErrorException {
+    public List<Slot> createSlot(SlotCreateDto slot) throws DataBaseErrorException {
 
         Optional<? extends Space> spaceForSlot = Optional.empty();
         switch(slot.getType()){

@@ -11,10 +11,7 @@ public class SlotMediumDto extends SlotDto{
     protected Slot.SpaceType type;
 
     public SlotMediumDto(Slot slot) {
-        super(slot.getId(),
-                slot.getDate(),
-                slot.getStatus(),
-                slot.getReservation() != null ? slot.getReservation().getId() : null);
+        super(slot.getDate(), slot.getStatus(), slot.getReservation() != null ? slot.getReservation().getId() : null);
 
         if(slot.getConferenceRoom() != null) {
             this.spaceId = slot.getConferenceRoom().getNumber();

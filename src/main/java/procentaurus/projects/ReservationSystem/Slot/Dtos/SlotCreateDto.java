@@ -4,16 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import procentaurus.projects.ReservationSystem.Slot.Slot;
-import procentaurus.projects.ReservationSystem.Space.Space;
 
 import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SlotCreationDto {
+public class SlotCreateDto {
 
     @NotNull
     private Integer numberOfSpace;
@@ -26,7 +24,7 @@ public class SlotCreationDto {
 
     private Short numberOfDays;
 
-    public SlotCreationDto(@NotNull Integer numberOfSpace, @NotNull Slot.SpaceType type, @NotNull LocalDate date) {
+    public SlotCreateDto(@NotNull Integer numberOfSpace, @NotNull Slot.SpaceType type, @NotNull LocalDate date) {
         this.numberOfSpace = numberOfSpace;
         this.type = type;
         this.date = date;

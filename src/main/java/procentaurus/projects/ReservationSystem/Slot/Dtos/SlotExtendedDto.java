@@ -12,8 +12,7 @@ public class SlotExtendedDto extends SlotDto{
     protected Space space;
 
     public SlotExtendedDto(Slot slot) {
-
-        super(slot.getId(), slot.getDate(), slot.getStatus(), slot.getReservation() != null ? slot.getReservation().getId() : null);
+        super(slot.getDate(), slot.getStatus(), slot.getReservation() != null ? slot.getReservation().getId() : null);
 
         if(slot.getConferenceRoom() != null)
             this.space = slot.getConferenceRoom();

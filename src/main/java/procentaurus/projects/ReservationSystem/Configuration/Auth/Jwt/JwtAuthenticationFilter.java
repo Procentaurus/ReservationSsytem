@@ -6,6 +6,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -26,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
-    private void handleAuthenticationFailure(HttpServletResponse response, FilterChain filterChain){
+    private void handleAuthenticationFailure(HttpServletResponse response){
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         try {
             response.getWriter().write("An error occurred. Contact admin.");
@@ -46,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 filterChain.doFilter(request, response);
             }catch(IOException | ServletException e){
-                handleAuthenticationFailure(response, filterChain);
+                handleAuthenticationFailure(response);
             }
             return;
         }
@@ -57,7 +58,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt);
         }catch(ExpiredJwtException e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
         }catch (MalformedJwtException e) {
+            response.setStatus(HttpServletResponse.SC_CONFLICT);
             return;
         }
 
@@ -72,14 +75,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
 
-        }
+            }else response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }else response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 
         try {
             filterChain.doFilter(request, response);
         }catch(IOException | ServletException e){
-            handleAuthenticationFailure(response, filterChain);
+            handleAuthenticationFailure(response);
         }
     }
 }

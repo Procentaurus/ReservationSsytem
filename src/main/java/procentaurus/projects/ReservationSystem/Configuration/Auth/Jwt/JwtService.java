@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtService implements Serializable {
 
-    public static final long JWT_TOKEN_VALIDITY = 1000 * 30;
+    public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 20; // 20 min
 
     @Value("${jwt.secretKey}")
     private String SECRET_KEY;
@@ -58,9 +58,9 @@ public class JwtService implements Serializable {
         try {
             final Date expiration = extractExpirationDate(token);
         }catch(ExpiredJwtException e){
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
@@ -69,7 +69,7 @@ public class JwtService implements Serializable {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)) // 30 min
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -93,6 +93,7 @@ public class JwtService implements Serializable {
         }catch(MalformedJwtException e){
             return false;
         }
+
         return (username.equals(userDetails.getUsername()) && !isTokenExpired);
     }
 }

@@ -20,7 +20,7 @@ public class AuthenticationController {
     private final JwtAuthenticationService jwtAuthenticationService;
 
     @PostMapping(path = "register/")
-    public ResponseEntity<?> generateAuthenticationToken(@RequestBody RegisterRequest request)
+    public ResponseEntity<?> createStuffMember(@RequestBody RegisterRequest request)
     {
         try {
             return ResponseEntity.ok(jwtAuthenticationService.register(request));
@@ -32,7 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(path = "authenticate/")
-    public ResponseEntity<?> generateAuthenticationToken(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> authenticateStuffMember(@RequestBody AuthenticationRequest request) {
         try {
             return ResponseEntity.ok(jwtAuthenticationService.authenticate(request));
         }catch(NoSuchElementException e){

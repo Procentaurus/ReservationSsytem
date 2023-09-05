@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import procentaurus.projects.ReservationSystem.Miscellaneous.AuthorityChecker;
 import procentaurus.projects.ReservationSystem.StuffMember.Dtos.StuffMemberUpdateDto;
 import procentaurus.projects.ReservationSystem.StuffMember.Interfaces.StuffMemberControllerInterface;
 
@@ -42,7 +43,8 @@ public class StuffMemberController implements StuffMemberControllerInterface {
 
         boolean isUserChangingHisData = requestSender.get().equals(found.get());
 
-        if(isUserChangingHisData || isPermittedStuffMember(userDetails)){
+        AuthorityChecker authorityChecker = new AuthorityChecker(userDetails);
+        if(isUserChangingHisData || authorityChecker.hasAdminAuthority() || authorityChecker.hasManagerAuthority()){
             return ResponseEntity.ok(found);
         }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have necessary permissions to update that stuff memeber.");
     }
@@ -76,7 +78,8 @@ public class StuffMemberController implements StuffMemberControllerInterface {
 
         boolean isUserChangingHisData = requestSender.get().equals(found.get());
 
-        if(isUserChangingHisData || isPermittedStuffMember(userDetails)){
+        AuthorityChecker authorityChecker = new AuthorityChecker(userDetails);
+        if(isUserChangingHisData || authorityChecker.hasAdminAuthority() || authorityChecker.hasManagerAuthority()){
             Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
             if (updated.isPresent()) return ResponseEntity.ok(updated);
             else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No stuff member of provided id or wrong params.");

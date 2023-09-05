@@ -1,6 +1,7 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 
@@ -9,11 +10,11 @@ import java.util.Map;
 
 public interface ReservationControllerInterface {
 
-    ResponseEntity<?> findSingleReservation(Long id);
+    ResponseEntity<?> findSingleReservation(Long id, UserDetails userDetails);
 
-    ResponseEntity<List<Reservation>> findReservations(Map<String, String> params);
+    ResponseEntity<List<?>> findReservations(Map<String, String> params, UserDetails userDetails);
 
     ResponseEntity<?> deleteReservation(Long id);
 
-    ResponseEntity<?> createReservation(ReservationCreateDto creationDto);
+    ResponseEntity<?> createReservation(ReservationCreateDto creationDto, UserDetails userDetails);
 }

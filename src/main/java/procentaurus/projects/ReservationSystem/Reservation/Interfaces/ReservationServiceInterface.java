@@ -1,7 +1,10 @@
 package procentaurus.projects.ReservationSystem.Reservation.Interfaces;
 
 import procentaurus.projects.ReservationSystem.Guest.Guest;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationAdminDto;
 import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationCreateDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationExtendedDto;
+import procentaurus.projects.ReservationSystem.Reservation.Dtos.ReservationMediumDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 
 import java.time.LocalDate;

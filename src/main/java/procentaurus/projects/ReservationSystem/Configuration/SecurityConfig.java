@@ -30,13 +30,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
 
                     .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/slots/**", "/api/stuffMembers/**").hasAnyAuthority("MANAGER", "ADMIN")
+
+                    .requestMatchers(HttpMethod.GET, "/api/slots/**").hasAnyAuthority("MANAGER", "ADMIN")
 
                     .requestMatchers(HttpMethod.DELETE, "/api/rooms/**", "/api/conferenceRooms/**",
-                            "/api/parkingPlaces/**", "/api/guests/**", "/api/stuffMembers/**")
+                            "/api/parkingPlaces/**", "/api/guests/**", "/api/stuffMembers/**", "/api/slots/**")
                     .hasAnyAuthority("MANAGER", "ADMIN")
 
-                    .requestMatchers(HttpMethod.POST, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")
+                    .requestMatchers(HttpMethod.POST, "/api/rooms/**", "/api/conferenceRooms/**",
+                            "/api/parkingPlaces/**", "/api/slots/**")
                     .hasAnyAuthority("MANAGER", "ADMIN")
 
                     .requestMatchers(HttpMethod.PUT, "/api/rooms/**", "/api/conferenceRooms/**", "/api/parkingPlaces/**")

@@ -3,6 +3,7 @@ package procentaurus.projects.ReservationSystem.Reservation.Dtos;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestAdminDto;
 import procentaurus.projects.ReservationSystem.Guest.Dtos.GuestPermissionedStuffDto;
 import procentaurus.projects.ReservationSystem.Reservation.Reservation;
 import procentaurus.projects.ReservationSystem.Slot.Dtos.SlotLightDto;
@@ -14,7 +15,6 @@ import java.util.stream.Collectors;
 public class ReservationExtendedDto {
 
     @FutureOrPresent
-    @NotNull
     private final LocalDate startDate;
 
     @Size( min = 1, max = 90)

@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public class ReservationAdminDto {
 
+    private final Long id;
+
     @FutureOrPresent
     private final LocalDate startDate;
 
@@ -22,7 +24,7 @@ public class ReservationAdminDto {
     private final Set<SlotLightDto> occupiedSpaces;
 
     public ReservationAdminDto(Reservation reservation) {
-
+        this.id = reservation.getId();
         this.guests = reservation.getGuests().stream().map(GuestAdminDto::new).collect(Collectors.toSet());
         this.startDate = reservation.getStartDate();
         this.numberOfDays = reservation.getNumberOfDays();

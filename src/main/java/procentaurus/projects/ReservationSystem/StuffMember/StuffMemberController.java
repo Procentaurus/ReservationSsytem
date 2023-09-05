@@ -80,12 +80,7 @@ public class StuffMemberController implements StuffMemberControllerInterface {
             Optional<StuffMember> updated = stuffMemberService.updateStuffMember(id, stuffMember);
             if (updated.isPresent()) return ResponseEntity.ok(updated);
             else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No stuff member of provided id or wrong params.");
-        }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have necessary permissions to update that stuff memeber.");
+        }else return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have necessary permissions to update that stuff member.");
 
-    }
-
-    private boolean isPermittedStuffMember(UserDetails userDetails){
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        return authorities.stream().anyMatch(auth -> auth.getAuthority().equals("MANAGER") || auth.getAuthority().equals("ADMIN"));
     }
 }

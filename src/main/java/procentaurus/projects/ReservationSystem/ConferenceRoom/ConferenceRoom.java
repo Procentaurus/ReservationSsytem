@@ -30,7 +30,7 @@ public class ConferenceRoom extends Space {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "conferenceRoom")
+    @OneToMany(mappedBy = "conferenceRoom", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Slot> slots;
 
     public ConferenceRoom(int number, int floor, float price, int capacity, boolean hasStage) {

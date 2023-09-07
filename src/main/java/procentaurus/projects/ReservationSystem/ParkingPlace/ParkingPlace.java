@@ -30,7 +30,7 @@ public class ParkingPlace extends Space {
     private VehicleType vehicleType;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "parkingPlace")
+    @OneToMany(mappedBy = "parkingPlace", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Slot> slots;
 
     public enum VehicleType {

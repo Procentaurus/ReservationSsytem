@@ -38,7 +38,7 @@ public class Room extends Space {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.REMOVE)
     private Set<Slot> slots;
 
     public Room(int number, int floor, float price, int capacity, @NotNull RoomType roomType,

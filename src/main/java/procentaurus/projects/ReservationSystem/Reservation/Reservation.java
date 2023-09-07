@@ -34,7 +34,7 @@ public class Reservation {
             inverseJoinColumns = @JoinColumn(name = "guest_id"))
     private Set<Guest> guests;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Slot> occupiedSlots;
 
     public Reservation(@NotNull LocalDate startDate, short numberOfDays, Set<Guest> guests, Set<Slot> occupiedSlots) {

@@ -30,6 +30,7 @@ public class StuffMember extends MyUser implements UserDetails {
     private Role role;
 
     @NotNull
+    @JsonIgnore
     private String password;
 
     @PastOrPresent

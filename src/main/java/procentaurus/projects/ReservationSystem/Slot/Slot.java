@@ -58,7 +58,7 @@ public class Slot {
         PARKING_PLACE,
     }
 
-    public Slot(@NotNull Space space, @NotNull LocalDate date) {
+    public Slot(Space space, @NotNull LocalDate date) {
         this.date = date;
         this.status = Status.FREE;
         this.reservation = null;

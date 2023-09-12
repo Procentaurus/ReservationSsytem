@@ -1,0 +1,383 @@
+{
+	"info": {
+		"_postman_id": "524d198a-a548-4712-a108-578ee6849e33",
+		"name": "ReservationSystemTesting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27166870"
+	},
+	"item": [
+		{
+			"name": "ConferenceRoom",
+			"item": [
+				{
+					"name": "ConferenceRoomCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 201,\r\n  \"floor\": 2,\r\n  \"price\": 2000.0,\r\n  \"capacity\": 80,\r\n  \"hasStage\": false,\r\n  \"description\": \"A modern conference room on the second floor\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8080/api/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "ConferenceRoomFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "ConferenceRoomFindSingle",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ConferenceRoomFindAvailable",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ConferenceRoomUpdate",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ConferenceRoomDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/301/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "RoomCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 201,\r\n  \"floor\": 2,\r\n  \"price\": 2000.0,\r\n  \"capacity\": 80,\r\n  \"hasStage\": false,\r\n  \"description\": \"A modern conference room on the second floor\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8080/api/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "RoomFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "RoomFindSingle",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "RoomUpdate",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "RoomDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/301/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ParkingPlace",
+			"item": [
+				{
+					"name": "ParkingPlaceCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"number\": 201,\r\n  \"floor\": 2,\r\n  \"price\": 2000.0,\r\n  \"capacity\": 80,\r\n  \"hasStage\": false,\r\n  \"description\": \"A modern conference room on the second floor\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8080/api/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "ParkingPlaceFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/"
+					},
+					"response": []
+				},
+				{
+					"name": "ParkingPlaceFindSingle",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ParkingPlaceFindAvailable",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ParkingPlaceUpdate",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ParkingPlaceDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/conference_rooms/301/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Slot",
+			"item": [
+				{
+					"name": "SlotCreateSingle",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{mainUrl}}/slots/"
+					},
+					"response": []
+				},
+				{
+					"name": "SlotCreateMany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{mainUrl}}/slots/"
+					},
+					"response": []
+				},
+				{
+					"name": "SlotFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "SlotFindSingle",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "SlotUpdate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{mainUrl}}/slots/"
+					},
+					"response": []
+				},
+				{
+					"name": "SlotDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/slots/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Guest",
+			"item": [
+				{
+					"name": "GuestFindSingle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/guests/"
+					},
+					"response": []
+				},
+				{
+					"name": "GuestFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/guests/"
+					},
+					"response": []
+				},
+				{
+					"name": "GuestCreate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": \"1990-05-15\",\r\n    \"phoneNumber\": 123456789, \r\n    \"email\": \"johndoe@example.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{mainUrl}}/guests/"
+					},
+					"response": []
+				},
+				{
+					"name": "GuestUpdate",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "GuestDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/guests/1/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StuffMember",
+			"item": [
+				{
+					"name": "StuffMemberFindSingle",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/guests/"
+					},
+					"response": []
+				},
+				{
+					"name": "StuffMemberFindMultiple",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{mainUrl}}/guests/"
+					},
+					"response": []
+				},
+				{
+					"name": "StuffMemberUpdate",
+					"request": {
+						"method": "PUT",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "StuffMemberDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{mainUrl}}/guests/1/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "mainUrl",
+			"value": "http://127.0.0.1:8080/api"
+		},
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjk0MDk3MjMyLCJleHAiOjE2OTQwOTg0MzJ9.ozfvK6nDQ-joX_OG7dAz8caD8V8trEbmvoRGIuRBYT8"
+		}
+	]
+}

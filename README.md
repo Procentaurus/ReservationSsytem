@@ -1,5 +1,8 @@
 # ReservationSystem
-Web API for managing hotel reservations and basic stuff organization. System is aided by jwt-authentication and suitable system of permissions for stuff that enables data security. 
+Web API for managing hotel reservations and basic stuff organization. System is aided by jwt-authentication and suitable system of permissions for stuff that enables data security.
+
+## Link to dockerized version on dockerhub.com
+- https://hub.docker.com/repository/docker/procentaurus/reservation-manager/general (must be used in cooperation with posgresql container, according to configuration from compose.yaml file)
 
 ## Entity classes contaibned by the system:
 - Room
@@ -10,5 +13,5 @@ Web API for managing hotel reservations and basic stuff organization. System is 
 - Slot
 - Reservation
 
-## Link to dockerized version on dockerhub.com
-- https://hub.docker.com/repository/docker/procentaurus/reservation-manager/general (must be used in cooperation with posgresql container, according to configuration from compose.yaml file)
+## ERD schema
+![ERD schema](./Untitled.png)
